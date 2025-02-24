@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 //vfw
 import { QueryWrapper, AppWrapper } from "@vframework/core";
 //themes
@@ -18,7 +18,7 @@ import "@/public/styles/global.css";
 export function LayoutApp({ children }: PropsWithChildren) {
   return (
     <QueryWrapper
-      apiProvider={"http://192.168.30.12:8000"}
+      apiProvider={"https://dummyjson.com"}
       queryProps={{
         defaultOptions: {
           queries: {

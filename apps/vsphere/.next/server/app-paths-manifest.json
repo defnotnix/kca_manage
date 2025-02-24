@@ -1,1 +1,3 @@
-{}
+{
+  "/(admin)/vauth/users/page": "app/(admin)/vauth/users/page.js"
+}

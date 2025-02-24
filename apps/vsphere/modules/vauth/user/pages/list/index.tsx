@@ -5,9 +5,10 @@ import React from "react";
 
 //mantine
 import {} from "@mantine/core";
-import { ListHandler, useListHandlerContext } from "@vframework/core";
+import { ListHandler } from "@vframework/core";
 import { ModuleTableLayout } from "@vframework/ui";
 import { columns } from "./list.columns";
+
 //mantine
 
 //icons
@@ -15,6 +16,9 @@ import { columns } from "./list.columns";
 //styles
 
 //components
+
+//api
+import { getRecords } from "../../module.api";
 
 export function _List() {
   // * DEFINITIONS
@@ -37,15 +41,27 @@ export function _List() {
         }}
       >
         <ListHandler
+          moduleKey={["vauth", "users"]}
           //enableServerPagination
           //enableServerSearch
-          api={async () => {
-            return [];
-          }}
+          getRecords={getRecords}
+          dataKey="users"
         >
           <ModuleTableLayout
             //Data
             columns={columns}
+            //styles
+            rowStyle={({ gender }: any) => {
+              switch (gender) {
+                case "male":
+                  return {
+                    background: "var(--mantine-color-indigo-0)",
+                  };
+
+                default:
+                  return {};
+              }
+            }}
           />
         </ListHandler>
       </section>

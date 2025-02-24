@@ -1,0 +1,27 @@
+.root {
+}
+
+.body {
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 600;
+}
+
+.children {
+  position: relative;
+}
+
+.children::before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: calc(100% - 16px);
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-left: -8px;
+  border-radius: 24px;
+}
