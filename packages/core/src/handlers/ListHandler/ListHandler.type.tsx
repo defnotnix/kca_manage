@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 
 export type PropGetApiProps = {
-  endpoint: string;
   searchValue?: string;
   page?: number;
   pageSize?: number;
@@ -9,12 +8,10 @@ export type PropGetApiProps = {
 };
 
 export type PropListHandler = {
-  api: (apiProps: PropGetApiProps) => Promise<any[]>;
-  apiParams?: any;
-  addToURL?: string;
+  getRecords: (apiProps: PropGetApiProps) => Promise<any>;
   endpoint?: string;
   dataKey?: string;
-  queryKey?: string[];
+  moduleKey?: string[];
   //search
   enableServerSearch?: boolean;
   enableServerPagination?: boolean;

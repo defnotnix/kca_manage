@@ -1,2 +1,3 @@
 export { ListHandler } from "./ListHandler";
-export type { PropListHandler } from "./ListHandler.type";
+export { useContext as useListHandlerContext } from "./ListHandler.context";
+export type { PropListHandler, PropGetApiProps } from "./ListHandler.type";

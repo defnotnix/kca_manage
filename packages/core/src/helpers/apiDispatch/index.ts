@@ -3,7 +3,7 @@
 import axios from "axios";
 import { triggerNotification } from "@vframework/ui";
 
-const withCredentials = true;
+const withCredentials = false;
 
 async function handleTokenExpiry() {
   const res = await axios
@@ -39,14 +39,14 @@ function triggerLogout(res: any) {
 }
 
 export async function get({
-  url = "",
+  endpoint = "",
   params = {},
 }: {
-  url: string;
+  endpoint: string;
   params?: any;
 }) {
   try {
-    const response = await axios.get(url, {
+    const response = await axios.get(endpoint, {
       params,
       withCredentials,
       headers: {
@@ -65,7 +65,7 @@ export async function get({
       const res = await handleTokenExpiry();
 
       if (res) {
-        return await get({ url, params });
+        return await get({ endpoint, params });
       } else {
         triggerLogout(res);
         throw err;
@@ -82,16 +82,16 @@ export async function get({
 }
 
 export async function post({
-  url = "",
+  endpoint = "",
   body,
   headers,
 }: {
-  url: string;
+  endpoint: string;
   body: any;
   headers?: any;
 }) {
   try {
-    const response = await axios.post(url, body, {
+    const response = await axios.post(endpoint, body, {
       withCredentials,
       headers: {
         ...headers,
@@ -111,7 +111,7 @@ export async function post({
       const res = await handleTokenExpiry();
 
       if (res) {
-        return await post({ url, body, headers });
+        return await post({ endpoint, body, headers });
       } else {
         triggerLogout(res);
         throw err;
@@ -124,16 +124,16 @@ export async function post({
 }
 
 export async function patch({
-  url = "",
+  endpoint = "",
   body,
   headers,
 }: {
-  url: string;
+  endpoint: string;
   body: any;
   headers?: any;
 }) {
   try {
-    const response = await axios.patch(url, body, {
+    const response = await axios.patch(endpoint, body, {
       withCredentials,
       headers: {
         ...headers,
@@ -151,7 +151,7 @@ export async function patch({
       const res = await handleTokenExpiry();
 
       if (res) {
-        return await patch({ url, body, headers });
+        return await patch({ endpoint, body, headers });
       } else {
         triggerLogout(res);
         throw err;
@@ -164,16 +164,16 @@ export async function patch({
 }
 
 export async function del({
-  url = "",
+  endpoint = "",
   id,
   headers,
 }: {
-  url: string;
+  endpoint: string;
   headers?: any;
   id: string;
 }) {
   try {
-    const response = await axios.delete(url + id + "/", {
+    const response = await axios.delete(endpoint + id + "/", {
       withCredentials,
       headers: {
         ...headers,
@@ -191,7 +191,7 @@ export async function del({
       const res = await handleTokenExpiry();
 
       if (res) {
-        return await del({ url, id, headers });
+        return await del({ endpoint, id, headers });
       } else {
         triggerLogout(res);
         throw err;
@@ -203,9 +203,15 @@ export async function del({
   }
 }
 
-export async function formPost({ url = "", body }: { url: string; body: any }) {
+export async function formPost({
+  endpoint = "",
+  body,
+}: {
+  endpoint: string;
+  body: any;
+}) {
   return post({
-    url,
+    endpoint,
     body,
 
     headers: {
@@ -215,14 +221,14 @@ export async function formPost({ url = "", body }: { url: string; body: any }) {
 }
 
 export async function formPatch({
-  url = "",
+  endpoint = "",
   body,
 }: {
-  url: string;
+  endpoint: string;
   body: any;
 }) {
   return patch({
-    url,
+    endpoint,
     body,
     headers: {
       "Content-Type": "multipart/form-data",
@@ -230,9 +236,15 @@ export async function formPatch({
   });
 }
 
-export async function login({ url = "", body }: { url: string; body: any }) {
+export async function login({
+  endpoint = "",
+  body,
+}: {
+  endpoint: string;
+  body: any;
+}) {
   return post({
-    url,
+    endpoint,
     body,
     headers: {
       withCredentials: true,
