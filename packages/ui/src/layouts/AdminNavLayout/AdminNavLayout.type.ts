@@ -16,6 +16,9 @@ type PropAdminNavModule = {
 type PropAdminNavSideNav = {
   navItems: PropAdminNavItems[];
   navModules: PropAdminNavModule[];
+  //info
+  moduleLabel?: string;
+  moduleDescription?: string;
 };
 
 type PropAdminNavStyles = {

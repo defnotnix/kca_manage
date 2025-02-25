@@ -6,11 +6,16 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(auth)/page": [
+    "/vstore/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(auth)/page.css",
-      "static/chunks/app/(auth)/page.js"
+      "static/css/app/vstore/layout.css",
+      "static/chunks/app/vstore/layout.js"
+    ],
+    "/vstore/categorization/type/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/vstore/categorization/type/page.js"
     ],
     "/(admin)/layout": [
       "static/chunks/webpack.js",

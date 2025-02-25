@@ -7,7 +7,7 @@
 }
 
 .label {
-  font-size: var(--mantine-font-size-xs);
+  font-size: 13px;
   font-weight: 600;
 }
 

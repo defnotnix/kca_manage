@@ -1,0 +1,1 @@
+export { PageTabHeader } from "./PageTabHeader";

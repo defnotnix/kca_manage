@@ -1,47 +1,56 @@
 import {
   Building,
+  Calendar,
   ChartDonut,
   ChartLine,
+  Desk,
+  FlyingSaucer,
   Gear,
+  GearSix,
   Hand,
+  Headphones,
   Headset,
+  Info,
   Key,
   MathOperations,
+  Money,
   Package,
   Shield,
+  ShoppingBag,
   Users,
 } from "@phosphor-icons/react";
 import { PropAdminNavItems, PropAdminNavModule } from "@vframework/ui";
 
 export const navModules: PropAdminNavModule[] = [
   {
+    icon: ShoppingBag,
+    label: "v.Store",
+    description: "Management your store and ecommerce centrally.",
+    color: "grape",
+  },
+  {
     icon: Building,
-    label: "v. Organization Management",
+    label: "v.Organization",
     description: "Management portal for your organization.",
     color: "brand",
   },
   {
     icon: MathOperations,
-    label: "v. Accounting",
-    description: "Management portal for your organization.",
+    label: "v.Accounting",
+    description: "Full fledge accounting software for your Organization.",
     color: "teal",
   },
   {
     icon: Package,
-    label: "v. Inventory Management",
-    description: "Management portal for your organization.",
+    label: "v.Inventory",
+    description: "Manage your inventory & stock centrally.",
     color: "orange",
   },
-  {
-    icon: MathOperations,
-    label: "v. Ecommerce",
-    description: "Management portal for your organization.",
-    color: "teal",
-  },
+
   {
     icon: Package,
-    label: "v. CMS",
-    description: "Management portal for your organization.",
+    label: "v.CMS",
+    description: "Manage your Sites & Content centrally.",
     color: "orange",
   },
 ];
@@ -159,5 +168,86 @@ export const navItems: PropAdminNavItems[] = [
       { label: "Contact Support", value: "/support/contact" },
       { label: "Feedback & Suggestions", value: "/support/feedback" },
     ],
+  },
+];
+
+export const navItemsVStore = [
+  {
+    label: "Dashboard",
+    icon: ChartDonut,
+    value: "/dashboard",
+  },
+  {
+    label: "POS",
+    icon: Desk,
+    value: "/pos",
+  },
+  {
+    label: "Products",
+    icon: Package,
+    value: "/products",
+    children: [
+      { label: "Product Catalog", value: "/support/faqs" },
+      { label: "Product Drafts", value: "/support/docs" },
+      { label: "Add Product", value: "/support/faqs" },
+    ],
+  },
+  {
+    label: "Categorization",
+    icon: Package,
+    value: "/category",
+    children: [
+      { label: "Brands", value: "/support/faqs" },
+      { label: "Product Type", value: "/support/faqs" },
+      { label: "Attributes", value: "/support/faqs" },
+      { label: "Filter Groups", value: "/support/docs" },
+      { label: "Developer Portal", value: "/support/docs" },
+    ],
+  },
+  {
+    label: "Orders",
+    icon: ShoppingBag,
+    value: "/products",
+    children: [
+      { label: "Orders", value: "/support/faqs" },
+      { label: "New Orders", value: "/support/docs" },
+      { label: "Order Tracking", value: "/support/docs" },
+      { label: "Add Order", value: "/support/faqs" },
+    ],
+  },
+  {
+    label: "Customers",
+    icon: Users,
+    value: "/customers",
+  },
+  {
+    label: "Marketing",
+    icon: FlyingSaucer,
+    value: "/products",
+  },
+  {
+    label: "Events",
+    icon: Calendar,
+    value: "/products",
+  },
+  {
+    label: "Transactions",
+    icon: Money,
+    value: "/products",
+  },
+  {
+    label: "Configure",
+    icon: GearSix,
+    value: "/products",
+    children: [
+      { label: "General Settings", value: "/support/docs" },
+      { label: "Organization", value: "/support/faqs" },
+      { label: "Checkout Settings", value: "/support/faqs" },
+    ],
+  },
+  {
+    label: "About Software",
+    icon: Info,
+    value: "/about",
   },
 ];

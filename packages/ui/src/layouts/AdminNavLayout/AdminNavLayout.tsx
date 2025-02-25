@@ -25,6 +25,8 @@ export function AdminNavLayout({
   // Sidenav
   navModules = [],
   navItems = [],
+  moduleLabel,
+  moduleDescription,
 
   //Styles
   classNames = {},
@@ -52,7 +54,13 @@ export function AdminNavLayout({
           width: 260,
         }}
       >
-        <_AdminNavLayoutSidenav navModules={navModules} navItems={navItems} />
+        <_AdminNavLayoutSidenav
+          navModules={navModules}
+          navItems={navItems}
+          //info
+          moduleLabel={moduleLabel}
+          moduleDescription={moduleDescription}
+        />
         <AppShell.Main
           style={{
             background: "none",
@@ -62,7 +70,17 @@ export function AdminNavLayout({
           }}
           pos="relative"
         >
-          {children}
+          <section
+            style={{
+              height: "calc(100vh - 8px)",
+              background: "var(--mantine-color-gray-0)",
+              borderRadius: "var(--mantine-radius-md)",
+              overflowX: "hidden",
+              overflowY: "scroll",
+            }}
+          >
+            {children}
+          </section>
         </AppShell.Main>
       </AppShell>
     </AdminNavLayoutProvider>

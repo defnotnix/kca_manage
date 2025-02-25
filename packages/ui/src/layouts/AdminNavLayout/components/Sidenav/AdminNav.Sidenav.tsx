@@ -45,6 +45,9 @@ import classesNavLink from "./AdminNav.NavLink.module.css";
 export function _AdminNavLayoutSidenav({
   navItems,
   navModules,
+  //info
+  moduleLabel = "v.Module",
+  moduleDescription = "Just a short module description.",
 }: PropAdminNavSideNav) {
   // * DEFINITIONS
 
@@ -115,142 +118,132 @@ export function _AdminNavLayoutSidenav({
 
   return (
     <AppShell.Navbar
+      className={classes.navContainer}
       style={{
-        background: "none",
         border: "none",
         overflow: "visible",
+        background: "none",
       }}
     >
-      <Paper
-        pos="relative"
-        shadow="md"
-        radius="md"
-        m={3}
-        bg="black"
-        h="calc(100vh - 6px)"
-      >
-        <Box h={180} p="sm">
-          <Menu position="right-start" withArrow shadow="md">
-            <Menu.Target>
-              <Box w="100%" p="xs">
-                <Group justify="space-between">
-                  <Group gap="xs">
-                    <ThemeIcon size="lg" radius="xl" color="white">
-                      <Atom
-                        weight="duotone"
-                        color="var(--mantine-color-brand-8)"
-                      />
-                    </ThemeIcon>
-                    <div>
-                      <Text size="sm" c="gray.0">
-                        vSphere Inc.
-                      </Text>
-                      <Text size="10px" c="gray.0" opacity={0.4}>
-                        Anamol Maharjan
-                      </Text>
-                    </div>
-                  </Group>
-
-                  <ActionIcon variant="subtle" color="gray.0">
-                    <DotsThree weight="bold" />
-                  </ActionIcon>
+      <Box h={180} p="sm">
+        <Menu position="right-start" withArrow shadow="md">
+          <Menu.Target>
+            <Box w="100%" p="xs">
+              <Group justify="space-between">
+                <Group gap="xs">
+                  <ThemeIcon size="lg" radius="xl" color="white">
+                    <Atom
+                      weight="duotone"
+                      color="var(--mantine-color-brand-8)"
+                    />
+                  </ThemeIcon>
+                  <div>
+                    <Text size="sm" c="gray.0">
+                      vSphere Inc.
+                    </Text>
+                    <Text size="10px" c="gray.0" opacity={0.4}>
+                      Anamol Maharjan
+                    </Text>
+                  </div>
                 </Group>
-              </Box>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Label>
-                <Text size="xs" opacity={0.7}>
-                  Available Modules
-                </Text>
-              </Menu.Label>
-              {renderNavModules}
-              <Menu.Label>
-                <Text size="xs" opacity={0.7}>
-                  Integrations
-                </Text>
-              </Menu.Label>
 
-              <Menu.Item>
-                <Button fullWidth variant="light" leftSection={<Plus />}>
-                  Add Integration
-                </Button>
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
-
-          <TextInput
-            my="sm"
-            variant="filled"
-            size="sm"
-            leftSection={<MagnifyingGlass />}
-            rightSection={
-              <ActionIcon variant="subtle" color="gray.0">
-                <SlidersHorizontal />
-              </ActionIcon>
-            }
-            placeholder="Search Modules"
-            styles={{
-              input: {
-                background: "var(--mantine-color-dark-9)",
-                fontSize: "var(--mantine-font-size-xs)",
-              },
-            }}
-          />
-
-          <div>
-            <Group gap={0}>
-              <Text px="sm" size="md" c="gray.0">
-                Org. Management
+                <ActionIcon variant="subtle" color="gray.0">
+                  <DotsThree weight="bold" />
+                </ActionIcon>
+              </Group>
+            </Box>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label>
+              <Text size="xs" opacity={0.7}>
+                Available Modules
               </Text>
-              <Badge color="red.6" size="xs">
-                69
-              </Badge>
-            </Group>
-            <Text size="xs" c="gray.0" px="sm" opacity={0.4}>
-              Acc Modules of Alakazam
-            </Text>
-          </div>
-        </Box>
+            </Menu.Label>
+            {renderNavModules}
+            <Menu.Label>
+              <Text size="xs" opacity={0.7}>
+                Integrations
+              </Text>
+            </Menu.Label>
 
-        <ScrollArea p="sm" h="calc(100% - 180px)" pb={150}>
-          {renderNavItems}
-        </ScrollArea>
-
-        <Paper
-          p="md"
-          w={252}
-          style={{
-            position: "absolute",
-            bottom: 0,
-            width: "100%",
-            background:
-              "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1))",
-          }}
-        >
-          <Paper mb="sm" bg="dark.8" p="md">
-            <Text size="xs" c="gray.0" mb={3}>
-              This is a message for the software user.
-            </Text>
-            <Text size="10px" c="gray.0" opacity={0.5}>
-              Something like a license.
-            </Text>
-          </Paper>
-
-          <Group justify="space-between">
-            <Button
-              size="sm"
-              variant="subtle"
-              color="dark"
-              c="gray.0"
-              leftSection={<SignOut />}
-            >
-              Sign Out
+            <Button fullWidth variant="light" leftSection={<Plus />}>
+              Add Integration
             </Button>
-            <Text c="gray.0" opacity={0.5} size="10px">
-              Version 1.2.3
+          </Menu.Dropdown>
+        </Menu>
+
+        <TextInput
+          my="sm"
+          variant="filled"
+          size="sm"
+          leftSection={<MagnifyingGlass />}
+          rightSection={
+            <ActionIcon variant="subtle" color="gray.0">
+              <SlidersHorizontal />
+            </ActionIcon>
+          }
+          placeholder="Search Modules"
+          styles={{
+            input: {
+              background: "rgba(255,255,255,.1)",
+              fontSize: "var(--mantine-font-size-xs)",
+            },
+          }}
+        />
+
+        <div>
+          <Group gap={0}>
+            <Text px="sm" size="md" c="gray.0">
+              {moduleLabel}
             </Text>
+            <Badge color="red.6" size="xs">
+              69
+            </Badge>
           </Group>
+          <Text size="xs" c="gray.0" px="sm" opacity={0.4}>
+            {moduleDescription}
+          </Text>
+        </div>
+      </Box>
+
+      <ScrollArea p="sm" h="calc(100% - 180px)" pb={150}>
+        {renderNavItems}
+      </ScrollArea>
+
+      <Paper
+        p="md"
+        w={252}
+        style={{
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1))",
+        }}
+      >
+        <Paper mb="sm" bg="rgba(255,255,255,.1)" p="md">
+          <Text size="xs" c="gray.0" mb={3}>
+            This is a message for the software user.
+          </Text>
+          <Text size="10px" c="gray.0" opacity={0.5}>
+            Something like a license.
+          </Text>
         </Paper>
+
+        <Group justify="space-between">
+          <Button
+            size="sm"
+            variant="subtle"
+            color="dark"
+            c="gray.0"
+            leftSection={<SignOut />}
+          >
+            Sign Out
+          </Button>
+          <Text c="gray.0" opacity={0.5} size="10px">
+            Version 1.2.3
+          </Text>
+        </Group>
       </Paper>
     </AppShell.Navbar>
   );

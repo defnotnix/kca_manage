@@ -3,9 +3,8 @@
   border-radius: var(--mantine-radius-md);
 
   &:hover {
-    background: var(--mantine-color-dark-9);
+    background: rgba(255, 255, 255, 0.1);
   }
-
 }
 
 .navmain {

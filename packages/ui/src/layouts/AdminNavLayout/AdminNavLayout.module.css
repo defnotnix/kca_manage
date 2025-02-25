@@ -1,4 +1,4 @@
 .root {
-  background: var(--mantine-color-gray-0);
+  background: linear-gradient(to bottom, #060b13, #15151e);
   height: 100vh;
 }
