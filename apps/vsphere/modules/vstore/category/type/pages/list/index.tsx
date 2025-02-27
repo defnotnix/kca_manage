@@ -33,6 +33,7 @@ import {
   MagnifyingGlass,
   Pen,
   Plus,
+  SortAscending,
   Table,
   Trash,
 } from "@phosphor-icons/react";
@@ -126,6 +127,9 @@ export function _List() {
                 List View
               </Button>
               <Divider orientation="vertical" />
+              <Button variant="subtle" leftSection={<SortAscending />}>
+                Sort by Name
+              </Button>
             </Group>
           </Grid.Col>
         </Grid>

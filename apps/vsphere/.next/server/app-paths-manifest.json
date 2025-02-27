@@ -1,4 +1,5 @@
 {
   "/vstore/categorization/type/page": "app/vstore/categorization/type/page.js",
-  "/(admin)/vauth/users/page": "app/(admin)/vauth/users/page.js"
+  "/(admin)/vauth/users/page": "app/(admin)/vauth/users/page.js",
+  "/(admin)/vauth/users/new/page": "app/(admin)/vauth/users/new/page.js"
 }

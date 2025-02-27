@@ -28,6 +28,12 @@
       "static/chunks/main-app.js",
       "static/css/app/(admin)/vauth/users/page.css",
       "static/chunks/app/(admin)/vauth/users/page.js"
+    ],
+    "/(admin)/vauth/users/new/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(admin)/vauth/users/new/page.css",
+      "static/chunks/app/(admin)/vauth/users/new/page.js"
     ]
   }
 }
