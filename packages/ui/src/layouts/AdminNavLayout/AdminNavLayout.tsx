@@ -4,7 +4,7 @@ import React from "react";
 //next
 
 //mantine
-import { AppShell } from "@mantine/core";
+import { AppShell, ScrollArea } from "@mantine/core";
 //mantine
 
 //icons
@@ -70,17 +70,16 @@ export function AdminNavLayout({
           }}
           pos="relative"
         >
-          <section
+          <ScrollArea
             style={{
               height: "calc(100vh - 8px)",
               background: "var(--mantine-color-gray-0)",
               borderRadius: "var(--mantine-radius-md)",
               overflowX: "hidden",
-              overflowY: "scroll",
             }}
           >
             {children}
-          </section>
+          </ScrollArea>
         </AppShell.Main>
       </AppShell>
     </AdminNavLayoutProvider>
