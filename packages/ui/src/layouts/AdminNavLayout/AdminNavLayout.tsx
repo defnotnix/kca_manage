@@ -22,12 +22,10 @@ import { AdminNavLayoutProvider } from "./AdminNavLayout.context";
 import { PropAdminNavLayout } from "./AdminNavLayout.type";
 
 export function AdminNavLayout({
+  softwareInfo,
   // Sidenav
-  navModules = [],
+  navModules,
   navItems = [],
-  moduleLabel,
-  moduleDescription,
-
   //Styles
   classNames = {},
   //content
@@ -55,11 +53,9 @@ export function AdminNavLayout({
         }}
       >
         <_AdminNavLayoutSidenav
+          softwareInfo={softwareInfo}
           navModules={navModules}
           navItems={navItems}
-          //info
-          moduleLabel={moduleLabel}
-          moduleDescription={moduleDescription}
         />
         <AppShell.Main
           style={{

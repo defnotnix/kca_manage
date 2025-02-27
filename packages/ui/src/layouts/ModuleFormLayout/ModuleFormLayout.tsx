@@ -16,6 +16,7 @@ import {
   Paper,
   SimpleGrid,
   Space,
+  Stack,
   Text,
 } from "@mantine/core";
 //mantine
@@ -69,7 +70,7 @@ export function ModuleFormLayout({
   return (
     <>
       <Container size={size}>
-        <Paper withBorder my="md" shadow="sm">
+        <Paper withBorder mt="md" shadow="sm">
           <Box p="md">
             <Breadcrumbs
               separatorMargin={4}
@@ -110,63 +111,86 @@ export function ModuleFormLayout({
                 </Text>
               </div>
 
-              <Alert
+              {/* <Alert
                 icon={<Warning weight="duotone" />}
                 variant="light"
                 color="red"
                 title="Some fields are missing/invalid."
-              />
+              /> */}
             </SimpleGrid>
           </Box>
+        </Paper>
 
-          <Divider />
+        <Paper withBorder shadow="sm">
+          {withStepper && (
+            <SimpleGrid spacing={0} cols={steps.length > 5 ? steps.length : 5}>
+              {steps.map((stepinfo: any, index: number) => (
+                <Paper
+                  p="xs"
+                  key={index}
+                  withBorder
+                  opacity={current >= index ? 1 : 0.3}
+                  style={{
+                  
+                    borderBottomLeftRadius: 0,
+                    borderBottomRightRadius: 0,
+                  }}
+                >
+                  <Stack gap={4}>
+                    <Text size="8px" opacity={0.5}>
+                      Step {index + 1} of {steps.length}
+                    </Text>
+                    <Text size="xs">{stepinfo}</Text>
+                  </Stack>
+                </Paper>
+              ))}
+            </SimpleGrid>
+          )}
+        </Paper>
 
-          {children}
+        {children}
 
-          <Divider />
+        <Group gap={0} justify="space-between">
+          {withStepper ? (
+            <Button
+              onClick={handleStepBack}
+              disabled={current == 0}
+              leftSection={<ArrowLeft />}
+              variant="light"
+            >
+              Previous Step
+            </Button>
+          ) : (
+            <div />
+          )}
 
-          <Group gap={0} justify="space-between" p="md">
-            {withStepper ? (
+          <Group justify="flex-end" gap={4} py="md">
+            {withStepper && current < steps.length - 1 && (
               <Button
-                onClick={handleStepBack}
-                disabled={current == 0}
-                leftSection={<ArrowLeft />}
-                variant="light"
+                size="sm"
+                rightSection={<ArrowRight />}
+                onClick={handleStepNext}
               >
-                Previous Step
+                Next Step
               </Button>
-            ) : (
-              <div />
             )}
 
-            <Group justify="flex-end" gap={4}>
-              {withStepper && current < steps.length - 1 && (
-                <Button
-                  size="sm"
-                  rightSection={<ArrowRight />}
-                  onClick={handleStepNext}
-                >
-                  Next Step
-                </Button>
-              )}
-
-              {(current + 1 == steps.length || !withStepper) && (
-                <Button
-                  size="sm"
-                  color="teal"
-                  leftSection={<Check />}
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
-              )}
-
-              <Button size="sm" leftSection={<X />} variant="light">
-                Cancel
+            {(current + 1 == steps.length || !withStepper) && (
+              <Button
+                size="sm"
+                color="teal"
+                leftSection={<Check />}
+                onClick={handleSubmit}
+              >
+                Submit
               </Button>
-            </Group>
+            )}
+
+            <Button size="sm" leftSection={<X />} variant="light">
+              Cancel
+            </Button>
           </Group>
-        </Paper>
+        </Group>
       </Container>
     </>
   );

@@ -14,11 +14,13 @@ type PropAdminNavModule = {
 };
 
 type PropAdminNavSideNav = {
+  softwareInfo: {
+    org?: string;
+    module?: string;
+    moduleDescription?: string;
+  };
   navItems: PropAdminNavItems[];
-  navModules: PropAdminNavModule[];
-  //info
-  moduleLabel?: string;
-  moduleDescription?: string;
+  navModules?: PropAdminNavModule[];
 };
 
 type PropAdminNavStyles = {

@@ -43,11 +43,9 @@ import classesNavLink from "./AdminNav.NavLink.module.css";
 //components
 
 export function _AdminNavLayoutSidenav({
+  softwareInfo,
   navItems,
-  navModules,
-  //info
-  moduleLabel = "v.Module",
-  moduleDescription = "Just a short module description.",
+  navModules = [],
 }: PropAdminNavSideNav) {
   // * DEFINITIONS
 
@@ -61,7 +59,7 @@ export function _AdminNavLayoutSidenav({
 
   // * COMPONENTS
 
-  const renderNavModules = navModules.map((navModule: any, index: number) => {
+  const renderNavModules = navModules?.map((navModule: any, index: number) => {
     return (
       <Menu.Item
         key={index}
@@ -139,7 +137,7 @@ export function _AdminNavLayoutSidenav({
                   </ThemeIcon>
                   <div>
                     <Text size="sm" c="gray.0">
-                      vSphere Inc.
+                      {softwareInfo.org}
                     </Text>
                     <Text size="10px" c="gray.0" opacity={0.4}>
                       Anamol Maharjan
@@ -147,29 +145,33 @@ export function _AdminNavLayoutSidenav({
                   </div>
                 </Group>
 
-                <ActionIcon variant="subtle" color="gray.0">
-                  <DotsThree weight="bold" />
-                </ActionIcon>
+                {navModules?.length > 0 && (
+                  <ActionIcon variant="subtle" color="gray.0">
+                    <DotsThree weight="bold" />
+                  </ActionIcon>
+                )}
               </Group>
             </Box>
           </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Label>
-              <Text size="xs" opacity={0.7}>
-                Available Modules
-              </Text>
-            </Menu.Label>
-            {renderNavModules}
-            <Menu.Label>
-              <Text size="xs" opacity={0.7}>
-                Integrations
-              </Text>
-            </Menu.Label>
+          {navModules?.length > 0 && (
+            <Menu.Dropdown>
+              <Menu.Label>
+                <Text size="xs" opacity={0.7}>
+                  Available Modules
+                </Text>
+              </Menu.Label>
+              {renderNavModules}
+              <Menu.Label>
+                <Text size="xs" opacity={0.7}>
+                  Integrations
+                </Text>
+              </Menu.Label>
 
-            <Button fullWidth variant="light" leftSection={<Plus />}>
-              Add Integration
-            </Button>
-          </Menu.Dropdown>
+              <Button fullWidth variant="light" leftSection={<Plus />}>
+                Add Integration
+              </Button>
+            </Menu.Dropdown>
+          )}
         </Menu>
 
         <TextInput
@@ -194,14 +196,14 @@ export function _AdminNavLayoutSidenav({
         <div>
           <Group gap={0}>
             <Text px="sm" size="md" c="gray.0">
-              {moduleLabel}
+              {softwareInfo?.module}
             </Text>
             <Badge color="red.6" size="xs">
               69
             </Badge>
           </Group>
           <Text size="xs" c="gray.0" px="sm" opacity={0.4}>
-            {moduleDescription}
+            {softwareInfo?.moduleDescription}
           </Text>
         </div>
       </Box>

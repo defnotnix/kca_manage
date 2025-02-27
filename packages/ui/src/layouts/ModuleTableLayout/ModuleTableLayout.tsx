@@ -57,6 +57,11 @@ import sortBy from "lodash/sortBy";
 import { PropModuleTableLayout } from "./ModuleTableLayout.type";
 
 export function ModuleTableLayout({
+  bread = [],
+  moduleName = "Enter Module Name",
+  moduleDescription = "This is a module description that says something about the module.",
+  moduleTerm,
+  moduleTermPlural,
   //Data
   idAccessor = "id",
   columns = [],
@@ -66,6 +71,9 @@ export function ModuleTableLayout({
   rowColor,
   rowBackgroundColor,
   rowStyle,
+  //tabs
+  enableTabs = false,
+  tabs = [],
   //pagination
   pageSizes = [20, 35, 50],
 }: PropModuleTableLayout) {
@@ -186,25 +194,26 @@ export function ModuleTableLayout({
             size={12}
             color="var(--mantine-color-brand-5)"
           />
-          <Anchor size="xs" c="gray.5" fw={600}>
-            vAuth
-          </Anchor>
-          <Anchor size="xs" c="gray.5" fw={600}>
-            User Management
-          </Anchor>
-          <Anchor size="xs" c="dark.9" fw={600}>
-            Users
-          </Anchor>
+          {bread.map((breadinfo: any, index: number) => (
+            <Anchor
+              size="xs"
+              c={index == bread.length - 1 ? "dark.9" : "gray.5"}
+              fw={600}
+              key={index}
+            >
+              {breadinfo.label}
+            </Anchor>
+          ))}
         </Breadcrumbs>
 
         <Space h="md" />
         <Group justify="space-between" align="flex-end">
           <div>
             <Text size="xl" fw={600}>
-              Manage - Product Types
+              {moduleName}
             </Text>
             <Text size="sm" opacity={0.5}>
-              Manage product types and their attributes and properties.
+              {moduleDescription}
             </Text>
           </div>
 
@@ -304,7 +313,7 @@ export function ModuleTableLayout({
 
             <ButtonGroup>
               <Button variant="filled" size="xs" leftSection={<Plus />}>
-                Add User
+                Add {moduleTerm}
               </Button>
               <Button variant="filled" size="xs" px="8" ml={1}>
                 <CaretDown />
@@ -314,31 +323,35 @@ export function ModuleTableLayout({
         </Group>
       </Paper>
 
-      <Divider />
+      <Divider mb={!enableTabs ? "md" : 0} />
 
-      <Group
-        justify="space-between"
-        px="md"
-        py="xs"
-        bg="linear-gradient(to right, var(--mantine-color-gray-0), var(--mantine-color-brand-0))"
-      >
-        <Group gap="4px">
-          <Button size="xs" variant="filled">
-            Active Users
-          </Button>
-          <Button size="xs" variant="light">
-            Inactive Users
-          </Button>
-          <Button size="xs" variant="light">
-            Disabled Users
-          </Button>
-          <Button size="xs" variant="light">
-            Recently Added
-          </Button>
-        </Group>
-      </Group>
+      {enableTabs && (
+        <>
+          <Group
+            justify="space-between"
+            px="md"
+            py="xs"
+            bg="linear-gradient(to right, var(--mantine-color-gray-0), var(--mantine-color-brand-0))"
+          >
+            <Group gap="4px">
+              <Button size="xs" variant="filled">
+                Active Users
+              </Button>
+              <Button size="xs" variant="light">
+                Inactive Users
+              </Button>
+              <Button size="xs" variant="light">
+                Disabled Users
+              </Button>
+              <Button size="xs" variant="light">
+                Recently Added
+              </Button>
+            </Group>
+          </Group>
 
-      <Divider mb="sm" />
+          <Divider mb="sm" />
+        </>
+      )}
 
       <Paper radius="md" withBorder h={"calc(100vh - 205px)"} mx="md">
         <DataTable
