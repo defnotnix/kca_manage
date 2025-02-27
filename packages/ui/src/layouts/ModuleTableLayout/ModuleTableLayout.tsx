@@ -6,8 +6,10 @@ import React, { useEffect, useState } from "react";
 //mantine
 import {
   ActionIcon,
+  Anchor,
   Badge,
   Box,
+  Breadcrumbs,
   Button,
   ButtonGroup,
   Divider,
@@ -15,6 +17,7 @@ import {
   HoverCard,
   Menu,
   Paper,
+  Space,
   Stack,
   Text,
   TextInput,
@@ -32,6 +35,7 @@ import {
   Export,
   Eye,
   GearSix,
+  House,
   MagnifyingGlass,
   PaintBucket,
   Pen,
@@ -163,32 +167,46 @@ export function ModuleTableLayout({
 
   return (
     <>
-      <Stack>
-        <Box my="sm">
-          <Group>
-            <Text size="1.3rem">User Management</Text>
-            <Badge variant="light">119</Badge>
-          </Group>
-          <Text size="sm" opacity={0.5}>
-            Manage your organization's users, roles, and permissions.
-          </Text>
-        </Box>
+      <Paper
+        px="md"
+        pt="md"
+        pb="lg"
+        bg="linear-gradient(to right, var(--mantine-color-gray-0), var(--mantine-color-brand-0))"
+      >
+        <Breadcrumbs
+          separatorMargin={4}
+          separator={
+            <Text size="xs" c="gray.5">
+              /
+            </Text>
+          }
+        >
+          <House
+            weight="duotone"
+            size={12}
+            color="var(--mantine-color-brand-5)"
+          />
+          <Anchor size="xs" c="gray.5" fw={600}>
+            vAuth
+          </Anchor>
+          <Anchor size="xs" c="gray.5" fw={600}>
+            User Management
+          </Anchor>
+          <Anchor size="xs" c="dark.9" fw={600}>
+            Users
+          </Anchor>
+        </Breadcrumbs>
 
-        <Group justify="space-between" my="">
-          <Group gap="4px">
-            <Button size="xs" variant="filled">
-              Active Users
-            </Button>
-            <Button size="xs" variant="light">
-              Inactive Users
-            </Button>
-            <Button size="xs" variant="light">
-              Disabled Users
-            </Button>
-            <Button size="xs" variant="light">
-              Recently Added
-            </Button>
-          </Group>
+        <Space h="md" />
+        <Group justify="space-between" align="flex-end">
+          <div>
+            <Text size="xl" fw={600}>
+              Manage - Product Types
+            </Text>
+            <Text size="sm" opacity={0.5}>
+              Manage product types and their attributes and properties.
+            </Text>
+          </div>
 
           <Group gap={4}>
             <HoverCard shadow="md" withArrow>
@@ -294,11 +312,35 @@ export function ModuleTableLayout({
             </ButtonGroup>
           </Group>
         </Group>
-      </Stack>
+      </Paper>
 
-      <Divider my="sm" />
+      <Divider />
 
-      <Paper radius="md" withBorder h={"calc(100vh - 205px)"}>
+      <Group
+        justify="space-between"
+        px="md"
+        py="xs"
+        bg="linear-gradient(to right, var(--mantine-color-gray-0), var(--mantine-color-brand-0))"
+      >
+        <Group gap="4px">
+          <Button size="xs" variant="filled">
+            Active Users
+          </Button>
+          <Button size="xs" variant="light">
+            Inactive Users
+          </Button>
+          <Button size="xs" variant="light">
+            Disabled Users
+          </Button>
+          <Button size="xs" variant="light">
+            Recently Added
+          </Button>
+        </Group>
+      </Group>
+
+      <Divider mb="sm" />
+
+      <Paper radius="md" withBorder h={"calc(100vh - 205px)"} mx="md">
         <DataTable
           //Loading
           fetching={isFetching}
