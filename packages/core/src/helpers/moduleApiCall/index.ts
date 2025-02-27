@@ -1,6 +1,14 @@
 import { get, post, patch, del } from "../apiDispatch";
 //apis
 
+type PropGetRecords = {
+  endpoint: string;
+  searchValue?: string;
+  page?: number;
+  pageSize?: number;
+  params?: any;
+};
+
 async function getRecords({
   endpoint,
   searchValue = "",
@@ -8,15 +16,9 @@ async function getRecords({
   pageSize,
   params,
   ...props
-}: {
-  endpoint: string;
-  searchValue?: string;
-  page?: number;
-  pageSize?: number;
-  params?: any;
-}) {
+}: PropGetRecords) {
   const res: any = await get({
-    url: endpoint,
+    endpoint,
     params: {
       page_size: pageSize,
       ...params,
@@ -27,7 +29,7 @@ async function getRecords({
 
 async function getSingleRecord(endpoint: string, id: any): Promise<any> {
   const res: any = await get({
-    url: endpoint + id + "/",
+    endpoint: endpoint + id + "/",
   });
   return res.err ? [] : res.data;
 }
@@ -37,7 +39,7 @@ async function createRecord(endpoint: string, body: any): Promise<any> {
   console.log(isFormData);
 
   return await post({
-    url: endpoint,
+    endpoint,
     body: body,
     headers: isFormData
       ? {}
@@ -49,7 +51,7 @@ async function createRecord(endpoint: string, body: any): Promise<any> {
 
 // async function createJSONRecord(endpoint: string, body: any): Promise<any> {
 //   return await post({
-//     url: endpoint,
+// endpoint,
 //     body: body,
 //     headers: {
 //       "Content-Type": "application/json",
@@ -61,7 +63,7 @@ async function editRecord(endpoint: string, body: any, id: any): Promise<any> {
   const isFormData = body instanceof FormData;
 
   return await patch({
-    url: endpoint + id + "/",
+    endpoint: endpoint + id + "/",
     body: body,
     headers: isFormData
       ? {}
@@ -73,7 +75,7 @@ async function editRecord(endpoint: string, body: any, id: any): Promise<any> {
 
 async function deleteRecord(endpoint: string, body: any): Promise<any> {
   return await del({
-    url: endpoint,
+    endpoint,
     id: body,
   });
 }
@@ -86,3 +88,5 @@ export const moduleApiCall = {
   deleteRecord,
   //   createJSONRecord,
 };
+
+export type { PropGetRecords };

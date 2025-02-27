@@ -1,16 +1,12 @@
+import { PropGetRecords } from "@/src/helpers";
 import { ReactNode } from "react";
 
-export type PropGetApiProps = {
-  searchValue?: string;
-  page?: number;
-  pageSize?: number;
-  params?: any;
-};
-
 export type PropListHandler = {
-  getRecords: (apiProps: PropGetApiProps) => Promise<any>;
+  getRecords: (apiProps: PropGetRecords) => Promise<any>;
   endpoint?: string;
   dataKey?: string;
+  //module
+  moduleEndpoint: string;
   moduleKey?: string[];
   //search
   enableServerSearch?: boolean;

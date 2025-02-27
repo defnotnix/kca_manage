@@ -5,13 +5,11 @@ import React from "react";
 
 //mantine
 import {} from "@mantine/core";
-//mantine
-
-//icons
-
-//styles
-
-//components
+import { FormHandler } from "@vframework/core";
+//formconfig
+import { formProps } from "../../form/form.config";
+//api
+import { createRecord } from "../../module.api";
 
 export function _New() {
   // * DEFINITIONS
@@ -26,5 +24,17 @@ export function _New() {
 
   // * ANIMATIONS
 
-  return <></>;
+  return (
+    <>
+      <FormHandler
+        {...formProps}
+        apiSubmit={createRecord}
+        onSubmitSuccess={() => {
+          alert("done");
+        }}
+      >
+        just a form
+      </FormHandler>
+    </>
+  );
 }

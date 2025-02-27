@@ -39,6 +39,7 @@ import {
   Plus,
   Star,
 } from "@phosphor-icons/react";
+import { moduleConfig } from "../../module.config";
 
 export function _List() {
   // * DEFINITIONS
@@ -56,7 +57,8 @@ export function _List() {
   return (
     <>
       <ListHandler
-        moduleKey={["vauth", "users"]}
+        moduleEndpoint={moduleConfig.endpoint}
+        moduleKey={moduleConfig.moduleKey}
         //enableServerPagination
         //enableServerSearch
         getRecords={getRecords}

@@ -1,14 +1,8 @@
-import { apiDispatch, PropGetApiProps } from "@vframework/core";
+import { apiDispatch, moduleApiCall, PropGetApiProps } from "@vframework/core";
 
 const endpoint = "/users";
 
-export const getRecords = async ({
-  searchValue,
-  page,
-  pageSize,
-  params,
-}: PropGetApiProps) =>
-  apiDispatch.get({
-    endpoint,
-    params: {},
-  });
+export const getRecords = moduleApiCall.getRecords;
+export const createRecord = moduleApiCall.createRecord;
+export const updateRecord = moduleApiCall.editRecord;
+export const deleteRecord = moduleApiCall.deleteRecord;

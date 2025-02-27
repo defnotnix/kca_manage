@@ -99,6 +99,7 @@ function reducer(state: typeof initialState, action: any): any {
 }
 
 export function ListHandler({
+  moduleEndpoint = "",
   moduleKey = ["vframework", "default"],
   //api
   getRecords,
@@ -127,12 +128,21 @@ export function ListHandler({
     queryFn: async () => {
       console.log("Initiating Get");
       const res: any = await getRecords({
+        endpoint: moduleEndpoint,
         searchValue: searchVal,
         page: page,
         pageSize: pageSize,
         params: {},
       });
-      return dataKey ? res?.data?.[dataKey] : res?.data;
+      console.log(res);
+      const _data = dataKey ? res?.[dataKey] : res?.data;
+
+      if (!Array.isArray(_data)) {
+        console.log("Warning: _data is not an array", _data);
+        return [];
+      }
+
+      return _data;
     },
     initialData: [],
   });
