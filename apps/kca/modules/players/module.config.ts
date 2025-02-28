@@ -1,6 +1,7 @@
 import { House } from "@phosphor-icons/react";
+import { PropModuleConfig } from "@vframework/ui";
 
-export const moduleConfig = {
+export const moduleConfig: PropModuleConfig = {
   bread: [
     {
       label: "KCA Admin",

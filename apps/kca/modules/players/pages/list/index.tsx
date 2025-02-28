@@ -57,7 +57,7 @@ export function _List() {
   return (
     <>
       <ListHandler
-        moduleEndpoint={moduleConfig.endpoint}
+        endpoint={moduleConfig.endpoint}
         moduleKey={moduleConfig.moduleKey}
         //enableServerPagination
         //enableServerSearch

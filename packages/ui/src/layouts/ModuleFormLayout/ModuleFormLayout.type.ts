@@ -1,3 +1,4 @@
+import { PropModuleConfig } from "@/src/types";
 import { ReactNode } from "react";
 
 export type PropModuleFormLayout = {
@@ -11,4 +12,4 @@ export type PropModuleFormLayout = {
   //children
   isLoading?: boolean;
   children: ReactNode;
-};
+} & PropModuleConfig;

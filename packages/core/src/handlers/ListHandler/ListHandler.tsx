@@ -99,7 +99,7 @@ function reducer(state: typeof initialState, action: any): any {
 }
 
 export function ListHandler({
-  moduleEndpoint = "",
+  endpoint = "",
   moduleKey = ["vframework", "default"],
   //api
   getRecords,
@@ -128,7 +128,7 @@ export function ListHandler({
     queryFn: async () => {
       console.log("Initiating Get");
       const res: any = await getRecords({
-        endpoint: moduleEndpoint,
+        endpoint: endpoint,
         searchValue: searchVal,
         page: page,
         pageSize: pageSize,

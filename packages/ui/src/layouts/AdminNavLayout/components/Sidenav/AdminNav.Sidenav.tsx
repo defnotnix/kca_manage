@@ -105,6 +105,7 @@ export function _AdminNavLayoutSidenav({
               label={navChild.label}
               key={index}
               classNames={classesNavLink}
+              active={Pathname == navChild.value}
             />
           );
         })}

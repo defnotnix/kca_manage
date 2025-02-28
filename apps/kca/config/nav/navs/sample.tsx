@@ -60,8 +60,12 @@ export const navItems: PropAdminNavItems[] = [
       { label: "Active Bookings", value: `?filter=active` },
       { label: "All Bookings", value: "/" },
       { label: "Add Booking", value: "/new" },
-      { label: "Services", value: "/services" },
     ],
+  },
+  {
+    label: "Grounds/Services",
+    icon: Cricket,
+    value: "/tournaments",
   },
   {
     label: "Invoices",

@@ -3,10 +3,9 @@ import { ReactNode } from "react";
 
 export type PropListHandler = {
   getRecords: (apiProps: PropGetRecords) => Promise<any>;
-  endpoint?: string;
   dataKey?: string;
   //module
-  moduleEndpoint: string;
+  endpoint?: string;
   moduleKey?: string[];
   //search
   enableServerSearch?: boolean;
