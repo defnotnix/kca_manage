@@ -65,7 +65,7 @@ export const navItems: PropAdminNavItems[] = [
   {
     label: "Grounds/Services",
     icon: Cricket,
-    value: "/tournaments",
+    value: "/services",
   },
   {
     label: "Invoices",

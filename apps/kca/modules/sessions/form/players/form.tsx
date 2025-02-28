@@ -188,7 +188,7 @@ export function _FormPlayer({ active }: any) {
 
         <Select data={[]} placeholder="Select student to add" />
 
-        {queryData?.data?.players.length > 0 ? (
+        {queryData?.data?.players?.length > 0 ? (
           <>
             <SimpleGrid cols={3} spacing="xs">
               {queryData?.data?.players.map((iteminfo: any, index: number) => (
