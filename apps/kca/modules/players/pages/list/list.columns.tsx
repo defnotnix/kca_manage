@@ -7,60 +7,87 @@ export const columns = [
     width: 300,
     render: (record: any) => (
       <Group wrap="nowrap">
-        <Avatar size="xs" src={record.image} />
-        <Text size="xs">
-          {record.firstName} {record.middleName} {record.lastName}
-        </Text>
+        <Avatar size="md" src={record.image} />
+        <Text size="xs">{record.name}</Text>
       </Group>
     ),
     sortable: true,
   },
   {
-    accessor: "add",
-    title: "Address",
-    render: (record: any) => (
-      <Text size="xs">
-        {record.address?.address}, {record.address?.city},{" "}
-        {record.address?.state}, {record.address?.stateCode},{" "}
-        {record.address?.postalCode}
-      </Text>
-    ),
+    accessor: "member_id",
+    title: "Member ID",
     sortable: true,
   },
   {
-    accessor: "email",
-    title: "Email Address",
-    sortable: true,
-  },
-  {
-    accessor: "phone",
-    title: "Phone",
-    sortable: true,
-  },
-  {
-    accessor: "birthDate",
+    accessor: "dob",
     title: "Date of Birth",
     sortable: true,
   },
   {
-    accessor: "bloodGroup",
-    title: "Blood Group",
-    render: (record: any) => <Badge variant="light">{record.bloodGroup}</Badge>,
+    accessor: "gender",
+    title: "Gender",
+    render: (record: any) => <Text size="xs">{record.gender}</Text>,
     sortable: true,
   },
   {
-    accessor: "macAddress",
-    title: "MAC",
+    accessor: "contact",
+    title: "Contact",
     sortable: true,
   },
   {
-    accessor: "university",
-    title: "University",
+    accessor: "email",
+    title: "Email",
     sortable: true,
   },
   {
-    accessor: "role",
-    title: "Auth Group",
+    accessor: "assigned_team",
+    title: "Assigned Team",
+    sortable: true,
+  },
+  {
+    accessor: "package",
+    title: "Package",
+    sortable: true,
+    render: (record: any) => <Text size="xs">{record?.package?.name}</Text>,
+  },
+  {
+    accessor: "level_exp",
+    title: "Experience Level",
+    sortable: true,
+  },
+  {
+    accessor: "time_for_training",
+    title: "Training Time",
+    sortable: true,
+  },
+  {
+    accessor: "membership",
+    title: "Membership",
+    sortable: true,
+  },
+  {
+    accessor: "parent_name",
+    title: "Parent Name",
+    sortable: true,
+  },
+  {
+    accessor: "primary_contact",
+    title: "Parent Contact",
+    sortable: true,
+  },
+  {
+    accessor: "emergency_contact",
+    title: "Emergency Contact",
+    sortable: true,
+  },
+  {
+    accessor: "doe",
+    title: "Enrollment Date",
+    sortable: true,
+  },
+  {
+    accessor: "decided_rate",
+    title: "Decided Rate",
     sortable: true,
   },
 ];

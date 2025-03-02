@@ -17,6 +17,7 @@ import {
   Grid,
   Group,
   Image,
+  Modal,
   Paper,
   SimpleGrid,
   Space,
@@ -38,6 +39,11 @@ import {
 } from "@phosphor-icons/react";
 //mantine
 import { RadarChart } from "@mantine/charts";
+
+import { _FormAchievement } from "../../form/achievement/form";
+import { useDisclosure } from "@mantine/hooks";
+import { formPropsAchievement } from "../../form/achievement/form.config";
+import { FormHandler } from "@vframework/core";
 
 //icons
 
@@ -129,6 +135,9 @@ const studentData = {
 
 export function _Profile() {
   // * DEFINITIONS
+
+  const [openFormModalAchievement, handlersFormModalAchievement] =
+    useDisclosure(false);
 
   // * CONTEXT
 
@@ -381,8 +390,11 @@ export function _Profile() {
                       size="xs"
                       leftSection={<Plus />}
                       variant="outline"
-                      color="gray"
+                      color="dark"
                       bg="white"
+                      onClick={() => {
+                        handlersFormModalAchievement.open();
+                      }}
                     >
                       Add Achievement
                     </Button>
@@ -421,15 +433,6 @@ export function _Profile() {
                         Attendance History
                       </Text>
                     </div>
-                    <Button
-                      size="xs"
-                      leftSection={<Plus />}
-                      variant="outline"
-                      color="gray"
-                      bg="white"
-                    >
-                      Add Achievement
-                    </Button>
                   </Group>
                 </Box>
                 {studentData.achivements.map(
@@ -536,6 +539,30 @@ export function _Profile() {
           </Grid.Col>
         </Grid>
       </Container>
+
+      <FormHandler
+        formType={"new"}
+        {...formPropsAchievement}
+        apiSubmit={() => {}}
+        onSubmitSuccess={() => {
+          handlersFormModalAchievement.close();
+        }}
+      >
+        <Modal
+          size={"lg"}
+          opened={openFormModalAchievement}
+          onClose={() => {
+            handlersFormModalAchievement.close();
+          }}
+          title={
+            <Text tt="uppercase" size="xs" fw={700}>
+              Add a new Achievement
+            </Text>
+          }
+        >
+          <_FormAchievement />
+        </Modal>
+      </FormHandler>
     </>
   );
 }

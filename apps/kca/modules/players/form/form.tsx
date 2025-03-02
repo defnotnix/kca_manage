@@ -37,6 +37,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import classes from "./form.module.css";
 
+import { getRecords as getPackages } from "@/modules/packages/module.api";
+import { getRecords as getSessions } from "@/modules/packages/module.api";
+import { Label } from "recharts";
+
 // Assuming you have these defined elsewhere
 
 const optionBoolean = [
@@ -112,31 +116,23 @@ export function _Form() {
 
   // * PRELOADING
 
-  const queryType = useQuery({
-    queryKey: ["config", "type"],
+  const queryPackages = useQuery({
+    queryKey: ["config", "packages"], // query key
     queryFn: async () => {
-      //const res = await apiType.getData();
-      const res: any[] = [];
+      const res = await getPackages({
+        endpoint: "/players/packages/",
+      });
       return res;
     },
     initialData: [],
   });
 
-  const queryBrand = useQuery({
-    queryKey: ["config", "brand"],
+  const querySessions = useQuery({
+    queryKey: ["config", "sessions"], // query key
     queryFn: async () => {
-      //const res = await apiBrand.getData();
-      const res: any[] = [];
-      return res;
-    },
-    initialData: [],
-  });
-
-  const queryCategory = useQuery({
-    queryKey: ["config", "category"],
-    queryFn: async () => {
-      //const res = await apiCategory.getData();
-      const res: any[] = [];
+      const res = await getPackages({
+        endpoint: "/players/sessions/",
+      });
       return res;
     },
     initialData: [],
@@ -189,6 +185,38 @@ export function _Form() {
                   data={GENDER_CHOICES}
                   {...form.getInputProps("gender")}
                 />
+
+                <Select
+                  data={
+                    queryPackages?.data?.map((e: any) => {
+                      return {
+                        value: String(e.id),
+                        label: e.name,
+                      };
+                    }) || []
+                  }
+                  label="Packages ID"
+                  description="Select Player Packages"
+                  placeholder="Select Packages"
+                  required
+                  {...form.getInputProps("package")}
+                />
+
+                <Select
+                  data={
+                    querySessions?.data?.map((e: any) => {
+                      return {
+                        value: String(e.id),
+                        label: e.name,
+                      };
+                    }) || []
+                  }
+                  label="Session ID"
+                  description="Select Player Session"
+                  placeholder="Select Session"
+                  required
+                  {...form.getInputProps("sessions")}
+                />
               </SimpleGrid>
 
               <FormElement.SectionTitle
@@ -216,13 +244,6 @@ export function _Form() {
                   description="Primary phone number"
                   placeholder="Enter primary contact number"
                   {...form.getInputProps("contact")}
-                />
-                <TextInput
-                  label="Email"
-                  description="Official email address"
-                  placeholder="Enter email address"
-                  required
-                  {...form.getInputProps("email")}
                 />
               </SimpleGrid>
             </Stack>
@@ -322,13 +343,7 @@ export function _Form() {
                   placeholder="Choose a schedule"
                   {...form.getInputProps("training_schedule")}
                 />
-                <Select
-                  label="Select Plan"
-                  data={["Silver", "Gold", "Platinum"]}
-                  description="Choose the training plan for the student."
-                  placeholder="Select a plan"
-                  {...form.getInputProps("package")}
-                />
+
                 <NumberInput
                   label="Decided Rate/Month"
                   description="The agreed monthly rate for the student."
@@ -412,13 +427,6 @@ export function _Form() {
                 placeholder="Enter team name"
                 {...form.getInputProps("fav_team")}
               />
-
-              <TextInput
-                label="Package"
-                description="Package the player is enrolled in."
-                placeholder="Enter package"
-                {...form.getInputProps("package")}
-              />
             </SimpleGrid>
 
             <FormElement.SectionTitle
@@ -443,15 +451,6 @@ export function _Form() {
                 data={JERSEY_SIZE}
                 required
                 {...form.getInputProps("jersey")}
-              />
-
-              <Select
-                label="Preferred Package"
-                description="Choose your package preference."
-                placeholder="Select package"
-                data={PACKAGE_CHOICES}
-                required
-                {...form.getInputProps("preferred_package")}
               />
 
               <Select

@@ -28,7 +28,7 @@ import { columns } from "./list.columns";
 //components
 
 //api
-import { getRecords } from "../../module.api";
+import { deleteRecord, getRecords } from "../../module.api";
 import {
   ArrowLeft,
   Atom,
@@ -62,10 +62,10 @@ export function _List() {
         //enableServerPagination
         //enableServerSearch
         getRecords={getRecords}
-        dataKey="users"
       >
         <ModuleTableLayout
           {...moduleConfig}
+          apiDelete={deleteRecord}
           //Data
           columns={columns}
           //styles

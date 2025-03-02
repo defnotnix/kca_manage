@@ -1,6 +1,7 @@
-import { apiDispatch, moduleApiCall, PropGetApiProps } from "@vframework/core";
+import { apiDispatch, moduleApiCall } from "@vframework/core";
+import { moduleConfig } from "./module.config";
 
-const endpoint = "/users";
+const endpoint = moduleConfig.endpoint || "";
 
 export const getRecords = moduleApiCall.getRecords;
 export const getSingleRecord = moduleApiCall.getSingleRecord;

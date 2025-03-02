@@ -48,16 +48,7 @@ export function _List() {
               gender === "male" ? "var(--mantine-color-indigo-0)" : "",
           })}
           // * EXTRA ACTIONS
-          extraActions={({ row }: { row: any }) => (
-            <ActionIcon
-              size="sm"
-              variant="subtle"
-              color="teal"
-              onClick={() => router.push(`/admin/client-invoices/${row.id}`)}
-            >
-              <Invoice />
-            </ActionIcon>
-          )}
+
           // * MODAL CONFIG
           hasModalForms
           modalFormProps={{ width: "lg", formProps }}

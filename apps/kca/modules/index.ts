@@ -7,6 +7,9 @@ import { Module as Services } from "./services";
 import { Module as Accounts } from "./accounts";
 import { Module as Bookings } from "./bookings";
 import { Module as TakeAttendance } from "./takeAttendance";
+import { Module as TakePerformance } from "./takePerformance";
+import { Module as Teams } from "./teams";
+import { Module as TeamMembers } from "./teamMembers";
 
 export const Modules = {
   Players,
@@ -18,4 +21,7 @@ export const Modules = {
   Accounts,
   Bookings,
   TakeAttendance,
+  TakePerformance,
+  Teams,
+  TeamMembers,
 };

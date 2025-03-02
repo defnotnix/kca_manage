@@ -78,18 +78,18 @@ export function _Form() {
                 description="Specify the time or schedule for this session."
                 placeholder="e.g. Monday 10 AM - 12 PM"
                 required
-                {...form.getInputProps("session_start")}
+                {...form.getInputProps("start_time")}
               />
               <TimeInput
                 label="Session End Time"
                 description="Specify the time or schedule for this session."
                 placeholder="e.g. Monday 10 AM - 12 PM"
                 required
-                {...form.getInputProps("session_end")}
+                {...form.getInputProps("end_time")}
               />
             </SimpleGrid>
 
-            <Select
+            <TextInput
               label="Session Coach"
               description="Select the coach responsible for this session."
               placeholder="Enter coach name"

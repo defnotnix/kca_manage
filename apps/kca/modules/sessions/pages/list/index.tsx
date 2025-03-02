@@ -50,7 +50,6 @@ export function _List() {
         endpoint={moduleConfig.endpoint}
         moduleKey={moduleConfig.moduleKey}
         getRecords={getRecords}
-        dataKey="users"
       >
         <ModuleTableLayout
           {...moduleConfig}

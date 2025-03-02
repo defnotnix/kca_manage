@@ -53,7 +53,7 @@ export function LayouAdmin({ children }: PropsWithChildren) {
                 <UserCheck size={16} />
               </Button>
             </Tooltip>
-            <Tooltip {...tooltipStyles} label="New Student">
+            <Tooltip {...tooltipStyles} label="Take Perforrmance Measure">
               <Button variant="light" bg="rgba(255,255,255,.15)" c="gray.0">
                 <UserPlus size={16} />
               </Button>

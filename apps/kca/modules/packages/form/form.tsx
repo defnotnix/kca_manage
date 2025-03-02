@@ -78,13 +78,27 @@ export function _Form() {
               {...form.getInputProps("name")}
             />
 
-            <TextInput
-              label="Package Description"
-              description="Enter Member ID"
-              placeholder="e.g. XXXXXX"
-              required
-              {...form.getInputProps("member_id")}
-            />
+            <SimpleGrid cols={2}>
+              <NumberInput
+                hideControls
+                label="Months"
+                description="Full legal name of the student or student organization. "
+                placeholder="Enter full name"
+                required
+                rightSectionWidth={100}
+                rightSection={<Text size="xs">Months</Text>}
+                {...form.getInputProps("month")}
+              />
+              <NumberInput
+                hideControls
+                leftSection={<Text size="xs">Rs.</Text>}
+                label="Price"
+                description="Full legal name of the student or student organization. "
+                placeholder="Enter full name"
+                required
+                {...form.getInputProps("price")}
+              />
+            </SimpleGrid>
 
             <FormElement.SectionTitle
               title="Package Particulars"
@@ -94,7 +108,7 @@ export function _Form() {
                   size="xs"
                   leftSection={<Plus />}
                   onClick={() => {
-                    form.insertListItem("items", {});
+                    form.insertListItem("specification", {});
                   }}
                 >
                   Add
@@ -102,7 +116,7 @@ export function _Form() {
               }
             />
 
-            {form.getValues()?.items.length > 0 ? (
+            {form.getValues()?.specification.length > 0 ? (
               <>
                 <SimpleGrid cols={2}>
                   <div>
@@ -119,84 +133,14 @@ export function _Form() {
                   </div>
                 </SimpleGrid>
 
-                {form.getValues()?.items.map((iteminfo: any, index: number) => (
-                  <SimpleGrid cols={2} spacing="xs">
-                    <TextInput
-                      placeholder="Item/Service"
-                      required
-                      {...form.getInputProps(`items.${index}.name`)}
-                    />
-                    <NumberInput
-                      leftSection={<Text size="xs">Rs.</Text>}
-                      min={0}
-                      placeholder="Price"
-                      required
-                      rightSection={
-                        <ActionIcon
-                          onClick={() => form.removeListItem("items", index)}
-                          color="red"
-                          variant="light"
-                        >
-                          <Trash />
-                        </ActionIcon>
-                      }
-                      {...form.getInputProps(`items.${index}.price`)}
-                    />
-                  </SimpleGrid>
-                ))}
-              </>
-            ) : (
-              <>
-                <Text size="xs" opacity={0.5} my="md">
-                  Add items/services to this package to make this useful.
-                </Text>
-              </>
-            )}
-
-            <FormElement.SectionTitle
-              title="Package Price Lists"
-              description="Discounts for special packages."
-              actionButton={
-                <Button
-                  size="xs"
-                  leftSection={<Plus />}
-                  onClick={() => {
-                    form.insertListItem("pricelist", {});
-                  }}
-                >
-                  Add
-                </Button>
-              }
-            />
-
-            {form.getValues()?.pricelist.length > 0 ? (
-              <>
-                <SimpleGrid cols={2}>
-                  <div>
-                    <Text size="xs">Month</Text>
-                    <Text size="xs" opacity={0.5}>
-                      e.g. Admission, Service
-                    </Text>
-                  </div>
-                  <div>
-                    <Text size="xs">Price</Text>
-                    <Text size="xs" opacity={0.5}>
-                      Monthly Price
-                    </Text>
-                  </div>
-                </SimpleGrid>
-
                 {form
                   .getValues()
-                  ?.pricelist.map((iteminfo: any, index: number) => (
-                    <SimpleGrid cols={2} spacing="xs">
-                      <NumberInput
-                        min={0}
-                        placeholder="Months"
+                  ?.specification.map((iteminfo: any, index: number) => (
+                    <SimpleGrid cols={2} spacing="xs" key={index}>
+                      <TextInput
+                        placeholder="Item/Service"
                         required
-                        rightSectionWidth={64}
-                        rightSection={<Text size="xs">month/s</Text>}
-                        {...form.getInputProps(`pricelist.${index}.month`)}
+                        {...form.getInputProps(`specification.${index}.name`)}
                       />
                       <NumberInput
                         leftSection={<Text size="xs">Rs.</Text>}
@@ -206,7 +150,7 @@ export function _Form() {
                         rightSection={
                           <ActionIcon
                             onClick={() =>
-                              form.removeListItem("pricelist", index)
+                              form.removeListItem("specification", index)
                             }
                             color="red"
                             variant="light"
@@ -214,7 +158,7 @@ export function _Form() {
                             <Trash />
                           </ActionIcon>
                         }
-                        {...form.getInputProps(`pricelist.${index}.price`)}
+                        {...form.getInputProps(`specification.${index}.price`)}
                       />
                     </SimpleGrid>
                   ))}
@@ -222,7 +166,8 @@ export function _Form() {
             ) : (
               <>
                 <Text size="xs" opacity={0.5} my="md">
-                  Add items/services to this package to make this useful.
+                  Add specification/services to this package to make this
+                  useful.
                 </Text>
               </>
             )}

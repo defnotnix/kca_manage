@@ -47,6 +47,11 @@ export const navItems: PropAdminNavItems[] = [
     value: "/sessions",
   },
   {
+    label: "Teams",
+    icon: Users,
+    value: "/teams",
+  },
+  {
     label: "Tournaments",
     icon: Cricket,
     value: "/tournaments",

@@ -11,11 +11,10 @@ export const moduleConfig: PropModuleConfig = {
     },
   ],
   moduleKey: "vauth.users".split("."),
-  endpoint: "/users",
+  endpoint: "/players/packages/",
   //
   moduleTerm: "Package",
   moduleTermPlural: "Packages",
   moduleName: "Package",
-  moduleDescription:
-    "Manage all player-packages & their pricings.",
+  moduleDescription: "Manage all player-packages & their pricings.",
 };
