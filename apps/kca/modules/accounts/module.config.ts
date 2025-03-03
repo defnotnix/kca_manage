@@ -10,8 +10,8 @@ export const moduleConfig: PropModuleConfig = {
       label: "Accounts",
     },
   ],
-  moduleKey: "vauth.users".split("."),
-  endpoint: "/users",
+  moduleKey: "kca.accounts".split("."),
+  endpoint: "/authenticate/users/",
   //
   moduleTerm: "Accounts",
   moduleTermPlural: "Accounts",

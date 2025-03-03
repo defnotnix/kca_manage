@@ -42,6 +42,8 @@ import classes from "./form.module.css";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useDebouncedState } from "@mantine/hooks";
 
+import { getRecords as getPlayers } from "@/modules/players/module.api";
+
 // Assuming you have these defined elsewhere
 
 const gradingChoice = ["A+", "A", "B", "C", "C-"];
@@ -66,98 +68,12 @@ export function _Form() {
 
   // * PRELOADING
 
-  const querySessions = useQuery({
+  const queryStudents = useQuery({
     queryKey: ["config", "sessions"], // query key
     queryFn: async () => {
-      // query function
-      const res = [
-        {
-          id: 1,
-          name: "Morning Fitness",
-          description: "A high-energy morning workout to kickstart your day.",
-          start: "06:00",
-          end: "07:00",
-          coach: "Aarav Sharma",
-          children: [
-            {
-              name: "Aniel Gurung",
-              email: "xyz@gmail.com",
-              phone: "1234567890",
-              gender: "male",
-              dob: "2023-01-01T00:00:00.000Z",
-              image:
-                "https://i.pinimg.com/736x/69/18/92/691892011b12bbc110cf5fd35eb356a2.jpg",
-              memberid: "M11033",
-            },
-            {
-              name: "Aniel Gurung",
-              email: "xyz@gmail.com",
-              phone: "1234567890",
-              gender: "male",
-              dob: "2023-01-01T00:00:00.000Z",
-              image:
-                "https://i.pinimg.com/736x/69/18/92/691892011b12bbc110cf5fd35eb356a2.jpg",
-              memberid: "M11033",
-            },
-
-            {
-              name: "Aniel Gurung",
-              email: "xyz@gmail.com",
-              phone: "1234567890",
-              gender: "male",
-              dob: "2023-01-01T00:00:00.000Z",
-              image:
-                "https://i.pinimg.com/736x/69/18/92/691892011b12bbc110cf5fd35eb356a2.jpg",
-              memberid: "M11033",
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: "Strength Training",
-          description:
-            "Focus on building muscle strength with weight training.",
-          start: "07:00",
-          end: "08:00",
-          coach: "Bikash Thapa",
-        },
-        {
-          id: 3,
-          name: "Cardio Blast",
-          description:
-            "An intense cardio session designed for endurance and stamina.",
-          start: "08:30",
-          end: "09:30",
-          coach: "Ramesh Karki",
-        },
-        {
-          id: 4,
-          name: "Yoga & Mindfulness",
-          description:
-            "A relaxing yoga session to improve flexibility and reduce stress.",
-          start: "10:00",
-          end: "11:00",
-          coach: "Sita Maharjan",
-        },
-        {
-          id: 5,
-          name: "Evening HIIT",
-          description:
-            "A high-intensity interval training (HIIT) workout for fat burning.",
-          start: "17:00",
-          end: "18:00",
-          coach: "Prakash Gurung",
-        },
-        {
-          id: 6,
-          name: "Sports Conditioning",
-          description:
-            "Agility, strength, and endurance training for athletes.",
-          start: "18:30",
-          end: "19:30",
-          coach: "Raju Magar",
-        },
-      ];
+      const res = getPlayers({
+        endpoint: "/players/info/",
+      });
 
       return res;
     },
@@ -190,26 +106,25 @@ export function _Form() {
               />
 
               <SimpleGrid spacing="xs" cols={3}>
-                {querySessions.data
-                  ?.filter((e) => {
+                {queryStudents.data
+                  ?.filter((e: any) => {
                     return e.name.toLowerCase().includes(search.toLowerCase());
                   })
-                  .map((sessiondata: any, index: number) => (
+                  .map((playerData: any, index: number) => (
                     <UnstyledButton
                       key={index}
                       onClick={() => {
-                        form.setFieldValue("session", sessiondata.id);
-                        setStudents(sessiondata?.children || []);
+                        form.setFieldValue("player", playerData.id);
                         handleStepNext();
                       }}
                     >
                       <Paper withBorder p="md" className={classes.optioncard}>
                         <Text size="xs" opacity={0.5}>
-                          Morning Sessions - S2
+                          {playerData.sessions?.name}
                         </Text>
-                        <Text size="md">{sessiondata.coach}</Text>
+                        <Text size="md">{playerData.name}</Text>
                         <Text size="xs" c="brand.5">
-                          M123456
+                          {playerData.member_id}
                         </Text>
                       </Paper>
                     </UnstyledButton>
@@ -234,37 +149,31 @@ export function _Form() {
                 />
               </Paper>
 
-              {/* Batting Fields */}
               <Paper withBorder>
                 <Stack gap={0}>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Batting Grip</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Stance</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Bat Lift</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Weight Transfer</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Judgement</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Shot Selection</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Execution</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
+                  {[
+                    "batting_grip",
+                    "stance",
+                    "bat_lift",
+                    "weight_transfer",
+                    "judgement",
+                    "shot_selection",
+                    "execution",
+                  ].map((field, index) => (
+                    <Group
+                      wrap="nowrap"
+                      justify="space-between"
+                      py="xs"
+                      px="md"
+                      key={index}
+                    >
+                      <Text size="sm">{field.replace("_", " ")}</Text>
+                      <SegmentedControl
+                        data={gradingChoice}
+                        {...form.getInputProps(field)}
+                      />
+                    </Group>
+                  ))}
                   <Group py="xs" px="md" opacity={0} visibleFrom="lg">
                     <SegmentedControl data={gradingChoice} />
                   </Group>
@@ -277,8 +186,9 @@ export function _Form() {
                 </Stack>
               </Paper>
             </div>
+
+            {/* Bowling Performance */}
             <div>
-              {/* Bowling Performance */}
               <Paper px="lg" py="md" withBorder bg="gray.0">
                 <FormElement.SectionTitle
                   isTopElement
@@ -287,55 +197,40 @@ export function _Form() {
                 />
               </Paper>
 
-              {/* Bowling Fields */}
               <Paper withBorder>
                 <Stack gap={0}>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Bowling Grip</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Run-up</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Loading</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Jump</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Landing</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Release</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Accuracy</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Swing</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Turn</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Variation</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
+                  {[
+                    "bowling_grip",
+                    "run_up",
+                    "loading",
+                    "jump",
+                    "landing",
+                    "release",
+                    "accuracy",
+                    "swing",
+                    "turn",
+                    "variation",
+                  ].map((field, index) => (
+                    <Group
+                      wrap="nowrap"
+                      justify="space-between"
+                      py="xs"
+                      px="md"
+                      key={index}
+                    >
+                      <Text size="sm">{field.replace("_", " ")}</Text>
+                      <SegmentedControl
+                        data={gradingChoice}
+                        {...form.getInputProps(field)}
+                      />
+                    </Group>
+                  ))}
                 </Stack>
               </Paper>
             </div>
 
+            {/* Fielding and Catching Performance */}
             <div>
-              {/* Fielding and Catching Performance */}
               <Paper px="lg" py="md" withBorder bg="gray.0">
                 <FormElement.SectionTitle
                   isTopElement
@@ -344,43 +239,37 @@ export function _Form() {
                 />
               </Paper>
 
-              {/* Fielding Fields */}
               <Paper withBorder>
                 <Stack gap={0}>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Ground Fielding</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Technique</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Collection</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Throwing</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Catching Technique</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Ball Judgement</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Throwing Technique</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
+                  {[
+                    "ground_fielding",
+                    "technique",
+                    "collection",
+                    "throwing",
+                    "catching_technique",
+                    "ball_judgement",
+                    "throwing_technique",
+                  ].map((field, index) => (
+                    <Group
+                      wrap="nowrap"
+                      justify="space-between"
+                      py="xs"
+                      px="md"
+                      key={index}
+                    >
+                      <Text size="sm">{field.replace("_", " ")}</Text>
+                      <SegmentedControl
+                        data={gradingChoice}
+                        {...form.getInputProps(field)}
+                      />
+                    </Group>
+                  ))}
                 </Stack>
               </Paper>
             </div>
 
+            {/* Performance and Mentality */}
             <div>
-              {/* Performance and Mentality */}
               <Paper px="lg" py="md" withBorder bg="gray.0">
                 <FormElement.SectionTitle
                   isTopElement
@@ -389,33 +278,30 @@ export function _Form() {
                 />
               </Paper>
 
-              {/* Performance and Mentality Fields */}
               <Paper withBorder>
                 <Stack gap={0}>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Strength</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Mental</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Physical</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Team Player</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Discipline</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
-                  <Group wrap="nowrap" justify="space-between" py="xs" px="md">
-                    <Text size="sm">Learning</Text>
-                    <SegmentedControl data={gradingChoice} />
-                  </Group>
+                  {[
+                    "strength",
+                    "mental",
+                    "physical",
+                    "team_player",
+                    "discipline",
+                    "learning",
+                  ].map((field, index) => (
+                    <Group
+                      wrap="nowrap"
+                      justify="space-between"
+                      py="xs"
+                      px="md"
+                      key={index}
+                    >
+                      <Text size="sm">{field.replace("_", " ")}</Text>
+                      <SegmentedControl
+                        data={gradingChoice}
+                        {...form.getInputProps(field)}
+                      />
+                    </Group>
+                  ))}
                   <Group py="xs" px="md" opacity={0} visibleFrom="lg">
                     <SegmentedControl data={gradingChoice} />
                   </Group>
@@ -423,12 +309,16 @@ export function _Form() {
               </Paper>
             </div>
           </SimpleGrid>
-          {/* Overall */}
+
+          {/* Overall Performance */}
           <Paper withBorder>
             <Stack gap={0}>
               <Group wrap="nowrap" justify="space-between" py="xs" px="md">
                 <Text size="sm">Overall Performance</Text>
-                <SegmentedControl data={gradingChoice} />
+                <SegmentedControl
+                  data={gradingChoice}
+                  {...form.getInputProps("overall_performance")}
+                />
               </Group>
             </Stack>
           </Paper>
@@ -440,6 +330,7 @@ export function _Form() {
               label="Coach Remarks"
               description="Add any remarks or comments about the player."
               placeholder="Enter any remarks..."
+              {...form.getInputProps("remarks")}
             />
           </Paper>
         </>

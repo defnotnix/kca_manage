@@ -11,7 +11,9 @@ import {
   Button,
   Divider,
   Group,
+  Menu,
   Paper,
+  SimpleGrid,
   Space,
   Text,
 } from "@mantine/core";
@@ -35,18 +37,32 @@ import {
   CaretRight,
   DotsThreeVertical,
   House,
+  IdentificationBadge,
   PlugsConnected,
   Plus,
   Star,
 } from "@phosphor-icons/react";
 import { moduleConfig } from "../../module.config";
+import { StatCard } from "@/components/StatCard";
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 
 export function _List() {
   // * DEFINITIONS
 
+  const Router = useRouter();
+
   // * CONTEXT
 
   // * STATE
+
+  const queryPlayerData = useQuery({
+    queryKey: ["player", "playerData"],
+    queryFn: async () => {
+      return {};
+    },
+    initialData: {},
+  });
 
   // * FUNCTIONS
 
@@ -80,6 +96,48 @@ export function _List() {
                 return {};
             }
           }}
+          // * EXTRA ACTIONS
+          extraActions={({ row }: { row: any }) => (
+            <>
+              <Menu.Item
+                onClick={() => {
+                  Router.push(`/players/${row.id}`);
+                }}
+                leftSection={<IdentificationBadge />}
+              >
+                Player Profile
+              </Menu.Item>
+            </>
+          )}
+          contentPreTable={
+            <SimpleGrid cols={4} px="md" mb="md" spacing="xs">
+              <StatCard
+                title="Total Players"
+                icon={Star}
+                value="100"
+                description="Total number of players"
+              />
+              <StatCard
+                title="Active Players"
+                icon={Star}
+                value="100"
+                shortValue="23% of Total"
+                description="Players currently active"
+              />
+              <StatCard
+                title="Due Payment"
+                icon={Star}
+                value="100"
+                description="Total number of players"
+              />
+              <StatCard
+                title="Payment Overdue"
+                icon={Star}
+                value="100"
+                description="Total number of players"
+              />
+            </SimpleGrid>
+          }
         />
       </ListHandler>
     </>

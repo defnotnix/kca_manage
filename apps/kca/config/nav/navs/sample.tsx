@@ -39,7 +39,7 @@ export const navItems: PropAdminNavItems[] = [
   {
     label: "Packages",
     icon: Package,
-    value: "/package",
+    value: "/packages",
   },
   {
     label: "Sessions",

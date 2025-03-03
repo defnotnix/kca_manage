@@ -22,11 +22,9 @@ export const formProps: any = {
 
     return {
       ...formdata,
-      ...(formdata.image instanceof File ? { image: formdata.image } : {}),
-      // * FIXINGS
-      doe: _(formdata?.doe).format("YYYY-MM-DD"),
-      dob: _(formdata?.dob).format("YYYY-MM-DD"),
-      decided_date: _(formdata?.decided_date).format("YYYY-MM-DD"),
+      is_admin: formdata?.type === "Superadmin",
+      is_staff: formdata?.type === "Staff",
+      is_coach: formdata?.type === "Coach",
     };
   },
   submitFormData: true,

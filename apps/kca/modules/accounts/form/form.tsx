@@ -104,29 +104,20 @@ export function _Form() {
 
           <SimpleGrid cols={2} spacing="xs">
             <TextInput
-              label="Contact Number"
-              description="Enter the user's phone number."
-              placeholder="Enter contact number"
-              required
-              {...form.getInputProps("contact")}
-            />
-            <TextInput
               label="Email Address"
               description="Enter the user's email address."
               placeholder="Enter email address"
               required
               {...form.getInputProps("email")}
             />
+
             <Select
               label="Staff Category"
               description="Select the user's role or employment status."
               placeholder="Select category"
-              data={[
-                { value: "active", label: "Active" },
-                { value: "inactive", label: "Inactive" },
-              ]}
+              data={["Staff", "Coach", "Superadmin"]}
               required
-              {...form.getInputProps("status")}
+              {...form.getInputProps("type")}
             />
           </SimpleGrid>
         </Stack>

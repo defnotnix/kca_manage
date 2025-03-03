@@ -8,41 +8,78 @@ export const columns = [
     render: (record: any) => (
       <Group wrap="nowrap">
         <Avatar size="md" src={record.image} />
-        <Text size="xs">{record.name}</Text>
+        <div>
+          <Text size="sm" fw={600}>
+            {record.name}
+          </Text>
+          <Text size="xs" opacity={0.5}>
+            {record.member_id} | Enrolled on {record.doe}
+          </Text>
+        </div>
       </Group>
     ),
     sortable: true,
   },
-  {
-    accessor: "member_id",
-    title: "Member ID",
-    sortable: true,
-  },
+
   {
     accessor: "dob",
-    title: "Date of Birth",
+    title: "Payment Status",
     sortable: true,
+    render: (record: any) => {
+      return (
+        <>
+          <Badge color="teal" variant="dot" size="md">
+            PAID & ACTIVE
+          </Badge>
+          <Text size="10px" opacity={0.5} ml={22} mt="4px">
+            Next Due in 16 days
+          </Text>
+        </>
+      );
+    },
   },
   {
     accessor: "gender",
     title: "Gender",
-    render: (record: any) => <Text size="xs">{record.gender}</Text>,
+    render: (record: any) => (
+      <Badge
+        size="sm"
+        variant="light"
+        color={
+          record?.gender == "M"
+            ? "brand"
+            : record?.gender == "F"
+              ? "pink"
+              : "orange"
+        }
+      >
+        {record?.gender == "M"
+          ? "Male"
+          : record?.gender == "F"
+            ? "Female"
+            : "Other"}
+      </Badge>
+    ),
     sortable: true,
   },
   {
     accessor: "contact",
-    title: "Contact",
+    title: "Contact Details",
+    render: (record: any) => (
+      <Text size="xs">
+        <b>{record?.contact}</b> <br /> {record?.email}
+      </Text>
+    ),
     sortable: true,
   },
+
   {
-    accessor: "email",
-    title: "Email",
+    accessor: "team",
+    title: "Team",
     sortable: true,
-  },
-  {
-    accessor: "assigned_team",
-    title: "Assigned Team",
-    sortable: true,
+    render: (record: any) => (
+      <Text size="xs">{record?.team?.name} - Team Captain</Text>
+    ),
   },
   {
     accessor: "package",
@@ -54,40 +91,10 @@ export const columns = [
     accessor: "level_exp",
     title: "Experience Level",
     sortable: true,
-  },
-  {
-    accessor: "time_for_training",
-    title: "Training Time",
-    sortable: true,
-  },
-  {
-    accessor: "membership",
-    title: "Membership",
-    sortable: true,
-  },
-  {
-    accessor: "parent_name",
-    title: "Parent Name",
-    sortable: true,
-  },
-  {
-    accessor: "primary_contact",
-    title: "Parent Contact",
-    sortable: true,
-  },
-  {
-    accessor: "emergency_contact",
-    title: "Emergency Contact",
-    sortable: true,
-  },
-  {
-    accessor: "doe",
-    title: "Enrollment Date",
-    sortable: true,
-  },
-  {
-    accessor: "decided_rate",
-    title: "Decided Rate",
-    sortable: true,
+    render: (record: any) => (
+      <Badge size="sm" color="teal">
+        {record?.level_exp}
+      </Badge>
+    ),
   },
 ];

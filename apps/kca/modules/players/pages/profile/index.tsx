@@ -44,6 +44,9 @@ import { _FormAchievement } from "../../form/achievement/form";
 import { useDisclosure } from "@mantine/hooks";
 import { formPropsAchievement } from "../../form/achievement/form.config";
 import { FormHandler } from "@vframework/core";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { getSingleRecord } from "../../module.api";
 
 //icons
 
@@ -64,77 +67,10 @@ const bread = [
   },
 ];
 
-const studentData = {
-  image: "https://example.com/images/member123.jpg",
-  name: "Rajan Shrestha",
-  member_id: "CA2025001",
-  gender: "Male",
-  permanent_address: "Baneshwor, Kathmandu",
-  temp_address: "Lalitpur, Nepal",
-  contact: "9841234567",
-  email: "rajan.shrestha@example.com",
-  parent_name: "Suresh Shrestha",
-  relation: "Father",
-  primary_contact: "9847654321",
-  secondary_contact: "9812345678",
-  emergency_contact: "9801122334",
-  doe: "2025-02-28",
-  assigned_team: "U-19 Academy Squad",
-  training_schedule: "Mon, Wed, Fri (7 AM - 9 AM)",
-  package: "Advanced Training",
-  decided_rate: "Rs. 5000/month",
-  decided_date: "2025-02-20",
-  decided_by: "Coach Binod",
-  reason: "Potential talent for professional cricket",
-  remarks: "Fast bowler with good line and length",
-  fav_player: "Virat Kohli",
-  fav_team: "Nepal National Team",
-  equipment_required: "Cricket Bat, Pads, Gloves",
-  jersey: "Medium",
-  preferred_package: "Professional Cricket Training",
-  experience: "Played in school tournaments and local leagues",
-  attendances: [
-    {
-      date: "2025-02-20",
-      time: "10:00 AM",
-      status: "Present",
-    },
-    {
-      date: "2025-02-20",
-      time: "10:00 AM",
-      status: "Present",
-    },
-    {
-      date: "2025-02-21",
-      time: "11:00 AM",
-      status: "Absent",
-    },
-  ],
-
-  achivements: [
-    {
-      title: "Achievement 1",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      date: "2025-02-20",
-    },
-    {
-      title: "Achievement 2",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      date: "2025-02-20",
-    },
-    {
-      title: "Achievement 3",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      date: "2025-02-20",
-    },
-  ],
-};
-
 export function _Profile() {
   // * DEFINITIONS
+
+  const Params = useParams();
 
   const [openFormModalAchievement, handlersFormModalAchievement] =
     useDisclosure(false);
@@ -144,6 +80,19 @@ export function _Profile() {
   // * STATE
 
   // * FUNCTIONS
+
+  const queryPlayerData = useQuery({
+    queryKey: ["player", "playerData"],
+    queryFn: async () => {
+      const res = await getSingleRecord(Params.id);
+      console.log(res);
+      return {
+        ...res,
+        package: String(res?.package),
+        sessions: String(res?.sessions),
+      };
+    },
+  });
 
   // * COMPONENTS
 
@@ -196,7 +145,7 @@ export function _Profile() {
               />
               <div>
                 <Text size="xl" fw={600}>
-                  {studentData.name}
+                  {queryPlayerData?.data?.name}
                 </Text>
 
                 <Group gap="xs">
@@ -204,7 +153,7 @@ export function _Profile() {
                     Active
                   </Badge>
                   <Text size="xs" opacity={0.5}>
-                    {studentData.member_id}
+                    {queryPlayerData?.data?.member_id}
                   </Text>
                 </Group>
               </div>
@@ -220,14 +169,6 @@ export function _Profile() {
               </Button>
 
               <Divider orientation="vertical" />
-              <Button
-                leftSection={<Trash size={12} />}
-                variant="light"
-                size="xs"
-                color="red"
-              >
-                Delete Record
-              </Button>
 
               <Button leftSection={<Pen size={12} />} size="xs">
                 Edit Details
@@ -255,117 +196,125 @@ export function _Profile() {
                 <Text w={150} opacity={0.5} size="xs">
                   Member ID
                 </Text>
-                <Text size="sm">{studentData.member_id}</Text>
+                <Text size="sm">{queryPlayerData?.data?.member_id}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Gender
                 </Text>
-                <Text size="sm">{studentData.gender}</Text>
+                <Text size="sm">{queryPlayerData?.data?.gender}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Permanent Address
                 </Text>
-                <Text size="sm">{studentData.permanent_address}</Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.permanent_address}
+                </Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Temporary Address
                 </Text>
-                <Text size="sm">{studentData.temp_address}</Text>
+                <Text size="sm">{queryPlayerData?.data?.temp_address}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Primary Contact
                 </Text>
-                <Text size="sm">{studentData.contact}</Text>
+                <Text size="sm">{queryPlayerData?.data?.contact}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Email
                 </Text>
-                <Text size="sm">{studentData.email}</Text>
+                <Text size="sm">{queryPlayerData?.data?.email}</Text>
               </Group>
 
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Parent's Name
                 </Text>
-                <Text size="sm">{studentData.parent_name}</Text>
+                <Text size="sm">{queryPlayerData?.data?.parent_name}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Relation
                 </Text>
-                <Text size="sm">{studentData.relation}</Text>
+                <Text size="sm">{queryPlayerData?.data?.relation}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Primary Contact
                 </Text>
-                <Text size="sm">{studentData.primary_contact}</Text>
+                <Text size="sm">{queryPlayerData?.data?.primary_contact}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Secondary Contact
                 </Text>
-                <Text size="sm">{studentData.secondary_contact}</Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.secondary_contact}
+                </Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Emergency Contact
                 </Text>
-                <Text size="sm">{studentData.emergency_contact}</Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.emergency_contact}
+                </Text>
               </Group>
 
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Enrollment Date
                 </Text>
-                <Text size="sm">{studentData.doe}</Text>
+                <Text size="sm">{queryPlayerData?.data?.doe}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Team
                 </Text>
-                <Text size="sm">{studentData.assigned_team}</Text>
+                <Text size="sm">{queryPlayerData?.data?.assigned_team}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Training Schedule
                 </Text>
-                <Text size="sm">{studentData.training_schedule}</Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.training_schedule}
+                </Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Package
                 </Text>
-                <Text size="sm">{studentData.package}</Text>
+                <Text size="sm">{queryPlayerData?.data?.package}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Decided Rate/Month
                 </Text>
-                <Text size="sm">{studentData.decided_rate}</Text>
+                <Text size="sm">{queryPlayerData?.data?.decided_rate}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Decided Date
                 </Text>
-                <Text size="sm">{studentData.decided_date}</Text>
+                <Text size="sm">{queryPlayerData?.data?.decided_date}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Decided By
                 </Text>
-                <Text size="sm">{studentData.decided_by}</Text>
+                <Text size="sm">{queryPlayerData?.data?.decided_by}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Reason
                 </Text>
-                <Text size="sm">{studentData.reason}</Text>
+                <Text size="sm">{queryPlayerData?.data?.reason}</Text>
               </Group>
             </SimpleGrid>
           </Spoiler>
@@ -400,7 +349,7 @@ export function _Profile() {
                     </Button>
                   </Group>
                 </Box>
-                {studentData.achivements.map(
+                {queryPlayerData?.data?.achivements.map(
                   (achivement: any, index: number) => (
                     <div key={index}>
                       <Paper radius={0} px="md" py="xs">
@@ -416,7 +365,8 @@ export function _Profile() {
                           </Group>
                         </SimpleGrid>
                       </Paper>
-                      {index !== studentData?.achivements?.length - 1 && (
+                      {index !==
+                        queryPlayerData?.data?.achivements?.length - 1 && (
                         <Divider />
                       )}
                     </div>
@@ -435,7 +385,7 @@ export function _Profile() {
                     </div>
                   </Group>
                 </Box>
-                {studentData.achivements.map(
+                {queryPlayerData?.data?.achivements.map(
                   (achivement: any, index: number) => (
                     <div key={index}>
                       <Paper radius={0} px="md" py="xs">
@@ -451,7 +401,8 @@ export function _Profile() {
                           </Group>
                         </SimpleGrid>
                       </Paper>
-                      {index !== studentData?.achivements?.length - 1 && (
+                      {index !==
+                        queryPlayerData?.data?.achivements?.length - 1 && (
                         <Divider />
                       )}
                     </div>
@@ -506,18 +457,9 @@ export function _Profile() {
                         Performance Logs
                       </Text>
                     </div>
-                    <Button
-                      size="xs"
-                      leftSection={<Plus />}
-                      variant="outline"
-                      color="gray"
-                      bg="white"
-                    >
-                      New Record
-                    </Button>
                   </Group>
                 </Box>
-                {studentData.achivements.map(
+                {queryPlayerData?.data?.achivements.map(
                   (achivement: any, index: number) => (
                     <div key={index}>
                       <Paper radius={0} px="md" py="xs">
@@ -528,7 +470,8 @@ export function _Profile() {
                           </ActionIcon>
                         </Group>
                       </Paper>
-                      {index !== studentData?.achivements?.length - 1 && (
+                      {index !==
+                        queryPlayerData?.data?.achivements?.length - 1 && (
                         <Divider />
                       )}
                     </div>

@@ -1,8 +1,40 @@
 import _ from "moment";
 
 export const formProps: any = {
-  initial: {},
-
+  initial: {
+    batting_grip: "A",
+    stance: "A",
+    bat_lift: "A",
+    weight_transfer: "A",
+    judgement: "A",
+    shot_selection: "A",
+    execution: "A",
+    bowling_grip: "A",
+    run_up: "A",
+    loading: "A",
+    jump: "A",
+    landing: "A",
+    release: "A",
+    accuracy: "A",
+    swing: "A",
+    turn: "A",
+    variation: "A",
+    ground_fielding: "A",
+    technique: "A",
+    collection: "A",
+    throwing: "A",
+    catching_technique: "A",
+    ball_judgement: "A",
+    throwing_technique: "A",
+    strength: "A",
+    mental: "A",
+    physical: "A",
+    team_player: "A",
+    discipline: "A",
+    learning: "A",
+    overall_performance: "A",
+    coach_remarks: "",
+  },
   // > STEPS
   steps: ["Select Session", "Student Attendance"],
   stepType: "general",
@@ -14,20 +46,9 @@ export const formProps: any = {
 
   // > SUBMIT
   transformDataOnSubmit: (formdata: any) => {
-    const { image, ...res } = formdata;
-
-    console.log(formdata);
-
-    return {
-      ...formdata,
-      ...(formdata.image instanceof File ? { image: formdata.image } : {}),
-      // * FIXINGS
-      doe: _(formdata?.doe).format("YYYY-MM-DD"),
-      dob: _(formdata?.dob).format("YYYY-MM-DD"),
-      decided_date: _(formdata?.decided_date).format("YYYY-MM-DD"),
-    };
+    return formdata;
   },
-  submitFormData: true,
+  submitFormData: false,
 
   // > API
 

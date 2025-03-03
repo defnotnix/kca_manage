@@ -51,7 +51,7 @@ import { apiLogin } from "./auth.api";
 //components
 
 export const configModule = {
-  successRedirect: "/admin/company",
+  successRedirect: "/dashboard",
 };
 
 export function ModuleAuth() {
@@ -91,7 +91,7 @@ export function ModuleAuth() {
       return apiLogin(form.values);
     },
     onSuccess: (res) => {
-      sessionStorage.setItem("sswtoken", res?.data?.access_token || "");
+      sessionStorage.setItem("kcatoken", res?.data?.access_token || "");
 
       if (form.values.remember) {
         handleRememberMe();

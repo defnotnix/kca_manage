@@ -4,7 +4,7 @@ const endpoint = "/authenticate/login/";
 
 export async function apiLogin(body: { username: string; password: string }) {
   return await apiDispatch.post({
-    url: "/authenticate/login/",
+    endpoint: endpoint,
     body,
   });
 }
