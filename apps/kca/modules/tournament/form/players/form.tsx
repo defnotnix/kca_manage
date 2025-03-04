@@ -42,7 +42,7 @@ import { Plus, Trash, Warning } from "@phosphor-icons/react";
 import { Form } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { getRecords as getAllPlayers } from "@/modules/players/module.api";
-import { createRecord, getRecords } from "./form.api";
+import { createRecord, deleteRecord, getRecords } from "./form.api";
 
 // Assuming you have these defined elsewhere
 
@@ -73,7 +73,7 @@ export function _FormPlayer({ active }: any) {
       const res = await getRecords({
         endpoint: "/players/tournament/players/",
         params: {
-          tournament: active.id,
+          tournament_id: active.id,
         },
       });
       console.log(res);
@@ -95,6 +95,7 @@ export function _FormPlayer({ active }: any) {
       return res;
     },
     onSuccess: (res: any, id: any) => {
+      queryDataPlayers.refetch();
       triggerNotification.form.isSuccess({});
       queryData.refetch();
     },
@@ -106,10 +107,11 @@ export function _FormPlayer({ active }: any) {
   const mutationSubmit = useMutation({
     mutationFn: async (delId) => {
       triggerNotification.form.isLoading({});
-      const res = {};
+      const res = await deleteRecord(delId);
       return res;
     },
     onSuccess: (res: any, delId: any) => {
+      queryDataPlayers.refetch();
       triggerNotification.form.isSuccess({});
       queryData.refetch();
     },
@@ -190,6 +192,9 @@ export function _FormPlayer({ active }: any) {
             return {
               value: String(playerinfo.id),
               label: `${playerinfo.name} (${playerinfo.member_id})`,
+              disabled: queryDataPlayers?.data?.find(
+                (iteminfo: any) => iteminfo.player?.id === playerinfo.id
+              )?.player?.id,
             };
           })}
           placeholder="Select student to add"
@@ -198,45 +203,43 @@ export function _FormPlayer({ active }: any) {
           }}
         />
 
-        {queryDataPlayers?.data?.players?.length > 0 ? (
+        {queryDataPlayers?.data?.length > 0 ? (
           <>
             <SimpleGrid cols={3} spacing="xs">
-              {queryDataPlayers?.data?.players.map(
-                (iteminfo: any, index: number) => (
-                  <Paper
-                    key={index}
-                    withBorder
-                    pos="relative"
-                    className={classes.playercard}
+              {queryDataPlayers?.data.map((iteminfo: any, index: number) => (
+                <Paper
+                  key={index}
+                  withBorder
+                  pos="relative"
+                  className={classes.playercard}
+                >
+                  <ActionIcon
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                    }}
+                    variant="filled"
+                    color="red"
+                    onClick={() => {
+                      handleDelete(iteminfo.id);
+                    }}
                   >
-                    <ActionIcon
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        right: 0,
-                      }}
-                      variant="filled"
-                      color="red"
-                      onClick={() => {
-                        handleDelete(iteminfo.id);
-                      }}
-                    >
-                      <Trash />
-                    </ActionIcon>
+                    <Trash />
+                  </ActionIcon>
 
-                    <Paper bg="brand.0">
-                      <Image h={160} src={iteminfo.image} />
-                    </Paper>
-
-                    <Box p="md">
-                      <Text size="md">{iteminfo.name}</Text>
-                      <Text size="xs" opacity={0.5}>
-                        Student ID : {iteminfo.memberid}
-                      </Text>
-                    </Box>
+                  <Paper bg="brand.0">
+                    <Image h={160} src={iteminfo.player?.image} />
                   </Paper>
-                )
-              )}
+
+                  <Box p="md">
+                    <Text size="md">{iteminfo.player?.name}</Text>
+                    <Text size="xs" opacity={0.5}>
+                      Student ID : {iteminfo.player?.member_id}
+                    </Text>
+                  </Box>
+                </Paper>
+              ))}
             </SimpleGrid>
           </>
         ) : (

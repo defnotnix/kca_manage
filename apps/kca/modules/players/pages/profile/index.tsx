@@ -349,7 +349,7 @@ export function _Profile() {
                     </Button>
                   </Group>
                 </Box>
-                {queryPlayerData?.data?.achivements.map(
+                {queryPlayerData?.data?.achivements?.map(
                   (achivement: any, index: number) => (
                     <div key={index}>
                       <Paper radius={0} px="md" py="xs">
@@ -378,14 +378,50 @@ export function _Profile() {
                 <Box p="sm" bg="brand.0">
                   <Group justify="space-between">
                     <div>
-                      <Text size="md">Performance Records</Text>
+                      <Text size="md">Tournament Participations</Text>
+                      <Text size="xs" opacity={0.5}>
+                        Records of student tournament participations
+                      </Text>
+                    </div>
+                  </Group>
+                </Box>
+                {queryPlayerData?.data?.achivements?.map(
+                  (achivement: any, index: number) => (
+                    <div key={index}>
+                      <Paper radius={0} px="md" py="xs">
+                        <SimpleGrid cols={2}>
+                          <Text size="sm" c="dark.9">
+                            {achivement.title}
+                          </Text>
+                          <Group justify="space-between">
+                            <Text size="xs">{achivement.date}</Text>
+                            <ActionIcon size="sm" variant="light">
+                              <DotsThree />
+                            </ActionIcon>
+                          </Group>
+                        </SimpleGrid>
+                      </Paper>
+                      {index !==
+                        queryPlayerData?.data?.achivements?.length - 1 && (
+                        <Divider />
+                      )}
+                    </div>
+                  )
+                )}
+              </Paper>
+
+              <Paper withBorder>
+                <Box p="sm" bg="brand.0">
+                  <Group justify="space-between">
+                    <div>
+                      <Text size="md">Student Attendance Records</Text>
                       <Text size="xs" opacity={0.5}>
                         Attendance History
                       </Text>
                     </div>
                   </Group>
                 </Box>
-                {queryPlayerData?.data?.achivements.map(
+                {queryPlayerData?.data?.achivements?.map(
                   (achivement: any, index: number) => (
                     <div key={index}>
                       <Paper radius={0} px="md" py="xs">
@@ -459,7 +495,7 @@ export function _Profile() {
                     </div>
                   </Group>
                 </Box>
-                {queryPlayerData?.data?.achivements.map(
+                {queryPlayerData?.data?.achivements?.map(
                   (achivement: any, index: number) => (
                     <div key={index}>
                       <Paper radius={0} px="md" py="xs">

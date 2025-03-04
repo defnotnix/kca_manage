@@ -3,7 +3,7 @@
 import axios from "axios";
 import { triggerNotification } from "@vframework/ui";
 
-const withCredentials = false;
+const withCredentials = true;
 
 async function handleTokenExpiry() {
   const res = await axios
