@@ -75,7 +75,7 @@ export function ModuleTableLayout({
   onDeleteTrigger = () => {},
   onDeleteSuccess,
   apiEdit = (d) => null,
-  onEditTrigger = () => {},
+  onEditTrigger = (row) => row,
   onEditSuccess,
   //Data
   idAccessor = "id",
@@ -119,6 +119,10 @@ export function ModuleTableLayout({
   modalEdit,
   onModalEditOpen,
   onModalNewOpen,
+  //content
+  contentPreHeader,
+  contentPreTable,
+  contentPostTable,
 }: PropModuleTableLayout) {
   // Create moduleConfig object to maintain compatibility
   const moduleConfig = {
@@ -260,7 +264,8 @@ export function ModuleTableLayout({
   };
 
   // * ACTION COMPONENTS
-  const ActionEdit = ({ row }: any) => {
+
+  const RenderEdit = ({ row }: any) => {
     const form = FormHandler.useForm();
 
     const handleEditOpen = async () => {
@@ -269,16 +274,13 @@ export function ModuleTableLayout({
       setEditLoading(true);
       const _editData = await onEditTrigger(row);
 
-      if (_editData) {
-        form.setValues(_editData);
-      }
+      form.setValues(await _editData);
       setEditLoading(false);
     };
 
     return (
-      <ActionIcon
-        size="sm"
-        variant="subtle"
+      <Menu.Item
+        leftSection={<Pen />}
         onClick={async () => {
           if (hasModalForms) {
             handleEditOpen();
@@ -287,8 +289,8 @@ export function ModuleTableLayout({
           }
         }}
       >
-        <Pen />
-      </ActionIcon>
+        Edit
+      </Menu.Item>
     );
   };
 
@@ -307,14 +309,7 @@ export function ModuleTableLayout({
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item
-              leftSection={<Pen />}
-              onClick={() => {
-                Router.push(Pathname + "/" + row.id);
-              }}
-            >
-              Edit
-            </Menu.Item>
+            <RenderEdit row={row} />
 
             {extraActions && (
               <>
@@ -523,7 +518,7 @@ export function ModuleTableLayout({
           </Group>
         </Paper>
 
-        <Divider mb={!enableTabs ? "md" : 0} />
+        {!contentPreTable && <Divider mb={!enableTabs ? "md" : 0} />}
 
         {enableTabs && (
           <>
@@ -566,6 +561,8 @@ export function ModuleTableLayout({
           </>
         )}
 
+        {contentPreTable}
+
         <Paper radius="md" withBorder h={"calc(100vh - 205px)"} mx="md">
           <DataTable
             //Loading
@@ -576,7 +573,7 @@ export function ModuleTableLayout({
               },
             }}
             //fonts
-            fz="xs"
+            fz="sm"
             fw={500}
             // styling
             highlightOnHover

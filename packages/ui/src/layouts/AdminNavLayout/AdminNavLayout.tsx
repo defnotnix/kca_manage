@@ -28,6 +28,8 @@ export function AdminNavLayout({
   navItems = [],
   //Styles
   classNames = {},
+  //essentials
+  essentials,
   //content
   children,
 }: PropAdminNavLayout) {
@@ -56,6 +58,7 @@ export function AdminNavLayout({
           softwareInfo={softwareInfo}
           navModules={navModules}
           navItems={navItems}
+          essentials={essentials}
         />
         <AppShell.Main
           style={{

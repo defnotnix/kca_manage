@@ -1,7 +1,6 @@
 import { apiDispatch, moduleApiCall } from "@vframework/core";
-import { moduleConfig } from "./module.config";
 
-const endpoint = moduleConfig.endpoint || "";
+const endpoint = "/players/tournament/players/";
 
 export const getRecords = moduleApiCall.getRecords;
 export const getSingleRecord = moduleApiCall.getSingleRecord;

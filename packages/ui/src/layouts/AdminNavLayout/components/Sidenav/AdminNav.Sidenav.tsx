@@ -2,7 +2,7 @@
 
 import React from "react";
 //next
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 //mantine
 import {
   ActionIcon,
@@ -43,12 +43,14 @@ import classesNavLink from "./AdminNav.NavLink.module.css";
 //components
 
 export function _AdminNavLayoutSidenav({
+  essentials,
   softwareInfo,
   navItems,
   navModules = [],
 }: PropAdminNavSideNav) {
   // * DEFINITIONS
 
+  const Router = useRouter();
   const Pathname = usePathname();
 
   // * CONTEXT
@@ -95,6 +97,7 @@ export function _AdminNavLayoutSidenav({
         childrenOffset={26}
         active={Pathname === navMain.value}
         classNames={classesNavLink}
+        href={navMain.value}
       >
         {navMain?.children?.map((navChild: any, index: number) => {
           return (
@@ -106,6 +109,7 @@ export function _AdminNavLayoutSidenav({
               key={index}
               classNames={classesNavLink}
               active={Pathname == navChild.value}
+              href={navChild.value}
             />
           );
         })}
@@ -123,6 +127,7 @@ export function _AdminNavLayoutSidenav({
         overflow: "visible",
         background: "none",
       }}
+      visibleFrom="lg"
     >
       <Box h={180} p="sm">
         <Menu position="right-start" withArrow shadow="md">
@@ -208,6 +213,20 @@ export function _AdminNavLayoutSidenav({
           </Text>
         </div>
       </Box>
+
+      {essentials && (
+        <Text size="xs" opacity={0.3} c="gray.0" px={24}>
+          Quick Nav
+        </Text>
+      )}
+
+      {essentials}
+
+      {essentials && (
+        <Text size="xs" opacity={0.3} c="gray.0" px={24}>
+          Navigation
+        </Text>
+      )}
 
       <ScrollArea p="sm" h="calc(100% - 180px)" pb={150}>
         {renderNavItems}

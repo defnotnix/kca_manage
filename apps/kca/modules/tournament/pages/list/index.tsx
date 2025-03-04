@@ -10,15 +10,21 @@ import {
   getRecords,
 } from "../../module.api";
 import { columns } from "./list.columns";
-import { ActionIcon, Space } from "@mantine/core";
-import { Invoice } from "@phosphor-icons/react";
+import { ActionIcon, Menu, Modal, Space, Text } from "@mantine/core";
+import { Invoice, Users } from "@phosphor-icons/react";
 import { moduleConfig } from "../../module.config";
 
 import { _Form as Form } from "../../form/form";
 import { formProps } from "../../form/form.config";
+import { useDisclosure } from "@mantine/hooks";
+import { useState } from "react";
+import { _FormPlayer } from "../../form/players/form";
 
 export function _List() {
   const router = useRouter();
+
+  const [openFormModalPlayer, handlersFormModalPlayer] = useDisclosure(false);
+  const [active, setActive] = useState(null);
 
   return (
     <>
@@ -26,7 +32,6 @@ export function _List() {
         endpoint={moduleConfig.endpoint}
         moduleKey={moduleConfig.moduleKey}
         getRecords={getRecords}
-        dataKey="users"
       >
         <ModuleTableLayout
           {...moduleConfig}
@@ -49,13 +54,42 @@ export function _List() {
               gender === "male" ? "var(--mantine-color-indigo-0)" : "",
           })}
           // * EXTRA ACTIONS
-
+          extraActions={({ row }: { row: any }) => (
+            <>
+              <Menu.Item
+                onClick={() => {
+                  setActive(row);
+                  handlersFormModalPlayer.open();
+                }}
+                leftSection={<Users />}
+              >
+                Manage Players
+              </Menu.Item>
+            </>
+          )}
           // * MODAL CONFIG
           hasModalForms
           modalFormProps={{ width: "lg", formProps }}
           modalForm={<Form />}
+          // tableprops
         />
       </ListHandler>
+
+      <Modal
+        size={"lg"}
+        opened={openFormModalPlayer}
+        onClose={() => {
+          setActive(null);
+          handlersFormModalPlayer.close();
+        }}
+        title={
+          <Text tt="uppercase" size="xs" fw={700}>
+            Manage Session Players
+          </Text>
+        }
+      >
+        <_FormPlayer active={active} />
+      </Modal>
     </>
   );
 }

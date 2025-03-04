@@ -8,25 +8,27 @@ const withCredentials = false;
 async function handleTokenExpiry() {
   const res = await axios
     .post(
-      "/auth/refresh/token/",
+      "/authenticate/refresh/token/",
       {},
       {
         withCredentials,
         headers: {
-          Authorization:
-            "Congobongo " + sessionStorage.getItem("classicstoken"),
+          Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
         },
       }
     )
     .then((e) => {
-      sessionStorage.setItem("classicstoken", e?.headers?.xauthorization);
+      console.log(e);
+      sessionStorage.setItem("kcatoken", e?.headers?.xauthorization);
       return true;
     })
     .catch((err) => {
+      console.log(err);
       return false;
     });
 
   console.log("Token Expired, Calling Refresh Token");
+
   return res;
 }
 
@@ -50,7 +52,7 @@ export async function get({
       params,
       withCredentials,
       headers: {
-        Authorization: "Congobongo " + sessionStorage.getItem("classicstoken"),
+        Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
       },
     });
 
@@ -95,7 +97,7 @@ export async function post({
       withCredentials,
       headers: {
         ...headers,
-        Authorization: "Congobongo " + sessionStorage.getItem("classicstoken"),
+        Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
       },
     });
     console.log(response);
@@ -137,7 +139,7 @@ export async function patch({
       withCredentials,
       headers: {
         ...headers,
-        Authorization: "Congobongo " + sessionStorage.getItem("classicstoken"),
+        Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
       },
     });
     return {
@@ -177,7 +179,7 @@ export async function del({
       withCredentials,
       headers: {
         ...headers,
-        Authorization: "Congobongo " + sessionStorage.getItem("classicstoken"),
+        Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
       },
     });
     return {

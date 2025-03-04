@@ -1,6 +1,6 @@
 import _ from "moment";
 
-export const formProps: any = {
+export const formPropsPlayer: any = {
   initial: {
     items: [],
     pricelist: [],
@@ -22,13 +22,17 @@ export const formProps: any = {
 
   // > SUBMIT
   transformDataOnSubmit: (formdata: any) => {
-    const { icon, ...res } = formdata;
+    const { image, ...res } = formdata;
 
     console.log(formdata);
 
     return {
-      ...res,
-      ...(formdata.icon instanceof File ? { icon: formdata.icon } : {}),
+      ...formdata,
+      ...(formdata.image instanceof File ? { image: formdata.image } : {}),
+      // * FIXINGS
+      doe: _(formdata?.doe).format("YYYY-MM-DD"),
+      dob: _(formdata?.dob).format("YYYY-MM-DD"),
+      decided_date: _(formdata?.decided_date).format("YYYY-MM-DD"),
     };
   },
   submitFormData: true,

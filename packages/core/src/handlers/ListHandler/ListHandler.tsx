@@ -103,6 +103,7 @@ export function ListHandler({
   moduleKey = ["vframework", "default"],
   //api
   getRecords,
+  getParams,
   dataKey,
   //server
   enableServerSearch = false,
@@ -132,10 +133,12 @@ export function ListHandler({
         searchValue: searchVal,
         page: page,
         pageSize: pageSize,
-        params: {},
+        params: {
+          ...(getParams || {}),
+        },
       });
       console.log(res);
-      const _data = dataKey ? res?.[dataKey] : res?.data;
+      const _data = dataKey ? res?.[dataKey] : res;
 
       if (!Array.isArray(_data)) {
         console.log("Warning: _data is not an array", _data);

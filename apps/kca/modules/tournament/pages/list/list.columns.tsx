@@ -7,10 +7,8 @@ export const columns = [
     width: 300,
     render: (record: any) => (
       <Group wrap="nowrap">
-        <Avatar size="xs" src={record.image} />
-        <Text size="xs">
-          {record.firstName} {record.middleName} {record.lastName}
-        </Text>
+        <Avatar size="xs" src={record.icon} />
+        <Text size="xs">{record.name}</Text>
       </Group>
     ),
     sortable: true,
@@ -28,39 +26,18 @@ export const columns = [
     sortable: true,
   },
   {
-    accessor: "email",
-    title: "Email Address",
+    accessor: "location",
+    title: "Event Location",
     sortable: true,
   },
   {
-    accessor: "phone",
-    title: "Phone",
+    accessor: "start_date",
+    title: "Start Date",
     sortable: true,
   },
   {
-    accessor: "birthDate",
-    title: "Date of Birth",
-    sortable: true,
-  },
-  {
-    accessor: "bloodGroup",
-    title: "Blood Group",
-    render: (record: any) => <Badge variant="light">{record.bloodGroup}</Badge>,
-    sortable: true,
-  },
-  {
-    accessor: "macAddress",
-    title: "MAC",
-    sortable: true,
-  },
-  {
-    accessor: "university",
-    title: "University",
-    sortable: true,
-  },
-  {
-    accessor: "role",
-    title: "Auth Group",
+    accessor: "end_date",
+    title: "End Date",
     sortable: true,
   },
 ];

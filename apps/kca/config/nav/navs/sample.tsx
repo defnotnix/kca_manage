@@ -20,6 +20,7 @@ import {
   Package,
   Shield,
   ShoppingBag,
+  User,
   Users,
 } from "@phosphor-icons/react";
 import { PropAdminNavItems, PropAdminNavModule } from "@vframework/ui";
@@ -78,9 +79,8 @@ export const navItems: PropAdminNavItems[] = [
     value: "/invoices",
   },
   {
-    label: "Configure",
-    icon: GearSix,
-    value: "/people",
-    children: [{ label: "Accounts", value: "/people/employees" }],
+    label: "Accounts",
+    icon: User,
+    value: "/accounts",
   },
 ];

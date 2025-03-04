@@ -71,6 +71,13 @@ export function _Form() {
                 description="Comprehensive details on the tournament"
               />
 
+              <ImageUpload
+                {...form.getInputProps("icon")}
+                label="Tournament Icon"
+                onChange={(image: any) => form.setFieldValue("icon", image)}
+                value={form.getValues()?.icon}
+              />
+
               <TextInput
                 label="Tournament Name"
                 placeholder="e.g. KCA Annual Tournament"

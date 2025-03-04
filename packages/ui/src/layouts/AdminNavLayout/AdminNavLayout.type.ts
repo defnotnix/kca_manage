@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { JSX, ReactNode } from "react";
 import { Icon } from "@phosphor-icons/react";
 import { MantineColor, TreeNodeData } from "@mantine/core";
 
@@ -19,6 +19,8 @@ type PropAdminNavSideNav = {
     module?: string;
     moduleDescription?: string;
   };
+  
+  essentials?: JSX.Element;
   navItems: PropAdminNavItems[];
   navModules?: PropAdminNavModule[];
 };
