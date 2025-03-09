@@ -1,66 +1,95 @@
-import { Avatar, Badge, Group, Stack, Text } from "@mantine/core";
+import { Badge } from "@mantine/core";
 
 export const columns = [
   {
-    accessor: "name",
-    title: "Name",
-    width: 300,
-    render: (record: any) => (
-      <Group wrap="nowrap">
-        <Avatar size="xs" src={record.image} />
-        <Text size="xs">
-          {record.firstName} {record.middleName} {record.lastName}
-        </Text>
-      </Group>
-    ),
+    accessor: "bill_id",
+    title: "Bill ID",
     sortable: true,
   },
   {
-    accessor: "add",
-    title: "Address",
-    render: (record: any) => (
-      <Text size="xs">
-        {record.address?.address}, {record.address?.city},{" "}
-        {record.address?.state}, {record.address?.stateCode},{" "}
-        {record.address?.postalCode}
-      </Text>
-    ),
+    accessor: "invoice_id",
+    title: "Invoice ID",
     sortable: true,
   },
   {
-    accessor: "email",
-    title: "Email Address",
+    accessor: "gateway_id",
+    title: "Gateway ID",
     sortable: true,
   },
   {
-    accessor: "phone",
-    title: "Phone",
+    accessor: "transaction_id",
+    title: "Transaction ID",
     sortable: true,
   },
   {
-    accessor: "birthDate",
-    title: "Date of Birth",
+    accessor: "fiscal_year",
+    title: "Fiscal Year",
     sortable: true,
   },
   {
-    accessor: "bloodGroup",
-    title: "Blood Group",
-    render: (record: any) => <Badge variant="light">{record.bloodGroup}</Badge>,
+    accessor: "receipt_date",
+    title: "Receipt Date",
     sortable: true,
   },
   {
-    accessor: "macAddress",
-    title: "MAC",
+    accessor: "customer_name",
+    title: "Customer Name",
     sortable: true,
   },
   {
-    accessor: "university",
-    title: "University",
+    accessor: "customer_pan",
+    title: "Customer PAN",
     sortable: true,
   },
   {
-    accessor: "role",
-    title: "Auth Group",
+    accessor: "gateway_type",
+    title: "Gateway Type",
+    sortable: true,
+  },
+  {
+    accessor: "amount",
+    title: "Amount",
+    sortable: true,
+  },
+  {
+    accessor: "discount",
+    title: "Discount",
+    sortable: true,
+  },
+  {
+    accessor: "taxable_amount",
+    title: "Taxable Amount",
+    sortable: true,
+  },
+  {
+    accessor: "total_amount",
+    title: "Total Amount",
+    sortable: true,
+  },
+  {
+    accessor: "discount_issued_by",
+    title: "Discount Issued By",
+    sortable: true,
+  },
+  {
+    accessor: "payer_id",
+    title: "Payer ID",
+    sortable: true,
+  },
+  {
+    accessor: "paid_amount",
+    title: "Paid Amount",
+    sortable: true,
+  },
+  {
+    accessor: "status",
+    title: "Status",
+    render: (record: any) => <Badge variant="light">{record.status}</Badge>,
+    sortable: true,
+  },
+  {
+    accessor: "remarks",
+    title: "Remarks",
     sortable: true,
   },
 ];

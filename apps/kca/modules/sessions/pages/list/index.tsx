@@ -72,31 +72,7 @@ export function _List() {
               gender === "male" ? "var(--mantine-color-indigo-0)" : "",
           })}
           // * EXTRA ACTIONS
-          extraActions={({ row }: { row: any }) => (
-            <>
-              <Menu.Item
-                onClick={() => {
-                  setActive(row);
-                  handlersFormModalPlayer.open();
-                }}
-                leftSection={<Users />}
-              >
-                Manage Players
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item leftSection={<Chair />}>Review Attendances</Menu.Item>
-              <Menu.Item
-                onClick={() => {
-                  setActive(row);
-                  handlersFormModalAttendanceNew.open();
-                }}
-                leftSection={<UserPlus />}
-              >
-                {" "}
-                Take Attendance
-              </Menu.Item>
-            </>
-          )}
+
           // * MODAL CONFIG
           hasModalForms
           modalFormProps={{ width: "lg", formProps }}

@@ -63,12 +63,22 @@ import { triggerNotification } from "@vframework/ui";
 import { ModuleModalFormLayout } from "../ModuleModalFormLayout";
 
 export function ModuleTableLayout({
+  /**
+   * Breadcrumb navigation links
+   */
   bread = [],
+
+  /**
+   * Module information
+   */
   moduleName = "Enter Module Name",
   moduleDescription = "This is a module description that says something about the module.",
   moduleTerm,
   moduleTermPlural,
-  //api
+
+  /**
+   * API handlers for CRUD operations
+   */
   apiCreate = (d) => null,
   onCreateSuccess,
   apiDelete = (d) => null,
@@ -77,25 +87,46 @@ export function ModuleTableLayout({
   apiEdit = (d) => null,
   onEditTrigger = (row) => row,
   onEditSuccess,
-  //Data
+
+  /**
+   * Table data configuration
+   */
   idAccessor = "id",
   columns = [],
   extraActions,
-  //Server
+
+  /**
+   * Server-side configuration
+   */
   hasServerSearch = false,
-  //styling
+
+  /**
+   * Table styling properties
+   */
   rowColor,
   rowBackgroundColor,
   rowStyle,
-  //tabs
+
+  /**
+   * Tab settings
+   */
   enableTabs = false,
   tabs = [],
-  //pagination
+
+  /**
+   * Pagination settings
+   */
   pageSizes = [20, 35, 50],
-  //url
+
+  /**
+   * Custom URL configurations
+   */
   customNewUrl,
   customEditUrl,
-  //modal
+
+  /**
+   * Modal form configurations
+   */
   hasModalForms = false,
   modalProps = { width: "md" },
   modalFormProps = {
@@ -119,12 +150,24 @@ export function ModuleTableLayout({
   modalEdit,
   onModalEditOpen,
   onModalNewOpen,
-  //content
+
+  /**
+   * Additional content placement around the table
+   */
   contentPreHeader,
   contentPreTable,
   contentPostTable,
+
+  /**
+   * TableHeaderOptions
+   */
+  withFilter = false,
+  withColumnSelect = false,
+  withAddExtra = false,
+  disableAdd = false,
 }: PropModuleTableLayout) {
   // Create moduleConfig object to maintain compatibility
+
   const moduleConfig = {
     moduleName,
     moduleDescriptions: { default: moduleDescription },
@@ -433,21 +476,25 @@ export function ModuleTableLayout({
                 }}
               />
 
-              <Button
-                leftSection={<SlidersHorizontal size={12} />}
-                variant="light"
-                size="xs"
-              >
-                Filters
-              </Button>
+              {withFilter && (
+                <Button
+                  leftSection={<SlidersHorizontal size={12} />}
+                  variant="light"
+                  size="xs"
+                >
+                  Filters
+                </Button>
+              )}
 
-              <Button
-                leftSection={<GearSix size={12} />}
-                variant="light"
-                size="xs"
-              >
-                Customize
-              </Button>
+              {withColumnSelect && (
+                <Button
+                  leftSection={<GearSix size={12} />}
+                  variant="light"
+                  size="xs"
+                >
+                  Customize
+                </Button>
+              )}
 
               <Menu
                 withArrow
@@ -491,6 +538,7 @@ export function ModuleTableLayout({
 
               <ButtonGroup>
                 <Button
+                  disabled={disableAdd}
                   variant="filled"
                   size="xs"
                   leftSection={<Plus />}
@@ -510,7 +558,13 @@ export function ModuleTableLayout({
                 >
                   Add {moduleTerm || "Item"}
                 </Button>
-                <Button variant="filled" size="xs" px="8" ml={1}>
+                <Button
+                  disabled={!withAddExtra}
+                  variant="filled"
+                  size="xs"
+                  px="8"
+                  ml={1}
+                >
                   <CaretDown />
                 </Button>
               </ButtonGroup>

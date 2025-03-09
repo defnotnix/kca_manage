@@ -23,19 +23,24 @@ import {
   Space,
   Spoiler,
   Stack,
+  Tabs,
   Text,
 } from "@mantine/core";
 import {
   ArrowCircleUpLeft,
   ArrowLeft,
+  Calendar,
   CaretDown,
+  Cricket,
   DotsThree,
   Envelope,
+  Graph,
   House,
   Pen,
   Phone,
   Plus,
   Trash,
+  Trophy,
 } from "@phosphor-icons/react";
 //mantine
 import { RadarChart } from "@mantine/charts";
@@ -47,6 +52,12 @@ import { FormHandler } from "@vframework/core";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { getSingleRecord } from "../../module.api";
+
+import { createRecord as createAchievement } from "../../form/achievement/form.api";
+import { ModuleAchievement } from "./achievement";
+import { ModuleAttendance } from "./attendance";
+import { ModuleTournament } from "./tournament";
+import { ModulePerformance } from "./performance";
 
 //icons
 
@@ -86,11 +97,7 @@ export function _Profile() {
     queryFn: async () => {
       const res = await getSingleRecord(Params.id);
       console.log(res);
-      return {
-        ...res,
-        package: String(res?.package),
-        sessions: String(res?.sessions),
-      };
+      return res;
     },
   });
 
@@ -272,25 +279,21 @@ export function _Profile() {
                 </Text>
                 <Text size="sm">{queryPlayerData?.data?.doe}</Text>
               </Group>
-              <Group>
-                <Text w={150} opacity={0.5} size="xs">
-                  Team
-                </Text>
-                <Text size="sm">{queryPlayerData?.data?.assigned_team}</Text>
-              </Group>
-              <Group>
-                <Text w={150} opacity={0.5} size="xs">
-                  Training Schedule
-                </Text>
-                <Text size="sm">
-                  {queryPlayerData?.data?.training_schedule}
-                </Text>
-              </Group>
+
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
                   Package
                 </Text>
-                <Text size="sm">{queryPlayerData?.data?.package}</Text>
+                <Text size="sm">{queryPlayerData?.data?.package?.name}</Text>
+              </Group>
+
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Sessions
+                </Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.sessions?.name || "N/A"}
+                </Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
@@ -317,231 +320,172 @@ export function _Profile() {
                 <Text size="sm">{queryPlayerData?.data?.reason}</Text>
               </Group>
             </SimpleGrid>
+
+            <Divider />
+
+            <Text size="sm" mt="md">
+              Additional Details
+            </Text>
+
+            <SimpleGrid spacing="xs" cols={2} my="xl">
+              {/* Favorite Player */}
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Favorite Player
+                </Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.fav_player || "N/A"}
+                </Text>
+              </Group>
+
+              {/* Favorite Team */}
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Favorite Team
+                </Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.fav_team || "N/A"}
+                </Text>
+              </Group>
+
+              {/* Package */}
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Package
+                </Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.package?.name || "N/A"}
+                </Text>
+              </Group>
+
+              {/* Sessions */}
+
+              {/* Equipment Required */}
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Equipment Required
+                </Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.equipment_required || "N/A"}
+                </Text>
+              </Group>
+
+              {/* Jersey Size */}
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Jersey Size
+                </Text>
+                <Text size="sm">{queryPlayerData?.data?.jersey || "N/A"}</Text>
+              </Group>
+
+              {/* Experience Level */}
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Experience Level
+                </Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.level_exp || "N/A"}
+                </Text>
+              </Group>
+
+              {/* Training Time */}
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Preferred Training Time
+                </Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.time_for_training || "N/A"}
+                </Text>
+              </Group>
+
+              {/* Membership Type */}
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Membership Type
+                </Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.membership || "N/A"}
+                </Text>
+              </Group>
+
+              {/* Previous Academy */}
+              <Group>
+                <Text w={150} opacity={0.5} size="xs">
+                  Previous Academy
+                </Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.previous_academy || "N/A"}
+                </Text>
+              </Group>
+            </SimpleGrid>
           </Spoiler>
         </Container>
       </Paper>
       <Divider />
 
-      <Container size="lg" py="md">
-        <Grid gutter="xs">
-          <Grid.Col span={{ base: 12, lg: 8 }}>
-            <Stack gap="xs">
-              <Paper withBorder>
-                <Box p="sm" bg="brand.0">
-                  <Group justify="space-between">
-                    <div>
-                      <Text size="md">Awards & Achievements</Text>
-                      <Text size="xs" opacity={0.5}>
-                        Awards & Achievements earned by this player.
-                      </Text>
-                    </div>
-                    <Button
-                      size="xs"
-                      leftSection={<Plus />}
-                      variant="outline"
-                      color="dark"
-                      bg="white"
-                      onClick={() => {
-                        handlersFormModalAchievement.open();
-                      }}
-                    >
-                      Add Achievement
-                    </Button>
-                  </Group>
-                </Box>
-                {queryPlayerData?.data?.achivements?.map(
-                  (achivement: any, index: number) => (
-                    <div key={index}>
-                      <Paper radius={0} px="md" py="xs">
-                        <SimpleGrid cols={2}>
-                          <Text size="sm" c="dark.9">
-                            {achivement.title}
-                          </Text>
-                          <Group justify="space-between">
-                            <Text size="sm">{achivement.date}</Text>
-                            <ActionIcon size="sm" variant="light">
-                              <DotsThree />
-                            </ActionIcon>
-                          </Group>
-                        </SimpleGrid>
-                      </Paper>
-                      {index !==
-                        queryPlayerData?.data?.achivements?.length - 1 && (
-                        <Divider />
-                      )}
-                    </div>
-                  )
-                )}
-              </Paper>
+      <Tabs defaultValue="achieve" keepMounted={false}>
+        <Paper radius={0}>
+          <Container size="lg">
+            <Tabs.List>
+              <Tabs.Tab value="achieve" leftSection={<Trophy size={12} />}>
+                Awards & Achievements
+              </Tabs.Tab>
+              <Tabs.Tab value="tournament" leftSection={<Cricket size={12} />}>
+                Tournaments
+              </Tabs.Tab>
+              <Tabs.Tab value="attendance" leftSection={<Calendar size={12} />}>
+                Attendance
+              </Tabs.Tab>
+              <Tabs.Tab value="performance" leftSection={<Graph size={12} />}>
+                Performance
+              </Tabs.Tab>
+            </Tabs.List>
+          </Container>
+        </Paper>
 
-              <Paper withBorder>
-                <Box p="sm" bg="brand.0">
-                  <Group justify="space-between">
-                    <div>
-                      <Text size="md">Tournament Participations</Text>
-                      <Text size="xs" opacity={0.5}>
-                        Records of student tournament participations
-                      </Text>
-                    </div>
-                  </Group>
-                </Box>
-                {queryPlayerData?.data?.achivements?.map(
-                  (achivement: any, index: number) => (
-                    <div key={index}>
-                      <Paper radius={0} px="md" py="xs">
-                        <SimpleGrid cols={2}>
-                          <Text size="sm" c="dark.9">
-                            {achivement.title}
-                          </Text>
-                          <Group justify="space-between">
-                            <Text size="xs">{achivement.date}</Text>
-                            <ActionIcon size="sm" variant="light">
-                              <DotsThree />
-                            </ActionIcon>
-                          </Group>
-                        </SimpleGrid>
-                      </Paper>
-                      {index !==
-                        queryPlayerData?.data?.achivements?.length - 1 && (
-                        <Divider />
-                      )}
-                    </div>
-                  )
-                )}
-              </Paper>
+        <Container size="lg" pb="xl">
+          <Tabs.Panel value="achieve">
+            <ModuleAchievement.List />
+          </Tabs.Panel>
+          <Tabs.Panel value="attendance">
+            <ModuleAttendance.List />
+          </Tabs.Panel>
+          <Tabs.Panel value="tournament">
+            <ModuleTournament.List />
+          </Tabs.Panel>
+          <Tabs.Panel value="attendance">
+            <ModuleTournament.List />
+          </Tabs.Panel>
+          <Tabs.Panel value="performance">
+            <ModulePerformance.List />
+          </Tabs.Panel>
+        </Container>
 
-              <Paper withBorder>
-                <Box p="sm" bg="brand.0">
-                  <Group justify="space-between">
-                    <div>
-                      <Text size="md">Student Attendance Records</Text>
-                      <Text size="xs" opacity={0.5}>
-                        Attendance History
-                      </Text>
-                    </div>
-                  </Group>
-                </Box>
-                {queryPlayerData?.data?.achivements?.map(
-                  (achivement: any, index: number) => (
-                    <div key={index}>
-                      <Paper radius={0} px="md" py="xs">
-                        <SimpleGrid cols={2}>
-                          <Text size="sm" c="dark.9">
-                            {achivement.title}
-                          </Text>
-                          <Group justify="space-between">
-                            <Text size="xs">{achivement.date}</Text>
-                            <ActionIcon size="sm" variant="light">
-                              <DotsThree />
-                            </ActionIcon>
-                          </Group>
-                        </SimpleGrid>
-                      </Paper>
-                      {index !==
-                        queryPlayerData?.data?.achivements?.length - 1 && (
-                        <Divider />
-                      )}
-                    </div>
-                  )
-                )}
-              </Paper>
-            </Stack>
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, lg: 4 }}>
-            <Stack gap="xs">
-              <Paper withBorder p="sm">
-                <RadarChart
-                  h={300}
-                  data={[
-                    {
-                      product: "Apples",
-                      sales: 120,
-                    },
-                    {
-                      product: "Oranges",
-                      sales: 98,
-                    },
-                    {
-                      product: "Tomatoes",
-                      sales: 86,
-                    },
-                    {
-                      product: "Grapes",
-                      sales: 99,
-                    },
-                    {
-                      product: "Bananas",
-                      sales: 85,
-                    },
-                    {
-                      product: "Lemons",
-                      sales: 65,
-                    },
-                  ]}
-                  dataKey="product"
-                  withPolarRadiusAxis
-                  series={[{ name: "sales", color: "blue.4", opacity: 0.2 }]}
-                />
-              </Paper>
-
-              <Paper withBorder>
-                <Box p="sm" bg="brand.0">
-                  <Group justify="space-between">
-                    <div>
-                      <Text size="md">Performance Records</Text>
-                      <Text size="xs" opacity={0.5}>
-                        Performance Logs
-                      </Text>
-                    </div>
-                  </Group>
-                </Box>
-                {queryPlayerData?.data?.achivements?.map(
-                  (achivement: any, index: number) => (
-                    <div key={index}>
-                      <Paper radius={0} px="md" py="xs">
-                        <Group justify="space-between">
-                          <Text size="sm">{achivement.date}</Text>
-                          <ActionIcon size="sm" variant="light">
-                            <DotsThree />
-                          </ActionIcon>
-                        </Group>
-                      </Paper>
-                      {index !==
-                        queryPlayerData?.data?.achivements?.length - 1 && (
-                        <Divider />
-                      )}
-                    </div>
-                  )
-                )}
-              </Paper>
-            </Stack>
-          </Grid.Col>
-        </Grid>
-      </Container>
-
-      <FormHandler
-        formType={"new"}
-        {...formPropsAchievement}
-        apiSubmit={() => {}}
-        onSubmitSuccess={() => {
-          handlersFormModalAchievement.close();
-        }}
-      >
-        <Modal
-          size={"lg"}
-          opened={openFormModalAchievement}
-          onClose={() => {
+        {/* 
+        <FormHandler
+          formType={"new"}
+          {...formPropsAchievement}
+          apiSubmit={createAchievement}
+          onSubmitSuccess={() => {
             handlersFormModalAchievement.close();
           }}
-          title={
-            <Text tt="uppercase" size="xs" fw={700}>
-              Add a new Achievement
-            </Text>
-          }
         >
-          <_FormAchievement />
-        </Modal>
-      </FormHandler>
+          <Modal
+            size={"lg"}
+            opened={openFormModalAchievement}
+            onClose={() => {
+              handlersFormModalAchievement.close();
+            }}
+            title={
+              <Text tt="uppercase" size="xs" fw={700}>
+                Add a new Achievement
+              </Text>
+            }
+          >
+            <_FormAchievement />
+          </Modal>
+        </FormHandler> */}
+      </Tabs>
     </>
   );
 }

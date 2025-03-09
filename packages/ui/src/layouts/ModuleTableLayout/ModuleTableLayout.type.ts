@@ -1,48 +1,17 @@
 import { JSX, ReactNode } from "react";
 import { PropFormHandlerWithoutChildren } from "@vframework/core";
 
+/**
+ * Data Table Configuration
+ */
 type DataTable = {
   idAccessor?: string;
   columns: any[];
 };
 
-type ExtraContent = {
-  contentPreHeader?: ReactNode;
-  contentPreTable?: ReactNode;
-  contentPostTable?: ReactNode;
-};
-
-type PropTabs = {
-  icon?: any;
-  label: string;
-  titleLabel?: string;
-  onChange?: (id: any) => void;
-  count?: number | string;
-};
-
-type PropHeader = {
-  tabs?: PropTabs[];
-  tabsSize?: number;
-  enableTabLabel?: boolean;
-  customNewUrl?: string;
-};
-
-type ModalFormProps = {
-  width?: string;
-  formProps: PropFormHandlerWithoutChildren;
-};
-
-type PropModalFormHandler = {
-  hasModalForms?: boolean;
-  modalProps?: any;
-  modalFormProps?: ModalFormProps;
-  modalForm?: JSX.Element;
-  modalEdit?: any;
-  modalCreate?: () => JSX.Element;
-  onModalEditOpen?: (row: any) => void;
-  onModalNewOpen?: (row: any) => void;
-};
-
+/**
+ * API Handlers for CRUD operations
+ */
 type APIHandlers = {
   apiCreate?: (id: any) => void;
   onCreateSuccess?: (id: any) => void;
@@ -54,6 +23,61 @@ type APIHandlers = {
   onEditSuccess?: (id: any) => void;
 };
 
+/**
+ * Extra Content that can be displayed before or after the table
+ */
+type ExtraContent = {
+  contentPreHeader?: ReactNode;
+  contentPreTable?: ReactNode;
+  contentPostTable?: ReactNode;
+};
+
+/**
+ * Tab Configuration for the table layout
+ */
+type PropTabs = {
+  icon?: any;
+  label: string;
+  titleLabel?: string;
+  onChange?: (id: any) => void;
+  count?: number | string;
+};
+
+/**
+ * Header Configuration including tabs
+ */
+type PropHeader = {
+  tabs?: PropTabs[];
+  tabsSize?: number;
+  enableTabLabel?: boolean;
+  customNewUrl?: string;
+};
+
+/**
+ * Modal Form Configuration
+ */
+type ModalFormProps = {
+  width?: string;
+  formProps: PropFormHandlerWithoutChildren;
+};
+
+/**
+ * Modal Form Handling
+ */
+type PropModalFormHandler = {
+  hasModalForms?: boolean;
+  modalProps?: any;
+  modalFormProps?: ModalFormProps;
+  modalForm?: JSX.Element;
+  modalEdit?: any;
+  modalCreate?: () => JSX.Element;
+  onModalEditOpen?: (row: any) => void;
+  onModalNewOpen?: (row: any) => void;
+};
+
+/**
+ * Table Styling Properties
+ */
 type TableStyle = {
   rowColor?: (row: any) => any;
   rowBackgroundColor?: (row: any) => any;
@@ -61,6 +85,9 @@ type TableStyle = {
   tableProps?: any;
 };
 
+/**
+ * Main Prop Type for the Table Layout Module
+ */
 export type PropModuleTableLayout = {
   bread?: { label?: string; url?: string }[];
   moduleName?: string;
@@ -76,6 +103,11 @@ export type PropModuleTableLayout = {
   customEditUrl?: string;
   hasContainer?: boolean;
   containerSize?: string | number;
+  // TableHeaders
+  withFilter?: boolean;
+  withColumnSelect?: boolean;
+  disableAdd?: boolean;
+  withAddExtra?: boolean;
 } & APIHandlers &
   DataTable &
   ExtraContent &

@@ -13,9 +13,9 @@ export const moduleConfig: PropModuleConfig = {
   moduleKey: "vauth.attendance".split("."),
   endpoint: "/players/grading/",
   //
-  moduleTerm: "Session Attendance",
-  moduleTermPlural: "Session Attendances",
-  moduleName: "Session Attendance",
+  moduleTerm: "Performance",
+  moduleTermPlural: "Performances",
+  moduleName: "Performance",
   moduleDescription:
     "A centralized portal for managing all player-related data and activities.",
 };

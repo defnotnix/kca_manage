@@ -7,8 +7,8 @@ export const columns = [
     width: 300,
     render: (record: any) => (
       <Group wrap="nowrap">
-        <Avatar size="xs" src={record.icon} />
-        <Text size="xs">{record.name}</Text>
+        <Avatar size="sm" src={record.icon} />
+        <Text size="sm">{record.name}</Text>
       </Group>
     ),
     sortable: true,
@@ -16,13 +16,7 @@ export const columns = [
   {
     accessor: "add",
     title: "Address",
-    render: (record: any) => (
-      <Text size="xs">
-        {record.address?.address}, {record.address?.city},{" "}
-        {record.address?.state}, {record.address?.stateCode},{" "}
-        {record.address?.postalCode}
-      </Text>
-    ),
+    render: (record: any) => <Text size="sm">{record.location}</Text>,
     sortable: true,
   },
   {
