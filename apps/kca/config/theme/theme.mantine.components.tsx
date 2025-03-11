@@ -16,7 +16,12 @@ import {
   Modal,
   MantineSize,
 } from "@mantine/core";
-import { DateInput, TimeInput, YearPickerInput } from "@mantine/dates";
+import {
+  DateInput,
+  DatePickerInput,
+  TimeInput,
+  YearPickerInput,
+} from "@mantine/dates";
 
 type propDefaults = {
   fontSize: string;
@@ -121,6 +126,19 @@ export const configThemeMantineComponents: any = {
     },
   }),
   NumberInput: NumberInput.extend({
+    defaultProps: {
+      size: defaults.inputSize,
+      styles: {
+        label: {
+          fontSize: defaults.fontSize,
+        },
+        input: {
+          fontSize: defaults.fontSize,
+        },
+      },
+    },
+  }),
+  DatePickerInput: NumberInput.extend({
     defaultProps: {
       size: defaults.inputSize,
       styles: {

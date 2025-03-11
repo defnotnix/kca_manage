@@ -37,8 +37,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import classes from "./form.module.css";
 
-import { getRecords as getPackages } from "@/modules/packages/module.api";
-import { getRecords as getSessions } from "@/modules/packages/module.api";
+import { getRecords as getPackages } from "@/modules/package/module.api";
+
 import { Label } from "recharts";
 
 // Assuming you have these defined elsewhere

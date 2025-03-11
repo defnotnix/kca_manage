@@ -2,28 +2,15 @@ import {
   Building,
   Calendar,
   ChartDonut,
-  ChartLine,
   Clock,
   Cricket,
-  Desk,
-  FlyingSaucer,
   Gear,
-  GearSix,
-  Hand,
-  Headphones,
-  Headset,
-  Info,
   Invoice,
-  Key,
-  MathOperations,
-  Money,
   Package,
-  Shield,
-  ShoppingBag,
-  User,
   Users,
+  User,
 } from "@phosphor-icons/react";
-import { PropAdminNavItems, PropAdminNavModule } from "@vframework/ui";
+import { PropAdminNavItems } from "@vframework/ui";
 
 export const navItems: PropAdminNavItems[] = [
   {
@@ -31,47 +18,53 @@ export const navItems: PropAdminNavItems[] = [
     icon: ChartDonut,
     value: "/dashboard",
   },
-
   {
-    label: "Players",
+    label: "Player Management",
     icon: Users,
-    value: "/players",
+    value: "/users",
+    children: [
+      { label: "Players", value: "/players" },
+      {
+        label: "Teams",
+        value: "/teams",
+      },
+      {
+        label: "Tournaments",
+        value: "/tournaments",
+      },
+      {
+        label: "Routine",
+        value: "/routine",
+      },
+    ],
   },
   {
-    label: "Packages",
-    icon: Package,
-    value: "/packages",
+    label: "Service Management",
+    icon: Gear,
+    value: "#",
+    children: [
+      { label: "Grounds", value: "/grounds" },
+      { label: "Packages", value: "/packages" },
+      { label: "Add-Ons", value: "/addons" },
+      { label: "Routines", value: "/routines" },
+    ],
   },
   {
     label: "Sessions",
     icon: Clock,
     value: "/sessions",
   },
-  {
-    label: "Teams",
-    icon: Users,
-    value: "/teams",
-  },
-  {
-    label: "Tournaments",
-    icon: Cricket,
-    value: "/tournaments",
-  },
+
   {
     label: "Bookings",
     icon: Calendar,
     value: "/booking",
     children: [
-      { label: "Booking Requests", value: `?filter=request` },
-      { label: "Active Bookings", value: `?filter=active` },
-      { label: "All Bookings", value: "/" },
-      { label: "Add Booking", value: "/new" },
+      { label: "Booking Requests", value: "/booking-requests" },
+      { label: "Active Bookings", value: "?filter=active" },
+      { label: "All Bookings", value: "/bookings" },
+      { label: "Add Booking", value: "/bookings/new" },
     ],
-  },
-  {
-    label: "Grounds/Services",
-    icon: Cricket,
-    value: "/services",
   },
   {
     label: "Invoices",

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 //next
 
 //mantine
@@ -21,6 +21,8 @@ import { formProps } from "./form/form.config";
 //mantine
 import { _Form as Form } from "./form/form";
 
+import { getRecords, createRecord } from "./module.api";
+
 //icons
 
 //styles
@@ -36,6 +38,10 @@ export function InvoicePayments({ active }: any) {
 
   // * FUNCTIONS
 
+  useEffect(() => {
+    console.log(active);
+  }, []);
+
   // * COMPONENTS
 
   // * ANIMATIONS
@@ -50,13 +56,23 @@ export function InvoicePayments({ active }: any) {
                 size={50}
                 thickness={8}
                 roundCaps
-                sections={[{ value: 50, color: "teal" }]}
+                sections={[
+                  {
+                    value:
+                      (Number(active?.paid_amount) / Number(active?.amount)) *
+                      100,
+                    color: "teal",
+                  },
+                ]}
               />
 
               <div>
-                <Text size="sm">75% of the invoice is paid</Text>
+                <Text size="sm">
+                  {(Number(active?.paid_amount) / Number(active?.amount)) * 100}
+                  % of the invoice is paid
+                </Text>
                 <Text opacity={0.5} size="xs">
-                  Rs. 5,000/7,500
+                  Rs. {active?.paid_amount} / {active?.amount}
                 </Text>
               </div>
             </Group>
@@ -67,7 +83,7 @@ export function InvoicePayments({ active }: any) {
           <FormHandler
             formType={"new"}
             {...formProps}
-            apiSubmit={() => {}}
+            apiSubmit={createRecord}
             onSubmitSuccess={() => {}}
           >
             <Form />

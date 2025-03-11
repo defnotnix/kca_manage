@@ -87,12 +87,18 @@ export function _Form() {
               description="Details of the payment receipt"
             />
 
-            <SimpleGrid cols={3} spacing="xs">
+            <SimpleGrid cols={2} spacing="xs">
               <DateInput
                 label="Receipt Date"
                 description="Select the date of the receipt"
                 placeholder="Select date"
                 {...form.getInputProps("receipt_date")}
+              />
+              <DateInput
+                label="Package Renewed Till"
+                description="Select the package renew date."
+                placeholder="Select date"
+                {...form.getInputProps("valid_till")}
               />
               <TextInput
                 label="Payment Gateway"
