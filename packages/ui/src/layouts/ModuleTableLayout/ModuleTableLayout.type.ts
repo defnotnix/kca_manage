@@ -107,7 +107,10 @@ export type PropModuleTableLayout = {
   withFilter?: boolean;
   withColumnSelect?: boolean;
   disableAdd?: boolean;
+  disableDelete?: boolean;
   withAddExtra?: boolean;
+  customRender?: (props: any) => JSX.Element;
+  withBackButton?: boolean;
 } & APIHandlers &
   DataTable &
   ExtraContent &

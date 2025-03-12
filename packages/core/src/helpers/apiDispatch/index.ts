@@ -13,7 +13,7 @@ async function handleTokenExpiry() {
       {
         withCredentials,
         headers: {
-          Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
+          Authorization: "DuqbarAzemn " + sessionStorage.getItem("kcatoken"),
         },
       }
     )
@@ -52,7 +52,7 @@ export async function get({
       params,
       withCredentials,
       headers: {
-        Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
+        Authorization: "DuqbarAzemn " + sessionStorage.getItem("kcatoken"),
       },
     });
 
@@ -97,7 +97,7 @@ export async function post({
       withCredentials,
       headers: {
         ...headers,
-        Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
+        Authorization: "DuqbarAzemn " + sessionStorage.getItem("kcatoken"),
       },
     });
     console.log(response);
@@ -139,7 +139,7 @@ export async function patch({
       withCredentials,
       headers: {
         ...headers,
-        Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
+        Authorization: "DuqbarAzemn " + sessionStorage.getItem("kcatoken"),
       },
     });
     return {
@@ -179,7 +179,7 @@ export async function del({
       withCredentials,
       headers: {
         ...headers,
-        Authorization: "DuqbarAzemn  " + sessionStorage.getItem("kcatoken"),
+        Authorization: "DuqbarAzemn " + sessionStorage.getItem("kcatoken"),
       },
     });
     return {

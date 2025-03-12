@@ -61,6 +61,7 @@ export function AdminNavLayout({
           essentials={essentials}
         />
         <AppShell.Main
+          mt={{ base: 60, lg: 0 }}
           style={{
             background: "none",
             height: "100vh",

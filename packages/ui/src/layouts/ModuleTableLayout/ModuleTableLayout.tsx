@@ -32,6 +32,7 @@ import { useDisclosure } from "@mantine/hooks";
 
 //icons
 import {
+  ArrowLeft,
   ArrowsClockwise,
   CaretDown,
   Check,
@@ -165,8 +166,13 @@ export function ModuleTableLayout({
   withColumnSelect = false,
   withAddExtra = false,
   disableAdd = false,
+  disableDelete = false,
+  customRender,
+  withBackButton,
 }: PropModuleTableLayout) {
   // Create moduleConfig object to maintain compatibility
+
+  const CustomRender = customRender;
 
   const moduleConfig = {
     moduleName,
@@ -308,7 +314,7 @@ export function ModuleTableLayout({
 
   // * ACTION COMPONENTS
 
-  const RenderEdit = ({ row }: any) => {
+  const RenderEdit = ({ row, children }: any) => {
     const form = FormHandler.useForm();
 
     const handleEditOpen = async () => {
@@ -322,8 +328,7 @@ export function ModuleTableLayout({
     };
 
     return (
-      <Menu.Item
-        leftSection={<Pen />}
+      <div
         onClick={async () => {
           if (hasModalForms) {
             handleEditOpen();
@@ -332,8 +337,8 @@ export function ModuleTableLayout({
           }
         }}
       >
-        Edit
-      </Menu.Item>
+        {children}
+      </div>
     );
   };
 
@@ -352,7 +357,9 @@ export function ModuleTableLayout({
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <RenderEdit row={row} />
+            <RenderEdit row={row}>
+              <Menu.Item leftSection={<Pen />}>Edit</Menu.Item>
+            </RenderEdit>
 
             {extraActions && (
               <>
@@ -363,6 +370,7 @@ export function ModuleTableLayout({
             )}
 
             <Menu.Item
+              disabled={disableDelete}
               onClick={() => {
                 handleDelete(row.id);
               }}
@@ -429,14 +437,25 @@ export function ModuleTableLayout({
 
           <Space h="md" />
           <Group justify="space-between" align="flex-end">
-            <div>
-              <Text size="xl" fw={600}>
-                {moduleName}
-              </Text>
-              <Text size="sm" opacity={0.5}>
-                {moduleDescription}
-              </Text>
-            </div>
+            <Group gap="sm">
+              {withBackButton && (
+                <ActionIcon
+                  onClick={() => {
+                    Router.back();
+                  }}
+                >
+                  <ArrowLeft />
+                </ActionIcon>
+              )}
+              <div>
+                <Text size="xl" fw={600}>
+                  {moduleName}
+                </Text>
+                <Text size="sm" opacity={0.5}>
+                  {moduleDescription}
+                </Text>
+              </div>
+            </Group>
 
             <Group gap={4}>
               <HoverCard shadow="md" withArrow>
@@ -617,77 +636,85 @@ export function ModuleTableLayout({
 
         {contentPreTable}
 
-        <Paper radius="md" withBorder h={"calc(100vh - 205px)"} mx="md">
-          <DataTable
-            //Loading
-            fetching={isFetching}
-            styles={{
-              header: {
-                background: "var(--mantine-color-gray-1)",
-              },
-            }}
-            //fonts
-            fz="sm"
-            fw={500}
-            // styling
-            highlightOnHover
-            // spacing
-            verticalSpacing="xs"
-            horizontalSpacing="md"
-            //Data
-            idAccessor={idAccessor}
-            records={records}
-            columns={[
-              {
-                accessor: "#",
-                title: "#",
-                width: 50,
-                render: (row, index) => <>{index + 1}</>,
-              },
-              ...columns,
-              ...tableActions,
-            ]}
-            //Row Styling
-            rowColor={rowColor}
-            rowBackgroundColor={rowBackgroundColor}
-            rowStyle={enableRowStyle ? rowStyle : undefined}
-            //Sorting
-            sortStatus={sortStatus}
-            onSortStatusChange={setSortStatus}
-            //Pagination
-            totalRecords={
-              hasServerSearch ? totalPages * pageSize : records.length
-            }
-            page={page}
-            onPageChange={(p) => {
-              dispatch({
-                type: "SET_PAGE",
-                payload: p,
-              });
-            }}
-            // > Pagination Size
-            recordsPerPage={pageSize}
-            recordsPerPageOptions={pageSizes}
-            onRecordsPerPageChange={(e) => {
-              dispatch({
-                type: "SET_PAGE_DATA",
-                payload: {
-                  pageSize: e,
-                  page: 1,
-                },
-              });
-            }}
-            // Selection handling
-            selectedRecords={selectedRecords}
-            onSelectedRecordsChange={(e) => {
-              dispatch({
-                type: "SET_SELECTED_RECORDS",
-                payload: e,
-              });
-            }}
-            selectionTrigger="cell"
+        {CustomRender ? (
+          <CustomRender
+            data={records}
+            renderEdit={RenderEdit}
+            handleDelete={handleDelete}
           />
-        </Paper>
+        ) : (
+          <Paper radius="md" withBorder h={"calc(100vh - 205px)"} mx="md">
+            <DataTable
+              //Loading
+              fetching={isFetching}
+              styles={{
+                header: {
+                  background: "var(--mantine-color-gray-1)",
+                },
+              }}
+              //fonts
+              fz="sm"
+              fw={500}
+              // styling
+              highlightOnHover
+              // spacing
+              verticalSpacing="xs"
+              horizontalSpacing="md"
+              //Data
+              idAccessor={idAccessor}
+              records={records}
+              columns={[
+                {
+                  accessor: "#",
+                  title: "#",
+                  width: 50,
+                  render: (row, index) => <>{index + 1}</>,
+                },
+                ...columns,
+                ...tableActions,
+              ]}
+              //Row Styling
+              rowColor={rowColor}
+              rowBackgroundColor={rowBackgroundColor}
+              rowStyle={enableRowStyle ? rowStyle : undefined}
+              //Sorting
+              sortStatus={sortStatus}
+              onSortStatusChange={setSortStatus}
+              //Pagination
+              totalRecords={
+                hasServerSearch ? totalPages * pageSize : records.length
+              }
+              page={page}
+              onPageChange={(p) => {
+                dispatch({
+                  type: "SET_PAGE",
+                  payload: p,
+                });
+              }}
+              // > Pagination Size
+              recordsPerPage={pageSize}
+              recordsPerPageOptions={pageSizes}
+              onRecordsPerPageChange={(e) => {
+                dispatch({
+                  type: "SET_PAGE_DATA",
+                  payload: {
+                    pageSize: e,
+                    page: 1,
+                  },
+                });
+              }}
+              // Selection handling
+              selectedRecords={selectedRecords}
+              onSelectedRecordsChange={(e) => {
+                dispatch({
+                  type: "SET_SELECTED_RECORDS",
+                  payload: e,
+                });
+              }}
+              selectionTrigger="cell"
+            />
+          </Paper>
+        )}
 
         {/* Modal for creating new items */}
         {hasModalForms && (
