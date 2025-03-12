@@ -10,14 +10,14 @@ export const moduleConfig: PropModuleConfig = {
       label: "Service Management",
     },
     {
-      label: "Add-Ons",
+      label: "Bookings",
     },
   ],
-  moduleKey: "vauth.services.addons".split("."),
-  endpoint: "/services/addons/",
+  moduleKey: "vauth.users".split("."),
+  endpoint: "/services/time/frames/",
   //
-  moduleTerm: "Add-On's",
-  moduleTermPlural: "Add-On's",
-  moduleName: "Add-On's",
-  moduleDescription: "Manage all player-add-on categorys & their pricings.",
+  moduleTerm: "Time Frame",
+  moduleTermPlural: "Time Frames",
+  moduleName: "Time Frames",
+  moduleDescription: "Manage all time frames for booking.",
 };

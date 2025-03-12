@@ -6,8 +6,10 @@ import { Module as Invoice } from "./invoice";
 
 import { Module as Packages } from "./package";
 import { Module as Grounds } from "./grounds";
+import { Module as AddonsCategory } from "./addon-category";
 import { Module as Addons } from "./addon";
 import { Module as Routine } from "./routine";
+import { Module as Timeframe } from "./timeframe";
 
 import { Module as Accounts } from "./accounts";
 import { Module as Bookings } from "./bookings";
@@ -30,5 +32,7 @@ export const Modules = {
   TeamMembers,
   Grounds,
   Addons,
+  AddonsCategory,
   Routine,
+  Timeframe,
 };

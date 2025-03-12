@@ -2,7 +2,8 @@ import _ from "moment";
 
 export const formProps: any = {
   initial: {
-    specification: [],
+    addon: [],
+    category: "x",
   },
 
   // > STEPS
@@ -21,7 +22,12 @@ export const formProps: any = {
 
   // > SUBMIT
   transformDataOnSubmit: (formdata: any) => {
-    return formdata;
+    return {
+      ...formdata,
+      addon: formdata.addon?.map((e: any) => {
+        return e.addon;
+      }),
+    };
   },
   submitFormData: false,
 

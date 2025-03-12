@@ -75,12 +75,6 @@ const JERSEY_SIZE = [
   { value: "XXL", label: "XXL" },
 ];
 
-const PACKAGE_CHOICES = [
-  { value: "Regular", label: "Regular" },
-  { value: "Silver", label: "Silver" },
-  { value: "Gold", label: "Gold" },
-];
-
 const EXPERIENCE_CHOICES = [
   { value: "Newcomer", label: "Newcomer" },
   { value: "Amateur", label: "Amateur" },
@@ -436,24 +430,6 @@ export function _Form() {
 
             <SimpleGrid cols={2} spacing="xs">
               <Select
-                label="Equipment Required"
-                description="Specify if equipment is needed."
-                placeholder="Select"
-                data={EQUIPMENT_CHOICES}
-                required
-                {...form.getInputProps("equipment_required")}
-              />
-
-              <Select
-                label="Jersey Size"
-                description="Select preferred jersey size."
-                placeholder="Choose size"
-                data={JERSEY_SIZE}
-                required
-                {...form.getInputProps("jersey")}
-              />
-
-              <Select
                 label="Experience Level"
                 description="Select your experience level."
                 placeholder="Choose level"
@@ -469,15 +445,6 @@ export function _Form() {
                 data={TRAINING_TIME_CHOICES}
                 required
                 {...form.getInputProps("time_for_training")}
-              />
-
-              <Select
-                label="Membership"
-                description="Select your membership type."
-                placeholder="Choose membership"
-                data={MEMBERSHIP_CHOICES}
-                required
-                {...form.getInputProps("membership")}
               />
 
               <TextInput

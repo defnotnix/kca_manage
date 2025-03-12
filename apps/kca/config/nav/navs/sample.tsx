@@ -44,8 +44,9 @@ export const navItems: PropAdminNavItems[] = [
     value: "#",
     children: [
       { label: "Grounds", value: "/grounds" },
+      { label: "Timeframes", value: "/timeframes" },
       { label: "Packages", value: "/packages" },
-      { label: "Add-Ons", value: "/addons" },
+      { label: "Add-On's", value: "/addons" },
       { label: "Routines", value: "/routines" },
     ],
   },

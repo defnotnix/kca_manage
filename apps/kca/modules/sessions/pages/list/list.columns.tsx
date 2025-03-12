@@ -10,6 +10,7 @@ export const columns = [
     accessor: "coach",
     title: "Session Coach",
     sortable: true,
+    render: (row: any) => <Badge>{row.coach?.name}</Badge>,
   },
   {
     accessor: "start_time",

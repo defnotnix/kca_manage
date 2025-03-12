@@ -109,35 +109,35 @@ export function _List() {
               </Menu.Item>
             </>
           )}
-          contentPreTable={
-            <SimpleGrid cols={4} px="md" mb="md" spacing="xs">
-              <StatCard
-                title="Total Players"
-                icon={Star}
-                value="100"
-                description="Total number of players"
-              />
-              <StatCard
-                title="Active Players"
-                icon={Star}
-                value="100"
-                shortValue="23% of Total"
-                description="Players currently active"
-              />
-              <StatCard
-                title="Due Payment"
-                icon={Star}
-                value="100"
-                description="Total number of players"
-              />
-              <StatCard
-                title="Payment Overdue"
-                icon={Star}
-                value="100"
-                description="Total number of players"
-              />
-            </SimpleGrid>
-          }
+          // contentPreTable={
+          //   <SimpleGrid cols={4} px="md" mb="md" spacing="xs">
+          //     <StatCard
+          //       title="Total Players"
+          //       icon={Star}
+          //       value="100"
+          //       description="Total number of players"
+          //     />
+          //     <StatCard
+          //       title="Active Players"
+          //       icon={Star}
+          //       value="100"
+          //       shortValue="23% of Total"
+          //       description="Players currently active"
+          //     />
+          //     <StatCard
+          //       title="Due Payment"
+          //       icon={Star}
+          //       value="100"
+          //       description="Total number of players"
+          //     />
+          //     <StatCard
+          //       title="Payment Overdue"
+          //       icon={Star}
+          //       value="100"
+          //       description="Total number of players"
+          //     />
+          //   </SimpleGrid>
+          // }
         />
       </ListHandler>
     </>

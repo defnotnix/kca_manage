@@ -11,7 +11,7 @@ export const moduleConfig: PropModuleConfig = {
     },
   ],
   moduleKey: "vauth.users".split("."),
-  endpoint: "/players/sessions/",
+  endpoint: "/services/sessions/",
   //
   moduleTerm: "Session",
   moduleTermPlural: "Sessions",

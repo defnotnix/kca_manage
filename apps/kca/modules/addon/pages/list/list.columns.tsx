@@ -3,38 +3,40 @@ import { Avatar, Badge, Group, Stack, Text } from "@mantine/core";
 export const columns = [
   {
     accessor: "name",
-    title: "Package Name",
+    title: "Name",
+    sortable: true,
+    render: (record: any) => (
+      <Group wrap="nowrap">
+        <Avatar src={record.image} alt="Service Image" />
+        <Text size="sm">{record.name}</Text>
+      </Group>
+    ),
+  },
+  {
+    accessor: "price",
+    title: "Price",
     sortable: true,
   },
 
   {
-    accessor: "i",
-    title: "Package Particulars",
-    sortable: true,
-    render: (record: any) => {
-      console.log(record);
-
-      return (
-        <>
-          <Group gap="xs">
-            {record?.specification.map((spec: any, index: number) => (
-              <Badge size="md" variant="light" key={index}>
-                <Group gap="xs">
-                  <Text size="xs" opacity={0.8}>
-                    {spec.name}
-                  </Text>
-                  <Text size="xs" opacity={0.6}>
-                    :
-                  </Text>
-                  <Text size="xs" fw={600} c="brand.6">
-                    Rs. {spec.price}
-                  </Text>
-                </Group>
-              </Badge>
-            ))}
-          </Group>
-        </>
-      );
-    },
+    accessor: "category",
+    title: "Category",
+    render: (record: any) => <Text>{record.category}</Text>,
+  },
+  {
+    accessor: "specification",
+    title: "Specification",
+    render: (record: any) => (
+      <Group gap="xs">
+        {record.specification &&
+          record.specification?.map(({ key, value }: any) => (
+            <Badge
+              size="sm"
+              variant="light"
+              key={key}
+            >{`${key}: ${value}`}</Badge>
+          ))}
+      </Group>
+    ),
   },
 ];

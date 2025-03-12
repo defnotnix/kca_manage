@@ -1,7 +1,7 @@
 "use client";
 
 import { ModuleTableLayout } from "@vframework/ui";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ListHandler } from "@vframework/core";
 import {
   createRecord,
@@ -19,7 +19,6 @@ import { formProps } from "../../form/form.config";
 
 export function _List() {
   const router = useRouter();
-  const Params = useParams();
 
   return (
     <>
@@ -27,9 +26,6 @@ export function _List() {
         endpoint={moduleConfig.endpoint}
         moduleKey={moduleConfig.moduleKey}
         getRecords={getRecords}
-        getParams={{
-          category_id: Params.id,
-        }}
       >
         <ModuleTableLayout
           {...moduleConfig}
@@ -51,19 +47,19 @@ export function _List() {
             background:
               gender === "male" ? "var(--mantine-color-indigo-0)" : "",
           })}
-          onEditTrigger={(e) => {
+          onEditTrigger={(row) => {
             return {
-              ...e,
-              category: String(e.category),
+              ...row,
+              status: row.status ? "1" : "0",
             };
           }}
           // * EXTRA ACTIONS
-
+          disableAdd
+          disableDelete
           // * MODAL CONFIG
           hasModalForms
           modalFormProps={{ width: "lg", formProps }}
           modalForm={<Form />}
-          withBackButton
         />
       </ListHandler>
     </>

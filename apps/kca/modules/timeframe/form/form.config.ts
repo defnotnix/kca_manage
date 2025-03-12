@@ -28,7 +28,7 @@ export const formProps: any = {
       ...(formdata.image instanceof File ? { image: formdata.image } : {}),
     };
   },
-  submitFormData: true,
+  submitFormData: false,
 
   // > API
 

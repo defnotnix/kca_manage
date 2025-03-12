@@ -22,9 +22,10 @@ export const formProps: any = {
 
     return {
       ...formdata,
-      is_admin: formdata?.type === "Superadmin",
-      is_staff: formdata?.type === "Staff",
-      is_coach: formdata?.type === "Coach",
+      ...(formdata.image instanceof File ? { image: formdata.image } : {}),
+      is_admin: formdata.type == "Superadmin",
+      is_coach: formdata.type == "Coach",
+      is_staff: formdata.type == "Staff",
     };
   },
   submitFormData: true,

@@ -11,7 +11,7 @@ export const moduleConfig: PropModuleConfig = {
     },
   ],
   moduleKey: "vauth.users".split("."),
-  endpoint: "/players/packages/",
+  endpoint: "/services/grounds/",
   //
   moduleTerm: "Ground",
   moduleTermPlural: "Grounds",

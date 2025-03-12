@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //mantine
 import {
   ActionIcon,
@@ -15,6 +15,7 @@ import {
   Grid,
   Group,
   Image,
+  Loader,
   MultiSelect,
   NumberInput,
   Paper,
@@ -38,12 +39,16 @@ import { useQuery } from "@tanstack/react-query";
 import classes from "./form.module.css";
 import { Plus, Trash } from "@phosphor-icons/react";
 
+import { getRecords as getCategories } from "../module.api";
+import { useParams } from "next/navigation";
+
 // Assuming you have these defined elsewhere
 
 export function _Form() {
   // * DEFINITIONS
 
   const form = FormHandler.useForm();
+  const Params = useParams();
 
   // * CONTEXT
 
@@ -58,6 +63,10 @@ export function _Form() {
   // * FUNCTIONS
 
   // * COMPONENTS
+
+  useEffect(() => {
+    form.setFieldValue("category", Params.id);
+  }, []);
 
   switch (current) {
     case 0:
@@ -78,25 +87,15 @@ export function _Form() {
               {...form.getInputProps("name")}
             />
 
-            <SimpleGrid cols={2} spacing="xs">
-              <NumberInput
-                hideControls
-                label="Price"
-                description="Service/Item price"
-                placeholder="Enter price"
-                required
-                leftSection={<Text size="xs">Rs.</Text>}
-                {...form.getInputProps("price")}
-              />
-
-              <Select
-                label="Category"
-                description="Select a category for the service"
-                placeholder="Choose category"
-                data={[]} // Populate dynamically
-                {...form.getInputProps("category")}
-              />
-            </SimpleGrid>
+            <NumberInput
+              hideControls
+              label="Price"
+              description="Service/Item price"
+              placeholder="Enter price"
+              required
+              leftSection={<Text size="xs">Rs.</Text>}
+              {...form.getInputProps("price")}
+            />
 
             <FormElement.SectionTitle
               title="Add On's Specifications"

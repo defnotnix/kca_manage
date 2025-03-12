@@ -1,7 +1,9 @@
 import _ from "moment";
 
 export const formProps: any = {
-  initial: {},
+  initial: {
+    specification: [],
+  },
 
   // > STEPS
   steps: [
@@ -19,16 +21,9 @@ export const formProps: any = {
 
   // > SUBMIT
   transformDataOnSubmit: (formdata: any) => {
-    const { image, ...res } = formdata;
-
-    console.log("call", formdata);
-
-    return {
-      ...res,
-      ...(formdata.image instanceof File ? { image: formdata.image } : {}),
-    };
+    return formdata;
   },
-  submitFormData: true,
+  submitFormData: false,
 
   // > API
 

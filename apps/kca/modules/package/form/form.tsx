@@ -33,10 +33,12 @@ import { FormHandler } from "@vframework/core";
 import { FormElement, ImageUpload } from "@vframework/ui";
 import { DateInput, YearPickerInput } from "@mantine/dates";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+import { getRecords } from "../module.api";
 
 import classes from "./form.module.css";
-import { Plus, Trash } from "@phosphor-icons/react";
+import { Check, Plus, Trash } from "@phosphor-icons/react";
 
 // Assuming you have these defined elsewhere
 
@@ -54,6 +56,29 @@ export function _Form() {
   // * STATES
 
   // * PRELOADING
+
+  const queryCategory = useQuery({
+    queryKey: ["service", "addon-category"],
+    queryFn: async () => {
+      const res = await getRecords({
+        endpoint: "/services/addons/category/",
+      });
+      return res;
+    },
+    initialData: [],
+  });
+
+  const queryAddons = useQuery({
+    queryKey: ["service", "addons"],
+    queryFn: async (id: any) => {
+      const res = await getRecords({
+        endpoint: "/services/addons/",
+      });
+      console.log(res);
+      return res;
+    },
+    initialData: [],
+  });
 
   // * FUNCTIONS
 
@@ -104,52 +129,73 @@ export function _Form() {
 
             <FormElement.SectionTitle
               title="Package Particulars"
-              description="Comprehensive contact information for the student or student organization."
+              description="Additional Services/Items"
               actionButton={
-                <Button
-                  size="xs"
-                  leftSection={<Plus />}
-                  onClick={() =>
-                    form.insertListItem("addon", { name: "", price: "" })
-                  }
-                >
-                  Add
-                </Button>
+                <Select
+                  data={[
+                    {
+                      value: "x",
+                      label: "All",
+                    },
+                    ...queryCategory.data?.map((item: any) => {
+                      return {
+                        value: String(item.id),
+                        label: item.name,
+                      };
+                    }),
+                  ]}
+                  placeholder="Item/Service"
+                  nothingFoundMessage="No add-ons added yet"
+                  required
+                  {...form.getInputProps(`category`)}
+                />
               }
             />
 
-            {form.getValues()?.addon.length > 0 && (
-              <SimpleGrid cols={2} mt="xs">
-                <Text size="xs">Service/Item</Text>
-                <Text size="xs">Price</Text>
-              </SimpleGrid>
-            )}
-
-            {form.getValues()?.addon.map((item: any, index: number) => (
-              <SimpleGrid cols={2} spacing="xs" key={index}>
-                <TextInput
-                  placeholder="Item/Service"
-                  required
-                  {...form.getInputProps(`addon.${index}.name`)}
-                />
-                <NumberInput
-                  leftSection={<Text size="xs">Rs.</Text>}
-                  min={0}
-                  placeholder="Price"
-                  required
-                  rightSection={
-                    <ActionIcon
-                      onClick={() => form.removeListItem("addon", index)}
-                      color="red"
-                      variant="light"
-                    >
-                      <Trash />
-                    </ActionIcon>
+            <SimpleGrid cols={2} spacing="xs">
+              {queryAddons.data
+                ?.filter((e: any) => {
+                  if (form.getValues()?.category == "x") {
+                    return true;
+                  } else {
+                    return e.category == form.getValues()?.category;
                   }
-                  {...form.getInputProps(`addon.${index}.price`)}
-                />
-              </SimpleGrid>
-            ))}
+                })
+                .map((item: any, index: number) => {
+                  return (
+                    <Checkbox.Card
+                      key={index}
+                      className={classes.card}
+                      radius="md"
+                      checked={form.getValues()?.addon.includes(item.id)}
+                      onClick={() => {
+                        if (form.getValues()?.addon.includes(item.id)) {
+                          form.setFieldValue(
+                            "addon",
+                            form.getValues()?.addon.filter((e: any) => {
+                              return e !== item.id;
+                            })
+                          );
+                        } else {
+                          form.setFieldValue("addon", [
+                            ...(form.getValues()?.addon || []),
+                            item.id,
+                          ]);
+                        }
+                      }}
+                    >
+                      <Group wrap="nowrap" align="flex-start">
+                        <Checkbox.Indicator />
+                        <div>
+                          <Text size="xs" fw={600}>
+                            {item.name}
+                          </Text>
+                        </div>
+                      </Group>
+                    </Checkbox.Card>
+                  );
+                })}
+            </SimpleGrid>
           </Stack>
         </>
       );

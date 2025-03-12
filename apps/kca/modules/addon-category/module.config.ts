@@ -10,14 +10,14 @@ export const moduleConfig: PropModuleConfig = {
       label: "Service Management",
     },
     {
-      label: "Add-Ons",
+      label: "Add Ons",
     },
   ],
-  moduleKey: "vauth.services.addons".split("."),
-  endpoint: "/services/addons/",
+  moduleKey: "vauth.service.addoncategory".split("."),
+  endpoint: "/services/addons/category/",
   //
-  moduleTerm: "Add-On's",
-  moduleTermPlural: "Add-On's",
-  moduleName: "Add-On's",
+  moduleTerm: "Add-on Category",
+  moduleTermPlural: "Adds",
+  moduleName: "Add-on Category",
   moduleDescription: "Manage all player-add-on categorys & their pricings.",
 };

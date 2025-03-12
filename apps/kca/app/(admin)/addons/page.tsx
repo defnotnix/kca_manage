@@ -1,2 +1,2 @@
 import { Modules } from "@/modules";
-export default Modules.Addons.List;
+export default Modules.AddonsCategory.List;
