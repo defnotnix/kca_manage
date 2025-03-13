@@ -6,12 +6,12 @@ export const formProps: any = {
   // },
 
   initial: {
-    addons: [1, 8, 11],
+    addons: ["1", "8", "11"],
     name: "Magic Mike",
     member_id: "m10123",
     gender: "1",
     package: "1",
-    session: "1",
+    session: ["1"],
     permanent_address: "Kupondole, Kathmandu",
     contact: "9813511101",
     parent_name: "GRM",
@@ -56,7 +56,7 @@ export const formProps: any = {
     console.log(formdata);
 
     return {
-      ...formdata,
+      ...res,
       ...(formdata.image instanceof File ? { image: formdata.image } : {}),
       // * FIXINGS
       doe: _(formdata?.doe).format("YYYY-MM-DD"),

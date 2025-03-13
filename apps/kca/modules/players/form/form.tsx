@@ -165,23 +165,14 @@ export function _Form() {
                 value={form.getValues()?.image}
               />
 
-              <TextInput
-                label="Student Name"
-                description="Full legal name of the student or student organization. "
-                placeholder="Enter full name"
-                required
-                {...form.getInputProps("name")}
-              />
-
               <SimpleGrid cols={2} spacing="xs">
                 <TextInput
-                  label="Member ID"
-                  description="Enter Member ID"
-                  placeholder="e.g. XXXXXX"
+                  label="Student Name"
+                  description="Full legal name of the student or student organization. "
+                  placeholder="Enter full name"
                   required
-                  {...form.getInputProps("member_id")}
+                  {...form.getInputProps("name")}
                 />
-
                 <Select
                   label="Gender"
                   description="Optional if not relevant or preferred not to disclose."
@@ -206,7 +197,7 @@ export function _Form() {
                   {...form.getInputProps("package")}
                 />
 
-                <Select
+                <MultiSelect
                   data={
                     querySessions?.data?.map((e: any) => {
                       return {
@@ -215,7 +206,7 @@ export function _Form() {
                       };
                     }) || []
                   }
-                  label="Session ID"
+                  label="Involved Sessions"
                   description="Select Player Session"
                   placeholder="Select Session"
                   required
@@ -228,23 +219,22 @@ export function _Form() {
                 description="Comprehensive contact information for the student or student organization."
               />
 
-              <TextInput
-                label="Permanent Address"
-                description="Complete physical address including street, city, state, and postal code for the student or company."
-                placeholder="Enter permanent address"
-                {...form.getInputProps("permanent_address")}
-              />
-
-              <TextInput
-                label="Temporary Address"
-                description="Complete physical address including street, city, state, and postal code for the student or company."
-                placeholder="Enter temporary address"
-                {...form.getInputProps("temp_address")}
-              />
-
               <SimpleGrid cols={{ base: 1, lg: 2 }}>
                 <TextInput
-                  label="Contact 1"
+                  label="Permanent Address"
+                  description="Complete physical address including street, city, state, and postal code for the student or company."
+                  placeholder="Enter permanent address"
+                  {...form.getInputProps("permanent_address")}
+                />
+
+                <TextInput
+                  label="Temporary Address"
+                  description="Complete physical address including street, city, state, and postal code for the student or company."
+                  placeholder="Enter temporary address"
+                  {...form.getInputProps("temp_address")}
+                />
+                <TextInput
+                  label="Primary Contact"
                   description="Primary phone number"
                   placeholder="Enter primary contact number"
                   {...form.getInputProps("contact")}
@@ -284,16 +274,16 @@ export function _Form() {
                 />
 
                 <TextInput
-                  label="Contact 1"
+                  label="Primary Contact"
                   description="Primary phone number"
                   placeholder="Enter primary contact number"
                   {...form.getInputProps("primary_contact")}
                 />
                 <TextInput
-                  label="Contact 2"
+                  label="Emergency Contact"
                   description="Secondary or alternative"
                   placeholder="Enter secondary contact number"
-                  {...form.getInputProps("secondary_contact")}
+                  {...form.getInputProps("emergency_contact")}
                 />
                 <TextInput
                   label="Email"
@@ -301,12 +291,6 @@ export function _Form() {
                   placeholder="Enter email address"
                   required
                   {...form.getInputProps("email")}
-                />
-                <TextInput
-                  label="Emergency Contact"
-                  description="Emergency phone number"
-                  placeholder="Enter emergency contact number"
-                  {...form.getInputProps("emergency_contact")}
                 />
               </SimpleGrid>
             </Stack>
@@ -368,7 +352,7 @@ export function _Form() {
                         onClick={() => {
                           if (form.getValues()?.addons.includes(item.id)) {
                             form.setFieldValue(
-                              "addon",
+                              "addons",
                               form.getValues()?.addons.filter((e: any) => {
                                 return e !== item.id;
                               })
@@ -407,16 +391,17 @@ export function _Form() {
                   required
                   {...form.getInputProps("doe")}
                 />
-                <TextInput
-                  label="Team"
-                  description="Specify the batch or team assigned to the student."
-                  placeholder="Enter batch or team"
-                  required
-                  {...form.getInputProps("assigned_team")}
+
+                <Select
+                  label="Membership"
+                  data={MEMBERSHIP_CHOICES}
+                  description="Select Intrested Membership Status"
+                  placeholder="Choose a membership"
+                  {...form.getInputProps("membership")}
                 />
                 <Select
                   label="Training Schedule"
-                  data={["Morning", "Afternoon", "Evening"]}
+                  data={TRAINING_TIME_CHOICES}
                   description="Select the student's preferred training schedule."
                   placeholder="Choose a schedule"
                   {...form.getInputProps("training_schedule")}
@@ -442,14 +427,14 @@ export function _Form() {
                   required
                   {...form.getInputProps("decided_by")}
                 />
-                <TextInput
-                  label="Reason"
-                  description="Enter the reason for the discount"
-                  placeholder="e.g. General Discount"
-                  required
-                  {...form.getInputProps("reason")}
-                />
               </SimpleGrid>
+              <TextInput
+                label="Reason"
+                description="Enter the reason for the discount"
+                placeholder="e.g. General Discount"
+                required
+                {...form.getInputProps("reason")}
+              />
 
               {/* <FormElement.SectionTitle
                 title="Referrals"
