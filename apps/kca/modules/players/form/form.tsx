@@ -55,42 +55,27 @@ const optionBoolean = [
 ];
 
 const GENDER_CHOICES = [
-  { value: "NA", label: "Not Specified" },
-  { value: "M", label: "Male" },
-  { value: "F", label: "Female" },
-];
-
-const EQUIPMENT_CHOICES = [
-  { value: "Balls", label: "Balls" },
-  { value: "Bats", label: "Bats" },
-  { value: "Kits", label: "Kits" },
-];
-
-const JERSEY_SIZE = [
-  { value: "XS", label: "XS" },
-  { value: "S", label: "S" },
-  { value: "M", label: "M" },
-  { value: "L", label: "L" },
-  { value: "XL", label: "XL" },
-  { value: "XXL", label: "XXL" },
+  { value: "3", label: "Not Specified" },
+  { value: "1", label: "Male" },
+  { value: "2", label: "Female" },
 ];
 
 const EXPERIENCE_CHOICES = [
-  { value: "Newcomer", label: "Newcomer" },
-  { value: "Amateur", label: "Amateur" },
-  { value: "Professional", label: "Professional" },
+  { value: "1", label: "Newcomer" },
+  { value: "2", label: "Amateur" },
+  { value: "3", label: "Professional" },
 ];
 
 const TRAINING_TIME_CHOICES = [
-  { value: "Morning", label: "Morning" },
-  { value: "Day", label: "Day" },
-  { value: "Evening", label: "Evening" },
+  { value: "1", label: "Morning" },
+  { value: "2", label: "Day" },
+  { value: "3", label: "Evening" },
 ];
 
 const MEMBERSHIP_CHOICES = [
-  { value: "Yes", label: "Yes" },
-  { value: "No", label: "No" },
-  { value: "Maybe", label: "Maybe" },
+  { value: "1", label: "Yes" },
+  { value: "2", label: "No" },
+  { value: "3", label: "Maybe" },
 ];
 
 export function _Form() {
@@ -101,6 +86,7 @@ export function _Form() {
   // * CONTEXT
 
   const { current } = FormHandler.usePropContext();
+  const [activeCategory, setActiveCategory] = useState("x");
 
   //  const current: number = 3;
 
@@ -114,7 +100,7 @@ export function _Form() {
     queryKey: ["config", "packages"], // query key
     queryFn: async () => {
       const res = await getPackages({
-        endpoint: "/players/packages/",
+        endpoint: "/services/packages/",
       });
       return res;
     },
@@ -125,8 +111,32 @@ export function _Form() {
     queryKey: ["config", "sessions"], // query key
     queryFn: async () => {
       const res = await getPackages({
-        endpoint: "/players/sessions/",
+        endpoint: "/services/sessions/",
       });
+      return res;
+    },
+    initialData: [],
+  });
+
+  const queryAddonsCategory = useQuery({
+    queryKey: ["service", "addons-category"],
+    queryFn: async (id: any) => {
+      const res = await getPackages({
+        endpoint: "/services/addons/category/",
+      });
+      console.log(res);
+      return res;
+    },
+    initialData: [],
+  });
+
+  const queryAddons = useQuery({
+    queryKey: ["service", "addons"],
+    queryFn: async (id: any) => {
+      const res = await getPackages({
+        endpoint: "/services/addons/",
+      });
+      console.log(res);
       return res;
     },
     initialData: [],
@@ -209,7 +219,7 @@ export function _Form() {
                   description="Select Player Session"
                   placeholder="Select Session"
                   required
-                  {...form.getInputProps("sessions")}
+                  {...form.getInputProps("session")}
                 />
               </SimpleGrid>
 
@@ -311,6 +321,80 @@ export function _Form() {
             <Stack gap="xs">
               <FormElement.SectionTitle
                 isTopElement
+                title="Additional Packages"
+                description="Additional Services/Items"
+                actionButton={
+                  <Select
+                    data={[
+                      {
+                        value: "x",
+                        label: "All",
+                      },
+                      ...queryAddonsCategory.data?.map((item: any) => {
+                        return {
+                          value: String(item.id),
+                          label: item.name,
+                        };
+                      }),
+                    ]}
+                    placeholder="Item/Service"
+                    nothingFoundMessage="No add-ons added yet"
+                    required
+                    value={activeCategory}
+                    onChange={(e: any) => {
+                      setActiveCategory(e);
+                    }}
+                  />
+                }
+              />
+
+              <SimpleGrid cols={{ base: 2, lg: 3 }} spacing="xs">
+                {queryAddons.data
+                  ?.filter((e: any) => {
+                    if (activeCategory == "x") {
+                      return true;
+                    } else {
+                      return e.category == Number(activeCategory);
+                    }
+                  })
+                  .map((item: any, index: number) => {
+                    return (
+                      <Checkbox.Card
+                        p="md"
+                        key={index}
+                        className={classes.card}
+                        radius="md"
+                        checked={form.getValues()?.addons.includes(item.id)}
+                        onClick={() => {
+                          if (form.getValues()?.addons.includes(item.id)) {
+                            form.setFieldValue(
+                              "addon",
+                              form.getValues()?.addons.filter((e: any) => {
+                                return e !== item.id;
+                              })
+                            );
+                          } else {
+                            form.setFieldValue("addons", [
+                              ...(form.getValues()?.addons || []),
+                              item.id,
+                            ]);
+                          }
+                        }}
+                      >
+                        <Group wrap="nowrap" align="flex-start">
+                          <Checkbox.Indicator />
+                          <div>
+                            <Text size="xs" fw={600}>
+                              {item.name}
+                            </Text>
+                          </div>
+                        </Group>
+                      </Checkbox.Card>
+                    );
+                  })}
+              </SimpleGrid>
+
+              <FormElement.SectionTitle
                 title="Enrollment Details"
                 description="Provide enrollment information, including key dates and batch details."
               />

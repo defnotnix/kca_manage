@@ -24,9 +24,7 @@ export const formProps: any = {
   transformDataOnSubmit: (formdata: any) => {
     return {
       ...formdata,
-      addon: formdata.addon?.map((e: any) => {
-        return e.addon;
-      }),
+      addon: formdata.addon,
     };
   },
   submitFormData: false,

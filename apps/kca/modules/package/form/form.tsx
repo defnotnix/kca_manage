@@ -51,6 +51,8 @@ export function _Form() {
 
   const { current } = FormHandler.usePropContext();
 
+  const [activeCategory, setActiveCategory] = useState("x");
+
   //  const current: number = 3;
 
   // * STATES
@@ -90,9 +92,9 @@ export function _Form() {
         <>
           <Stack gap="xs" p="md">
             <TextInput
-              label="Service Name"
-              description="Unique name of the service"
-              placeholder="Enter service name"
+              label="Package Name"
+              description="Unique name of the package"
+              placeholder="Enter package name"
               required
               {...form.getInputProps("name")}
             />
@@ -100,7 +102,7 @@ export function _Form() {
             <NumberInput
               hideControls
               label="Days"
-              description="Number of days for the service"
+              description="Number of days for the package"
               placeholder="Enter number of days"
               required
               {...form.getInputProps("days")}
@@ -118,8 +120,8 @@ export function _Form() {
               />
               <NumberInput
                 hideControls
-                label="Service Fee"
-                description="Fee for the service"
+                label="Package Fee"
+                description="Fee for the package"
                 placeholder="Enter fee"
                 required
                 leftSection={<Text size="xs">Rs.</Text>}
@@ -147,7 +149,10 @@ export function _Form() {
                   placeholder="Item/Service"
                   nothingFoundMessage="No add-ons added yet"
                   required
-                  {...form.getInputProps(`category`)}
+                  value={activeCategory}
+                  onChange={(e: any) => {
+                    setActiveCategory(e);
+                  }}
                 />
               }
             />
@@ -155,10 +160,10 @@ export function _Form() {
             <SimpleGrid cols={2} spacing="xs">
               {queryAddons.data
                 ?.filter((e: any) => {
-                  if (form.getValues()?.category == "x") {
+                  if (activeCategory == "x") {
                     return true;
                   } else {
-                    return e.category == form.getValues()?.category;
+                    return e.category == Number(activeCategory);
                   }
                 })
                 .map((item: any, index: number) => {
