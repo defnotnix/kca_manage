@@ -31,7 +31,7 @@ export const formProps: any = {
       ...(formdata.icon instanceof File ? { icon: formdata.icon } : {}),
     };
   },
-  submitFormData: true,
+  submitFormData: false,
 
   // > API
 

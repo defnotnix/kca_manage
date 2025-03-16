@@ -10,7 +10,9 @@ export const getRecords = (props: any) => moduleApiCall.getRecords({
 export const getSingleRecord = moduleApiCall.getSingleRecord;
 export const createRecord = (body: any) =>
     moduleApiCall.createRecord(endpoint, body);
-export const updateRecord = (body: any, id: any) =>
+export const updateRecord = (body: any, id: any) => {
+    console.log(body)
     moduleApiCall.editRecord(endpoint, body, id);
+}
 export const deleteRecord = (id: any) =>
     moduleApiCall.deleteRecord(endpoint, id);

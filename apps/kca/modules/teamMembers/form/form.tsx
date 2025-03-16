@@ -38,6 +38,8 @@ import {useQuery} from "@tanstack/react-query";
 import classes from "./form.module.css";
 import {Plus, Trash} from "@phosphor-icons/react";
 import {getRecords} from "../module.api";
+import {getRecords as getR} from "@/modules/bookings/module.api"
+
 import {useParams} from "next/navigation";
 import {moduleConfig} from "../module.config";
 
@@ -63,11 +65,9 @@ export function _Form() {
     const queryData = useQuery({
         queryKey: ["config", "teams"], // query key
         queryFn: async () => {
-            const res = await getRecords({
-                endpoint: "/players/drop/",
-                params: {
-                    team_id: Params.id,
-                },
+            const res = await getR({
+                endpoint: "/players/info/drop/",
+
             });
             console.log("team", res);
             return res;
@@ -79,13 +79,13 @@ export function _Form() {
         queryKey: ["config", "members"], // query key
         queryFn: async () => {
             const res = await getRecords({
-                endpoint: moduleConfig.endpoint || "",
+                endpoint: moduleConfig?.endpoint,
                 params: {
                     team_id: Params.id,
                 },
             });
-            console.log("params", res);
-            return res;
+
+            return res?.player || [];
         },
         initialData: [],
     });
@@ -103,7 +103,7 @@ export function _Form() {
             return (
                 <>
                     <Stack gap="xs" p="md">
-                        <Select
+                        <MultiSelect
                             data={queryData?.data
                                 ?.filter(
                                     (e: any) =>
@@ -111,7 +111,7 @@ export function _Form() {
                                 )
                                 .map((e: any) => ({
                                     value: String(e.id),
-                                    label: `${e.name} - ${e.member_id}`,
+                                    label: `${e.name}`,
                                 }))}
                             label="Select Player"
                             description="Select player to add to this team"
