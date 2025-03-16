@@ -7,14 +7,14 @@ export const moduleConfig: PropModuleConfig = {
       label: "KCA Admin",
     },
     {
-      label: "Teams",
+      label: "Tournament Members",
     },
   ],
-  moduleKey: "vauth.users.team".split("."),
-  endpoint: "/players/teams/",
+  moduleKey: "vauth.users.tournament".split("."),
+  endpoint: "/players/tournament/",
   //
-  moduleTerm: "Team",
-  moduleTermPlural: "Teams",
-  moduleName: "Team",
+  moduleTerm: "Tournament Member",
+  moduleTermPlural: "Tournament Members",
+  moduleName: "Tournament Member",
   moduleDescription: "Manage all player-sessions & their pricings.",
 };

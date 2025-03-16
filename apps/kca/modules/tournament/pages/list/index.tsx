@@ -58,8 +58,7 @@ export function _List() {
             <>
               <Menu.Item
                 onClick={() => {
-                  setActive(row);
-                  handlersFormModalPlayer.open();
+                  router.push("/tournaments/" + row.id);
                 }}
                 leftSection={<Users />}
               >

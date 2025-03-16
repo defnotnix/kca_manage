@@ -2,6 +2,7 @@ import { Module as Players } from "./players";
 
 import { Module as Sessions } from "./sessions";
 import { Module as Tournaments } from "./tournament";
+import { Module as TournamentMembers } from "./tournamentMembers";
 import { Module as Invoice } from "./invoice";
 
 import { Module as Packages } from "./package";
@@ -35,4 +36,5 @@ export const Modules = {
   AddonsCategory,
   Routine,
   Timeframe,
+  TournamentMembers,
 };
