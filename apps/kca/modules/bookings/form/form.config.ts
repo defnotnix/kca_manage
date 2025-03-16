@@ -1,47 +1,47 @@
 import _ from "moment";
 
 export const formProps: any = {
-  initial: {
-    date: new Date(),
-    bookingTime: [],
-  },
+    initial: {
+        date: new Date(),
+        bookingTime: [],
+    },
 
-  // > STEPS
-  steps: [
-    "Personal Details",
-    "Guardian Details",
-    "Enroll Details",
-    "Extra Details",
-  ],
-  stepType: "general",
-  stepClickable: false,
-  initialStep: 0,
+    // > STEPS
+    steps: [
+        "Ground",
+        "Add-On's",
+        "Timing",
+        "Details",
+    ],
+    stepType: "general",
+    stepClickable: false,
+    initialStep: 0,
 
-  // > VALIDATION
-  validation: [],
+    // > VALIDATION
+    validation: [],
 
-  // > SUBMIT
-  transformDataOnSubmit: (formdata: any) => {
-    const { image, ...res } = formdata;
+    // > SUBMIT
+    transformDataOnSubmit: (formdata: any) => {
+        const {image, ...res} = formdata;
 
-    console.log(formdata);
+        console.log(formdata);
 
-    return {
-      ...formdata,
-      ...(formdata.image instanceof File ? { image: formdata.image } : {}),
-      // * FIXINGS
-      doe: _(formdata?.doe).format("YYYY-MM-DD"),
-      dob: _(formdata?.dob).format("YYYY-MM-DD"),
-      decided_date: _(formdata?.decided_date).format("YYYY-MM-DD"),
-    };
-  },
-  submitFormData: true,
+        return {
+            ...formdata,
+            ...(formdata.image instanceof File ? {image: formdata.image} : {}),
+            // * FIXINGS
+            doe: _(formdata?.doe).format("YYYY-MM-DD"),
+            dob: _(formdata?.dob).format("YYYY-MM-DD"),
+            decided_date: _(formdata?.decided_date).format("YYYY-MM-DD"),
+        };
+    },
+    submitFormData: true,
 
-  // > API
+    // > API
 
-  submitProps: {
-    keyIgnore: [],
-    valueIgnore: [],
-    stringify: false,
-  },
+    submitProps: {
+        keyIgnore: [],
+        valueIgnore: [],
+        stringify: false,
+    },
 };
