@@ -20,6 +20,7 @@ import {
   Menu,
   Modal,
   Paper,
+  SimpleGrid,
   Space,
   Stack,
   Text,
@@ -107,6 +108,7 @@ export function ModuleTableLayout({
   rowColor,
   rowBackgroundColor,
   rowStyle,
+  customCreate,
 
   /**
    * Tab settings
@@ -169,6 +171,7 @@ export function ModuleTableLayout({
   disableDelete = false,
   customRender,
   withBackButton,
+  customCreateText,
 }: PropModuleTableLayout) {
   // Create moduleConfig object to maintain compatibility
 
@@ -457,8 +460,8 @@ export function ModuleTableLayout({
               </div>
             </Group>
 
-            <Group gap={4}>
-              <HoverCard shadow="md" withArrow>
+            <Group gap={4} visibleFrom="lg">
+              {/* <HoverCard shadow="md" withArrow>
                 <HoverCard.Target>
                   <ActionIcon
                     size={28}
@@ -484,12 +487,13 @@ export function ModuleTableLayout({
                     </b>
                   </Text>
                 </HoverCard.Dropdown>
-              </HoverCard>
+              </HoverCard> */}
 
               <TextInput
                 rightSection={<MagnifyingGlass />}
                 size="xs"
                 placeholder="Search"
+                w={{ base: "100%", md: "auto" }}
                 onChange={(e) => {
                   setSearchVal(e.target.value);
                 }}
@@ -562,20 +566,24 @@ export function ModuleTableLayout({
                   size="xs"
                   leftSection={<Plus />}
                   onClick={() => {
-                    if (hasModalForms) {
-                      setActiveEdit(null);
-                      handlersFormModal.open();
-                      if (onModalNewOpen) {
-                        onModalNewOpen({});
-                      }
+                    if (customCreate) {
+                      customCreate(records);
                     } else {
-                      Router.push(
-                        customNewUrl ? customNewUrl : Pathname + "/new"
-                      );
+                      if (hasModalForms) {
+                        setActiveEdit(null);
+                        handlersFormModal.open();
+                        if (onModalNewOpen) {
+                          onModalNewOpen({});
+                        }
+                      } else {
+                        Router.push(
+                          customNewUrl ? customNewUrl : Pathname + "/new"
+                        );
+                      }
                     }
                   }}
                 >
-                  Add {moduleTerm || "Item"}
+                  {customCreateText || "Add " + moduleTerm || "Item"}
                 </Button>
                 <Button
                   disabled={!withAddExtra}
@@ -589,6 +597,86 @@ export function ModuleTableLayout({
               </ButtonGroup>
             </Group>
           </Group>
+
+          <Stack gap="xs" hiddenFrom="lg" mt="sm">
+            <TextInput
+              rightSection={<MagnifyingGlass />}
+              size="xs"
+              placeholder="Search"
+              w={{ base: "100%", md: "auto" }}
+              onChange={(e) => {
+                setSearchVal(e.target.value);
+              }}
+            />
+
+            <SimpleGrid cols={2} spacing={4} hiddenFrom="lg">
+              <Menu
+                withArrow
+                styles={{
+                  item: {
+                    fontSize: "var(--mantine-font-size-xs)",
+                  },
+                }}
+              >
+                <Menu.Target>
+                  <Button
+                    variant="light"
+                    rightSection={<CaretDown />}
+                    disabled={isFetching}
+                    size="xs"
+                  >
+                    Actions
+                  </Button>
+                </Menu.Target>
+                <Menu.Dropdown w={200}>
+                  <Menu.Label>Bulk Actions</Menu.Label>
+                  <Menu.Item leftSection={<Pen />}>Bulk Edit</Menu.Item>
+                  <Menu.Item leftSection={<Trash />}>Bulk Delete</Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Label>General</Menu.Label>
+
+                  <Menu.Item
+                    leftSection={<ArrowsClockwise />}
+                    onClick={() => {
+                      refetch();
+                    }}
+                  >
+                    Reload Table
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Label>Export to CSV</Menu.Label>
+                  <Menu.Item leftSection={<Export />}>Export All</Menu.Item>
+                  <Menu.Item leftSection={<Check />}>Export Selected</Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+
+              <Button
+                disabled={disableAdd}
+                variant="filled"
+                size="xs"
+                leftSection={<Plus />}
+                onClick={() => {
+                  if (customCreate) {
+                    customCreate(records);
+                  } else {
+                    if (hasModalForms) {
+                      setActiveEdit(null);
+                      handlersFormModal.open();
+                      if (onModalNewOpen) {
+                        onModalNewOpen({});
+                      }
+                    } else {
+                      Router.push(
+                        customNewUrl ? customNewUrl : Pathname + "/new"
+                      );
+                    }
+                  }
+                }}
+              >
+                {customCreateText || "Add " + moduleTerm || "Item"}
+              </Button>
+            </SimpleGrid>
+          </Stack>
         </Paper>
 
         {!contentPreTable && <Divider mb={!enableTabs ? "md" : 0} />}

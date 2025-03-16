@@ -49,35 +49,25 @@ export function _Edit() {
 
   // * PRELOAD
 
+  const { data, isLoading } = useQuery({
+    queryKey: moduleConfig.moduleKey,
+    queryFn: async () => {
+      const id = Params.id;
+      const res = await getSingleRecord(Params.id);
+      console.log(res);
+      return {
+        ...res,
+        package: String(res?.package),
+        gender: GENDER_MAP[res?.gender],
+        session: res?.session.map((e: any) => String(e)),
+        level_experience: EXPERIENCE_MAP[res?.level_experience],
+        time_for_training: TRAINING_TIME_MAP[res?.time_for_training],
+        membership: MEMBERSHIP_MAP[res?.membership],
+      };
+    },
+  });
+
   const RenderForm = () => {
-    const { form } = FormHandler.useForm();
-
-    const { data, isLoading } = useQuery({
-      queryKey: moduleConfig.moduleKey,
-      queryFn: async () => {
-        const res = await getSingleRecord(Params.id);
-        console.log(res);
-        form.setValues({
-          ...res,
-          package: String(res?.package),
-          gender: GENDER_MAP[res?.gender],
-          sessions: res?.session.map((e: any) => String(e)),
-          level_exp: EXPERIENCE_MAP[res?.level_exp],
-          time_for_training: TRAINING_TIME_MAP[res?.time_for_training],
-          membership: MEMBERSHIP_MAP[res?.membership],
-        });
-        return res;
-      },
-    });
-
-    if (isLoading) {
-      return (
-        <Center h={500}>
-          <Loader size="xs" />
-        </Center>
-      );
-    }
-
     return (
       <ModuleFormLayout
         {...moduleConfig}
@@ -90,17 +80,24 @@ export function _Edit() {
     );
   };
 
+  if (!data) {
+    return (
+      <Center h={500}>
+        <Loader size="xs" />
+      </Center>
+    );
+  }
+
   return (
     <>
       <FormHandler
         {...formProps}
+        initial={data}
         formType="edit"
         apiSubmit={updateRecord}
-        onSubmitSuccess={() => {
-          alert("done");
-        }}
+    
       >
-        <RenderForm />
+        {!isLoading && <RenderForm />}
       </FormHandler>
     </>
   );

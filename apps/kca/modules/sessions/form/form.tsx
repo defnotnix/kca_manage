@@ -63,6 +63,7 @@ export function _Form() {
       const res = await getAccounts({
         endpoint: "/authenticate/users/",
       });
+
       return res.filter((item: any) => {
         return item.is_coach;
       });
@@ -115,7 +116,7 @@ export function _Form() {
               description="Select the coach responsible for this session."
               placeholder="Enter coach name"
               required
-              {...form.getInputProps("coach")}
+              {...form.getInputProps("coach_id")}
             />
           </Stack>
         </>

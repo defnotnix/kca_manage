@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //mantine
 import {
   ActionIcon,
-  Avatar,
   Badge,
   Box,
   Button,
@@ -16,6 +15,7 @@ import {
   Grid,
   Group,
   Image,
+  Loader,
   MultiSelect,
   NumberInput,
   Paper,
@@ -26,11 +26,9 @@ import {
   Select,
   SimpleGrid,
   Stack,
-  Switch,
   Text,
   Textarea,
   TextInput,
-  UnstyledButton,
 } from "@mantine/core";
 //framework
 import { FormHandler } from "@vframework/core";
@@ -40,13 +38,12 @@ import { DateInput, YearPickerInput } from "@mantine/dates";
 import { useQuery } from "@tanstack/react-query";
 
 import classes from "./form.module.css";
-import { MagnifyingGlass } from "@phosphor-icons/react";
-import { useDebouncedState } from "@mantine/hooks";
-
-import { getRecords as getPlayers } from "@/modules/players/module.api";
-import { createRecord, getRecords, getSingleRecord } from "../module.api";
+import { Plus, Trash } from "@phosphor-icons/react";
 
 // Assuming you have these defined elsewhere
+
+import { getRecords as getTournaments } from "@/modules/tournament/module.api";
+import { useParams } from "next/navigation";
 
 const gradingChoice = ["A+", "A", "B", "C", "C-"];
 
@@ -54,112 +51,48 @@ export function _Form() {
   // * DEFINITIONS
 
   const form = FormHandler.useForm();
+  const Params = useParams();
 
   // * CONTEXT
 
-  const { current, handleStepNext } = FormHandler.usePropContext();
+  const { current } = FormHandler.usePropContext();
 
   //  const current: number = 3;
 
-  const [search, setSearch] = useDebouncedState("", 200);
-
   // * STATES
-
-  const [category, setCategory] = useState<any[]>([]);
-  const [students, setStudents] = useState<any[]>([]);
 
   // * PRELOADING
 
-  const queryStudents = useQuery({
-    queryKey: ["config", "sessions"], // query key
-    queryFn: async () => {
-      const res = await getPlayers({
-        endpoint: "/players/info/",
-      });
-
-      console.log(res);
-
-      return res;
-    },
-    initialData: [],
-  });
-
   // * FUNCTIONS
 
-  const handleLoadPreGrading = async (id: any) => {
-    const res = await getRecords({
-      endpoint: "/players/grading/",
-      params: {
-        player_id: id,
-      },
-    });
-
-    if (res.length > 0) {
-      console.log(res[0]);
-      form.setValues(res[0]);
-    } else {
-      form.reset();
-      createRecord({
-        player: id,
-      }).then((res) => {
-        console.log(res);
+  const queryTournament = useQuery({
+    queryKey: ["tournament", "tournamentData"],
+    queryFn: async () => {
+      const res = await getTournaments({
+        endpoint: "players/tournament/",
       });
-    }
-    return res;
-  };
+      return res;
+    },
+  });
 
-  // * COMPONENTS+id+"/"
+  // * COMPONENTS
+
+  useEffect(() => {
+    form.setFieldValue("player", Params.id);
+  }, []);
+
+  if (queryTournament.isLoading) {
+    return (
+      <>
+        <Center h={400}>
+          <Loader size="xs" />
+        </Center>
+      </>
+    );
+  }
 
   switch (current) {
     case 0:
-      return (
-        <>
-          <Paper px="lg" py="md" withBorder>
-            <Stack gap="xs">
-              <FormElement.SectionTitle
-                isTopElement
-                title="Select Student"
-                description="Choose the student for which you want to take attendance."
-                actionButton={
-                  <TextInput
-                    placeholder="Search.."
-                    leftSection={<MagnifyingGlass />}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                    }}
-                  />
-                }
-              />
-
-              <SimpleGrid spacing="xs" cols={{ base: 1, lg: 3 }}>
-                {queryStudents.data
-                  ?.filter((e: any) => {
-                    return e.name.toLowerCase().includes(search.toLowerCase());
-                  })
-                  .map((playerData: any, index: number) => (
-                    <UnstyledButton
-                      key={index}
-                      onClick={async () => {
-                        form.setFieldValue("player", playerData.id);
-                        await handleLoadPreGrading(playerData?.id);
-                        handleStepNext();
-                      }}
-                    >
-                      <Paper withBorder p="md" className={classes.optioncard}>
-                        <Group gap="xs">
-                          <Avatar size="sm" src={playerData?.image} />
-                          <Text size="sm">{playerData?.name}</Text>
-                        </Group>
-                      </Paper>
-                    </UnstyledButton>
-                  ))}
-              </SimpleGrid>
-            </Stack>
-          </Paper>
-        </>
-      );
-
-    case 1:
       return (
         <>
           <SimpleGrid spacing={0} cols={{ base: 1, lg: 2 }}>
@@ -178,7 +111,7 @@ export function _Form() {
                   {[
                     "batting_grip",
                     "stance",
-                    "batlift",
+                    "bat_lift",
                     "weight_transfer",
                     "judgement",
                     "shot_selection",
@@ -191,11 +124,8 @@ export function _Form() {
                       px="md"
                       key={index}
                     >
-                      <Text tt="capitalize" size="sm">
-                        {field.replace("_", " ")}
-                      </Text>
+                      <Text size="sm">{field.replace("_", " ")}</Text>
                       <SegmentedControl
-                        color="brand"
                         data={gradingChoice}
                         {...form.getInputProps(field)}
                       />
@@ -228,7 +158,7 @@ export function _Form() {
                 <Stack gap={0}>
                   {[
                     "bowling_grip",
-                    "runup",
+                    "run_up",
                     "loading",
                     "jump",
                     "landing",
@@ -245,11 +175,8 @@ export function _Form() {
                       px="md"
                       key={index}
                     >
-                      <Text tt="capitalize" size="sm">
-                        {field.replace("_", " ")}
-                      </Text>
+                      <Text size="sm">{field.replace("_", " ")}</Text>
                       <SegmentedControl
-                        color="brand"
                         data={gradingChoice}
                         {...form.getInputProps(field)}
                       />
@@ -287,11 +214,8 @@ export function _Form() {
                       px="md"
                       key={index}
                     >
-                      <Text tt="capitalize" size="sm">
-                        {field.replace("_", " ")}
-                      </Text>
+                      <Text size="sm">{field.replace("_", " ")}</Text>
                       <SegmentedControl
-                        color="brand"
                         data={gradingChoice}
                         {...form.getInputProps(field)}
                       />
@@ -328,11 +252,8 @@ export function _Form() {
                       px="md"
                       key={index}
                     >
-                      <Text tt="capitalize" size="sm">
-                        {field.replace("_", " ")}
-                      </Text>
+                      <Text size="sm">{field.replace("_", " ")}</Text>
                       <SegmentedControl
-                        color="brand"
                         data={gradingChoice}
                         {...form.getInputProps(field)}
                       />

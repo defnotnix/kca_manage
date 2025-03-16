@@ -31,16 +31,23 @@ export async function toFormData({
    * @param {any} value - The value associated with the key.
    */
   const addToFormData = (key: string, value: any) => {
-    const processedValue =
-      (typeof value === "object" && !(value instanceof File)) ||
-      Array.isArray(value)
-        ? JSON.stringify(value)
-        : value;
+    if (value !== undefined && value !== null) {
+      if (Array.isArray(value)) {
+        value.forEach((item: any) => {
+          formData.append(key, item);
+        });
+      } else {
+        const processedValue =
+          typeof value === "object" && !(value instanceof File)
+            ? JSON.stringify(value)
+            : value;
 
-    formData.append(
-      key,
-      stringify ? JSON.stringify(processedValue) : processedValue
-    );
+        formData.append(
+          key,
+          stringify ? JSON.stringify(processedValue) : processedValue
+        );
+      }
+    }
   };
 
   try {

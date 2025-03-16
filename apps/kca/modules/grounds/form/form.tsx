@@ -57,7 +57,7 @@ export function _Form() {
 
   // * FUNCTIONS
 
-  // * COMPONENTS
+  // * COMPONENTS'
 
   switch (current) {
     case 0:

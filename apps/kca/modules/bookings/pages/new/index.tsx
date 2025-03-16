@@ -30,13 +30,7 @@ export function _New() {
 
   return (
     <>
-      <FormHandler
-        {...formProps}
-        apiSubmit={createRecord}
-        onSubmitSuccess={() => {
-          alert("done");
-        }}
-      >
+      <FormHandler {...formProps} apiSubmit={createRecord}>
         <ModuleFormLayout
           {...moduleConfig}
           size="md"

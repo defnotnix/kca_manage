@@ -7,14 +7,14 @@ export const moduleConfig: PropModuleConfig = {
       label: "KCA Admin",
     },
     {
-      label: "Performances",
+      label: "Performances History",
     },
   ],
   moduleKey: "vauth.users.attendance".split("."),
-  endpoint: "/players/grading/history/",
+  endpoint: "/players/grading/",
   //
-  moduleTerm: "Performance",
-  moduleTermPlural: "Performances",
-  moduleName: "Performance",
-  moduleDescription: "Manage all player-packages & their pricings.",
+  moduleTerm: "Performance History",
+  moduleTermPlural: "Performance History",
+  moduleName: "Performance History",
+  moduleDescription: "All saved performance gradings..",
 };

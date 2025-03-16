@@ -1,6 +1,6 @@
 "use client";
 
-import { ModuleTableLayout, triggerNotification } from "@vframework/ui";
+import { ModuleTableLayout } from "@vframework/ui";
 import { useParams, useRouter } from "next/navigation";
 import { ListHandler } from "@vframework/core";
 import {
@@ -8,7 +8,6 @@ import {
   deleteRecord,
   updateRecord,
   getRecords,
-  createSave,
 } from "../../module.api";
 import { columns } from "./list.columns";
 import {
@@ -21,37 +20,17 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { Invoice, Pen, Trash, Warning } from "@phosphor-icons/react";
+import { Invoice, Pen, Trash } from "@phosphor-icons/react";
 import { moduleConfig } from "../../module.config";
 
 import { _Form as Form } from "../../form/form";
 import { formProps } from "../../form/form.config";
-import { useMutation } from "@tanstack/react-query";
-import { notifications } from "@mantine/notifications";
 
 const gradingChoice = ["A+", "A", "B", "C", "C-"];
 
 export function _List() {
   const router = useRouter();
   const Params = useParams();
-
-  const mutationSubmit = useMutation({
-    mutationFn: async (id) => {
-      triggerNotification.form.isLoading({});
-      const res = await createSave(id);
-      return res;
-    },
-    onSuccess: (res: any, delId: any) => {
-      triggerNotification.form.isSuccess({});
-    },
-    onError: (err: any) => {
-      triggerNotification.form.isError({
-        title: "Grading Already Exists",
-        message:
-          "A grading entry has already been saved for today. Delete existing log to save a new one.",
-      });
-    },
-  });
 
   return (
     <>
@@ -90,20 +69,7 @@ export function _List() {
               gender === "male" ? "var(--mantine-color-indigo-0)" : "",
           })}
           // * EXTRA ACTIONS
-          customCreateText="Save Grading"
-          customCreate={(data: any) => {
-            if (data.length > 0) {
-              mutationSubmit.mutate(data[0]?.id);
-            } else {
-              notifications.show({
-                color: "red",
-                icon: <Warning size={16} />,
-                id: "x",
-                title: "No Grading Data",
-                message: "Please add a grading data first",
-              });
-            }
-          }}
+
           // * MODAL CONFIG
           hasModalForms
           modalFormProps={{ width: "xl", formProps }}
@@ -253,11 +219,9 @@ export function _List() {
                         </Group>
 
                         <Group gap="xs">
-                          <EditContainer row={item}>
-                            <ActionIcon>
-                              <Pen />
-                            </ActionIcon>
-                          </EditContainer>
+                          <ActionIcon onClick={() => handleDelete(item.id)}>
+                            <Trash />
+                          </ActionIcon>
                         </Group>
                       </Group>
                     </Paper>

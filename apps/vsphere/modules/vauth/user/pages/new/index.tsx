@@ -32,9 +32,7 @@ export function _New() {
       <FormHandler
         {...formProps}
         apiSubmit={createRecord}
-        onSubmitSuccess={() => {
-          alert("done");
-        }}
+    
       >
         <ModuleFormLayout size="md" withStepper steps={["x", "y", "z"]}>
           <Form />

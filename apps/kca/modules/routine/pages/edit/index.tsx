@@ -56,9 +56,7 @@ export function _Edit() {
         }}
         formType="edit"
         apiSubmit={updateRecord}
-        onSubmitSuccess={() => {
-          alert("done");
-        }}
+    
       >
         <ModuleFormLayout
           {...moduleConfig}

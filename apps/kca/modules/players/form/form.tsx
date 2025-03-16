@@ -224,7 +224,7 @@ export function _Form() {
                   label="Permanent Address"
                   description="Complete physical address including street, city, state, and postal code for the student or company."
                   placeholder="Enter permanent address"
-                  {...form.getInputProps("permanent_address")}
+                  {...form.getInputProps("perm_address")}
                 />
 
                 <TextInput
@@ -277,7 +277,7 @@ export function _Form() {
                   label="Primary Contact"
                   description="Primary phone number"
                   placeholder="Enter primary contact number"
-                  {...form.getInputProps("primary_contact")}
+                  {...form.getInputProps("parent_contact")}
                 />
                 <TextInput
                   label="Emergency Contact"
@@ -389,7 +389,7 @@ export function _Form() {
                   description="The date the student enrolled."
                   placeholder="Enter enrollment date"
                   required
-                  {...form.getInputProps("doe")}
+                  {...form.getInputProps("date_of_enroll")}
                 />
 
                 <Select
@@ -404,7 +404,7 @@ export function _Form() {
                   data={TRAINING_TIME_CHOICES}
                   description="Select the student's preferred training schedule."
                   placeholder="Choose a schedule"
-                  {...form.getInputProps("training_schedule")}
+                  {...form.getInputProps("time_for_training")}
                 />
 
                 <NumberInput
@@ -428,38 +428,13 @@ export function _Form() {
                   {...form.getInputProps("decided_by")}
                 />
               </SimpleGrid>
-              <TextInput
+              <Textarea
+                rows={5}
                 label="Reason"
                 description="Enter the reason for the discount"
                 placeholder="e.g. General Discount"
                 required
-                {...form.getInputProps("reason")}
-              />
-
-              {/* <FormElement.SectionTitle
-                title="Referrals"
-                description="Select the individuals or organizations that referred the student."
-              />
-
-              <MultiSelect
-                label="Referrals"
-                data={[]}
-                description="Select referrers from the list."
-                placeholder="Enter referrer names"
-                {...form.getInputProps("refers")}
-              /> */}
-
-              <FormElement.SectionTitle
-                title="Misc"
-                description="Comprehensive contact information for the student or student organization."
-              />
-
-              <Textarea
-                rows={5}
-                label="Remarks"
-                description="Additional notes, special instructions, or supplementary information about the student"
-                placeholder="Enter any additional comments or special considerations"
-                {...form.getInputProps("remarks")}
+                {...form.getInputProps("decided_reason")}
               />
             </Stack>
           </Paper>
@@ -504,7 +479,7 @@ export function _Form() {
                 placeholder="Choose level"
                 data={EXPERIENCE_CHOICES}
                 required
-                {...form.getInputProps("level_exp")}
+                {...form.getInputProps("level_experience")}
               />
 
               <Select

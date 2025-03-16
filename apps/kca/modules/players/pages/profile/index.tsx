@@ -58,6 +58,7 @@ import { ModuleAchievement } from "./achievement";
 import { ModuleAttendance } from "./attendance";
 import { ModuleTournament } from "./tournament";
 import { ModulePerformance } from "./performance";
+import { ModulePerformanceLog } from "./performanceHistory";
 
 //icons
 
@@ -201,12 +202,6 @@ export function _Profile() {
             <SimpleGrid spacing="xs" cols={2} my="xl">
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
-                  Member ID
-                </Text>
-                <Text size="sm">{queryPlayerData?.data?.member_id}</Text>
-              </Group>
-              <Group>
-                <Text w={150} opacity={0.5} size="xs">
                   Gender
                 </Text>
                 <Text size="sm">{queryPlayerData?.data?.gender}</Text>
@@ -215,9 +210,7 @@ export function _Profile() {
                 <Text w={150} opacity={0.5} size="xs">
                   Permanent Address
                 </Text>
-                <Text size="sm">
-                  {queryPlayerData?.data?.permanent_address}
-                </Text>
+                <Text size="sm">{queryPlayerData?.data?.perm_address}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
@@ -260,9 +253,7 @@ export function _Profile() {
                 <Text w={150} opacity={0.5} size="xs">
                   Secondary Contact
                 </Text>
-                <Text size="sm">
-                  {queryPlayerData?.data?.secondary_contact}
-                </Text>
+                <Text size="sm">{queryPlayerData?.data?.guardian_contact}</Text>
               </Group>
               <Group>
                 <Text w={150} opacity={0.5} size="xs">
@@ -277,7 +268,9 @@ export function _Profile() {
                 <Text w={150} opacity={0.5} size="xs">
                   Enrollment Date
                 </Text>
-                <Text size="sm">{queryPlayerData?.data?.doe}</Text>
+                <Text size="sm">
+                  {queryPlayerData?.data?.date_of_enrollment}
+                </Text>
               </Group>
 
               <Group>
@@ -423,7 +416,15 @@ export function _Profile() {
       </Paper>
       <Divider />
 
-      <Tabs defaultValue="achieve" keepMounted={false}>
+      <Tabs
+        defaultValue="achieve"
+        keepMounted={false}
+        styles={{
+          tab: {
+            fontWeight: 600,
+          },
+        }}
+      >
         <Paper radius={0}>
           <Container size="lg">
             <Tabs.List>
@@ -438,6 +439,12 @@ export function _Profile() {
               </Tabs.Tab>
               <Tabs.Tab value="performance" leftSection={<Graph size={12} />}>
                 Performance
+              </Tabs.Tab>
+              <Tabs.Tab
+                value="performanceLog"
+                leftSection={<Graph size={12} />}
+              >
+                Performance History
               </Tabs.Tab>
             </Tabs.List>
           </Container>
@@ -458,6 +465,9 @@ export function _Profile() {
           </Tabs.Panel>
           <Tabs.Panel value="performance">
             <ModulePerformance.List />
+          </Tabs.Panel>
+          <Tabs.Panel value="performanceLog">
+            <ModulePerformanceLog.List />
           </Tabs.Panel>
         </Container>
 

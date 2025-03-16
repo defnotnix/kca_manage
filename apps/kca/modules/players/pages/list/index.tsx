@@ -110,7 +110,7 @@ export function _List() {
             </>
           )}
           contentPreTable={
-            <SimpleGrid cols={4} px="md" mb="md" spacing="xs">
+            <SimpleGrid cols={{ base: 2, lg: 4 }} px="md" mb="md" spacing="xs">
               <StatCard
                 title="Total Players"
                 icon={Star}
