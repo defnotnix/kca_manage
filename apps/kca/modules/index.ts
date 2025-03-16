@@ -1,6 +1,7 @@
 import { Module as Players } from "./players";
 
 import { Module as Sessions } from "./sessions";
+import { Module as SessionMembers } from "./sessionMembers";
 import { Module as Tournaments } from "./tournament";
 import { Module as TournamentMembers } from "./tournamentMembers";
 import { Module as Invoice } from "./invoice";
@@ -19,9 +20,12 @@ import { Module as TakePerformance } from "./takePerformance";
 import { Module as Teams } from "./teams";
 import { Module as TeamMembers } from "./teamMembers";
 
+import { _Doc as PerformanceDoc } from "./performanceDoc";
+
 export const Modules = {
   Players,
   Sessions,
+  SessionMembers,
   Tournaments,
   Invoice,
   Packages,
@@ -37,4 +41,5 @@ export const Modules = {
   Routine,
   Timeframe,
   TournamentMembers,
+  PerformanceDoc,
 };

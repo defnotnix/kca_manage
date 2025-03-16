@@ -7,7 +7,8 @@ import React, { PropsWithChildren } from "react";
 import { ActionIcon, Button, SimpleGrid, Tooltip } from "@mantine/core";
 import { AdminNavLayout } from "@vframework/ui";
 import { navItems, navModules } from "@/config/nav";
-import { Invoice, UserCheck, UserPlus } from "@phosphor-icons/react";
+import { Cricket, Invoice, UserCheck, UserPlus } from "@phosphor-icons/react";
+import { useRouter } from "next/navigation";
 //mantine
 
 //icons
@@ -18,6 +19,8 @@ import { Invoice, UserCheck, UserPlus } from "@phosphor-icons/react";
 
 export function LayouAdmin({ children }: PropsWithChildren) {
   // * DEFINITIONS
+
+  const Router = useRouter();
 
   // * CONTEXT
 
@@ -47,20 +50,25 @@ export function LayouAdmin({ children }: PropsWithChildren) {
         navItems={navItems}
         //essentials
         essentials={
-          <SimpleGrid cols={3} p="md" spacing={4}>
+          <SimpleGrid cols={2} p="md" spacing={4}>
             <Tooltip {...tooltipStyles} label="Take Attendance">
-              <Button variant="light" bg="rgba(255,255,255,.15)" c="gray.0">
-                <UserCheck size={16} />
+              <Button
+                color="brand"
+                onClick={() => Router.push("/takeAttendance")}
+                leftSection={<UserCheck size={16} />}
+              >
+                Att.
               </Button>
             </Tooltip>
             <Tooltip {...tooltipStyles} label="Take Perforrmance Measure">
-              <Button variant="light" bg="rgba(255,255,255,.15)" c="gray.0">
-                <UserPlus size={16} />
-              </Button>
-            </Tooltip>
-            <Tooltip {...tooltipStyles} label="New Invoice">
-              <Button variant="light" bg="rgba(255,255,255,.15)" c="gray.0">
-                <Invoice size={16} />
+              <Button
+                color="brand"
+                variant="light"
+                c="indigo.3"
+                onClick={() => Router.push("/takePerformance")}
+                leftSection={<Cricket size={16} />}
+              >
+                Perf.
               </Button>
             </Tooltip>
           </SimpleGrid>

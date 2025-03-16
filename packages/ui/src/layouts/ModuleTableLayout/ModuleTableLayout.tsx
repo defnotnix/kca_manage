@@ -244,7 +244,7 @@ export function ModuleTableLayout({
   const mutationSubmit = useMutation({
     mutationFn: async (delId) => {
       triggerNotification.form.isLoading({});
-      const res = await apiDelete(delId);
+      const res = await apiDelete(delId,records);
       return res;
     },
     onSuccess: (res: any, delId: any) => {
@@ -396,7 +396,13 @@ export function ModuleTableLayout({
       <FormHandler
         formType={activeEdit ? "edit" : "new"}
         {...modalFormProps.formProps}
-        apiSubmit={activeEdit ? apiEdit : apiCreate}
+        apiSubmit={
+          activeEdit
+            ? apiEdit
+            : (body: any) => {
+                return apiCreate(body, records);
+              }
+        }
         onSubmitSuccess={(res: any) => {
           refetch();
           handlersFormModal.close();

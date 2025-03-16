@@ -11,7 +11,7 @@ export const moduleConfig: PropModuleConfig = {
     },
   ],
   moduleKey: "vauth.users.tournament".split("."),
-  endpoint: "/players/info/tournament/",
+  endpoint: "/players/tournament/sorted/",
   //
   moduleTerm: "Tournament",
   moduleTermPlural: "Tournaments",

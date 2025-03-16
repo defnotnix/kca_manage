@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //mantine
 import {
   ActionIcon,
@@ -37,12 +37,13 @@ import { useQuery } from "@tanstack/react-query";
 
 import classes from "./form.module.css";
 import { Plus, Trash } from "@phosphor-icons/react";
-
-import { getRecords as getAccounts } from "@/modules/accounts/module.api";
+import { getRecords } from "../module.api";
+import { useParams } from "next/navigation";
+import { moduleConfig } from "../module.config";
 
 // Assuming you have these defined elsewhere
 
-export function _Form() {
+export function _FormEdit() {
   // * DEFINITIONS
 
   const form = FormHandler.useForm();
@@ -55,23 +56,30 @@ export function _Form() {
 
   // * STATES
 
+  const Params = useParams();
+
   // * PRELOADING
 
   const queryData = useQuery({
-    queryKey: ["sessions", "accounts"],
+    queryKey: ["config", "teams"], // query key
     queryFn: async () => {
-      const res = await getAccounts({
-        endpoint: "/authenticate/users/",
+      const res = await getRecords({
+        endpoint: "/players/drop/",
+        params: {
+          team_id: Params.id,
+        },
       });
-
-      return res.filter((item: any) => {
-        return item.is_coach;
-      });
+      console.log("team", res);
+      return res;
     },
     initialData: [],
   });
 
   // * FUNCTIONS
+
+  useEffect(() => {
+    form.setFieldValue("team", Params.id);
+  }, []);
 
   // * COMPONENTS
 
@@ -80,12 +88,23 @@ export function _Form() {
       return (
         <>
           <Stack gap="xs" p="md">
-            <TextInput
-              label="Session Name"
-              description="Enter the name of the training session."
-              placeholder="Enter session name"
+            <Select
+              data={queryData?.data.map((e: any) => ({
+                value: String(e.id),
+                label: `${e.name} - ${e.member_id}`,
+              }))}
+              label="Select Player"
+              description="Select player to add to this team"
+              placeholder="Select Player"
               required
-              {...form.getInputProps("name")}
+              {...form.getInputProps("player")}
+            />
+            <TextInput
+              label="Member Role"
+              description="Enter the name of the team"
+              placeholder="e.g. KCA Main Team"
+              required
+              {...form.getInputProps("role")}
             />
           </Stack>
         </>

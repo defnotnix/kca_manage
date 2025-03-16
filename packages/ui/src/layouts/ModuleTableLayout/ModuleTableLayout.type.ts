@@ -13,9 +13,9 @@ type DataTable = {
  * API Handlers for CRUD operations
  */
 type APIHandlers = {
-  apiCreate?: (id: any) => void;
+  apiCreate?: (body: any, records?: any) => void;
   onCreateSuccess?: (id: any) => void;
-  apiDelete?: (id: any) => void;
+  apiDelete?: (id: any, records?: any) => void;
   onDeleteTrigger?: (row: any) => any;
   onDeleteSuccess?: (id: any) => void;
   apiEdit?: (body: any, id: any) => void;
@@ -108,6 +108,7 @@ export type PropModuleTableLayout = {
   withColumnSelect?: boolean;
   disableAdd?: boolean;
   disableDelete?: boolean;
+  disableEdit?: boolean;
   withAddExtra?: boolean;
   customRender?: (props: any) => JSX.Element;
   customCreate?: any;

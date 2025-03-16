@@ -72,7 +72,18 @@ export function _List() {
               gender === "male" ? "var(--mantine-color-indigo-0)" : "",
           })}
           // * EXTRA ACTIONS
-
+          extraActions={({ row }: { row: any }) => (
+            <>
+              <Menu.Item
+                onClick={() => {
+                  router.push("/sessions/" + row.id);
+                }}
+                leftSection={<Users />}
+              >
+                Manage Players
+              </Menu.Item>
+            </>
+          )}
           // * MODAL CONFIG
           hasModalForms
           modalFormProps={{ width: "lg", formProps }}

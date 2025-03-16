@@ -11,7 +11,7 @@ export const moduleConfig: PropModuleConfig = {
     },
   ],
   moduleKey: "vauth.users.ahievement".split("."),
-  endpoint: "/players/achievement/",
+  endpoint: "/players/achievements/",
   //
   moduleTerm: "Achievement",
   moduleTermPlural: "Achievements",
