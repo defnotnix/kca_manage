@@ -9,6 +9,6 @@ export const getSingleRecord = (id: any) =>
 export const createRecord = (body: any) =>
   moduleApiCall.createRecord(endpoint, body);
 export const updateRecord = (body: any, id: any) =>
-  moduleApiCall.editRecord(endpoint, body, id);
+  moduleApiCall.editRecord("/schedule/grounds/", body, id);
 export const deleteRecord = (id: any) =>
-  moduleApiCall.deleteRecord(endpoint, id);
+  moduleApiCall.deleteRecord("/schedule/grounds/", id);

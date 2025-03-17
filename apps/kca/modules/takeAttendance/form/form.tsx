@@ -40,6 +40,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getRecords as getSessions } from "@/modules/sessions/module.api";
 
 import classes from "./form.module.css";
+import { getRecords } from "../module.api";
 
 // Assuming you have these defined elsewhere
 
@@ -69,8 +70,6 @@ export function _Form() {
         endpoint: "/players/sessions/",
       });
 
-      console.log(res);
-
       return res;
     },
     initialData: [],
@@ -96,21 +95,21 @@ export function _Form() {
                 {querySessions.data?.map((sessiondata: any, index: number) => (
                   <UnstyledButton
                     key={index}
-                    onClick={() => {
+                    onClick={async () => {
                       form.setFieldValue("session", sessiondata.id);
-                      setStudents(sessiondata?.children || []);
+
+                      const res = await getSessions({
+                        endpoint: "/players/sessions/" + sessiondata.id + "/",
+                      });
+
+                      console.log(res);
+
+                      setStudents(res.player || []);
                       handleStepNext();
                     }}
                   >
                     <Paper withBorder p="md" className={classes.optioncard}>
-                      <Text size="xs" opacity={0.5}>
-                        {sessiondata.start_time.substring(0, 5)} -{" "}
-                        {sessiondata.end_time.substring(0, 5)}
-                      </Text>
                       <Text size="md">{sessiondata.name}</Text>
-                      <Text size="xs" c="brand.5">
-                        {sessiondata.coach}
-                      </Text>
                     </Paper>
                   </UnstyledButton>
                 ))}
@@ -134,7 +133,7 @@ export function _Form() {
           </Paper>
           <Paper withBorder>
             <Stack gap={0}>
-              {/* {students?.map((playerinfo: any, index: number) => (
+              {students?.map((playerinfo: any, index: number) => (
                 <Group
                   px="lg"
                   py="sm"
@@ -147,7 +146,7 @@ export function _Form() {
 
                   <Checkbox size="md" />
                 </Group>
-              ))} */}
+              ))}
             </Stack>
           </Paper>
         </>

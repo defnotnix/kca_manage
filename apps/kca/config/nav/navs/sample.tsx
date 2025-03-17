@@ -61,9 +61,9 @@ export const navItems: PropAdminNavItems[] = [
     icon: Calendar,
     value: "/booking",
     children: [
-      { label: "Booking Requests", value: "/booking-requests" },
-      { label: "Active Bookings", value: "?filter=active" },
-      { label: "All Bookings", value: "/bookings" },
+      { label: "Booking Requests", value: "/bookings/requests" },
+
+      { label: "Bookings", value: "/bookings" },
       { label: "Add Booking", value: "/bookings/new" },
     ],
   },

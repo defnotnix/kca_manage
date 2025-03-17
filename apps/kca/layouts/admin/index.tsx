@@ -7,7 +7,13 @@ import React, { PropsWithChildren } from "react";
 import { ActionIcon, Button, SimpleGrid, Tooltip } from "@mantine/core";
 import { AdminNavLayout } from "@vframework/ui";
 import { navItems, navModules } from "@/config/nav";
-import { Cricket, Invoice, UserCheck, UserPlus } from "@phosphor-icons/react";
+import {
+  Calendar,
+  Cricket,
+  Invoice,
+  UserCheck,
+  UserPlus,
+} from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 //mantine
 
@@ -69,6 +75,17 @@ export function LayouAdmin({ children }: PropsWithChildren) {
                 leftSection={<Cricket size={16} />}
               >
                 Perf.
+              </Button>
+            </Tooltip>
+            <Tooltip {...tooltipStyles} label="New Routine">
+              <Button
+                color="brand"
+                variant="light"
+                c="indigo.3"
+                onClick={() => Router.push("/routines/new")}
+                leftSection={<Calendar size={16} />}
+              >
+                Rout.
               </Button>
             </Tooltip>
           </SimpleGrid>

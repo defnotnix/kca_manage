@@ -1,8 +1,14 @@
-import { apiDispatch, moduleApiCall, PropGetApiProps } from "@vframework/core";
+import { apiDispatch, moduleApiCall } from "@vframework/core";
+import { moduleConfig } from "./module.config";
 
-const endpoint = "/users";
+const endpoint = moduleConfig.endpoint || "";
 
 export const getRecords = moduleApiCall.getRecords;
-export const createRecord = moduleApiCall.createRecord;
-export const updateRecord = moduleApiCall.editRecord;
-export const deleteRecord = moduleApiCall.deleteRecord;
+export const getSingleRecord = (id: any) =>
+  moduleApiCall.getSingleRecord(endpoint, id);
+export const createRecord = (body: any) =>
+  moduleApiCall.createRecord(endpoint, body);
+export const updateRecord = (body: any, id: any) =>
+  moduleApiCall.editRecord(endpoint, body, id);
+export const deleteRecord = (id: any) =>
+  moduleApiCall.deleteRecord(endpoint, id);

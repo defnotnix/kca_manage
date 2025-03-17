@@ -11,7 +11,7 @@ export const moduleConfig: PropModuleConfig = {
     },
   ],
   moduleKey: "vauth.users".split("."),
-  endpoint: "/users",
+  endpoint: "/services/bookings/",
   //
   moduleTerm: "Booking",
   moduleTermPlural: "Bookings",

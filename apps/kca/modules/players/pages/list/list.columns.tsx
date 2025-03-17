@@ -87,14 +87,4 @@ export const columns = [
     sortable: true,
     render: (record: any) => <Text size="xs">{record?.package?.name}</Text>,
   },
-  {
-    accessor: "level_exp",
-    title: "Experience Level",
-    sortable: true,
-    render: (record: any) => (
-      <Badge size="sm" color="teal">
-        {record?.level_exp}
-      </Badge>
-    ),
-  },
 ];

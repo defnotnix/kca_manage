@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 //next
 
 //mantine
@@ -9,12 +9,14 @@ import {
   Anchor,
   Breadcrumbs,
   Button,
+  Center,
   Divider,
   Group,
   Menu,
   Paper,
   SimpleGrid,
   Space,
+  Stack,
   Text,
 } from "@mantine/core";
 import { ListHandler } from "@vframework/core";
@@ -44,17 +46,24 @@ import {
 } from "@phosphor-icons/react";
 import { moduleConfig } from "../../module.config";
 import { StatCard } from "@/components/StatCard";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { DateInput, DatePickerInput } from "@mantine/dates";
+
+import { _Form as Form } from "../../components/quickform/form";
+import { formProps } from "../../components/quickform/form.config";
 
 export function _List() {
   // * DEFINITIONS
 
   const Router = useRouter();
+  const Params = useParams();
 
   // * CONTEXT
 
   // * STATE
+
+  const [dateRange, setDateRange] = useState<any[]>([]);
 
   const queryPlayerData = useQuery({
     queryKey: ["player", "playerData"],
@@ -70,6 +79,52 @@ export function _List() {
 
   // * ANIMATIONS
 
+  if (dateRange.length !== 2) {
+    return (
+      <Center h={400}>
+        <Paper p="md" withBorder>
+          <Stack>
+            <Group wrap="nowrap">
+              <ActionIcon
+                variant="light"
+                onClick={() => {
+                  Router.back();
+                }}
+              >
+                <ArrowLeft />
+              </ActionIcon>
+              <Stack gap="0">
+                <Text size="md">Select Date Range</Text>
+                <Text size="xs" opacity={0.5}>
+                  Select date range to display routines
+                </Text>
+              </Stack>
+            </Group>
+
+            <DatePickerInput
+              w={300}
+              type="range"
+              placeholder="Pick dates range"
+              onChange={(e: any) => {
+                if (e[0] !== null && e[1] !== null) {
+                  setDateRange([e[0], e[1]]);
+                }
+              }}
+            />
+
+            <Button
+              onClick={() => {
+                setDateRange(["2025-01-01", "2100-01-01"]);
+              }}
+            >
+              Show All Logs
+            </Button>
+          </Stack>
+        </Paper>
+      </Center>
+    );
+  }
+
   return (
     <>
       <ListHandler
@@ -77,9 +132,21 @@ export function _List() {
         moduleKey={moduleConfig.moduleKey}
         //enableServerPagination
         //enableServerSearch
-        getRecords={getRecords}
+        getRecords={(props: any) => {
+          if (dateRange.length == 2) {
+            return getRecords(props);
+          } else {
+            return [];
+          }
+        }}
+        getParams={{
+          session_id: Params.id,
+          start_date: dateRange[0],
+          end_date: dateRange[1],
+        }}
       >
         <ModuleTableLayout
+          withBackButton
           {...moduleConfig}
           apiDelete={deleteRecord}
           //Data
@@ -109,35 +176,16 @@ export function _List() {
               </Menu.Item>
             </>
           )}
-          // contentPreTable={
-          //   <SimpleGrid cols={4} px="md" mb="md" spacing="xs">
-          //     <StatCard
-          //       title="Total Players"
-          //       icon={Star}
-          //       value="100"
-          //       description="Total number of players"
-          //     />
-          //     <StatCard
-          //       title="Active Players"
-          //       icon={Star}
-          //       value="100"
-          //       shortValue="23% of Total"
-          //       description="Players currently active"
-          //     />
-          //     <StatCard
-          //       title="Due Payment"
-          //       icon={Star}
-          //       value="100"
-          //       description="Total number of players"
-          //     />
-          //     <StatCard
-          //       title="Payment Overdue"
-          //       icon={Star}
-          //       value="100"
-          //       description="Total number of players"
-          //     />
-          //   </SimpleGrid>
-          // }
+          onEditTrigger={(row) => {
+            return {
+              time: String(row.time?.id),
+              ground: String(row.ground?.id),
+            };
+          }}
+          // * MODAL CONFIG
+          hasModalForms
+          modalFormProps={{ width: "lg", formProps }}
+          modalForm={<Form />}
         />
       </ListHandler>
     </>

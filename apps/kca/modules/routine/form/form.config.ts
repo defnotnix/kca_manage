@@ -1,4 +1,5 @@
 import _ from "moment";
+import z from "zod";
 
 export const formProps: any = {
   initial: {
@@ -6,23 +7,32 @@ export const formProps: any = {
   },
 
   // > STEPS
-  steps: [
-    "Personal Details",
-    "Guardian Details",
-    "Enroll Details",
-    "Extra Details",
-  ],
-  stepType: "general",
-  stepClickable: false,
-  initialStep: 0,
+  // steps: [
+  //   "Personal Details",
+  //   "Guardian Details",
+  //   "Enroll Details",
+  //   "Extra Details",
+  // ],
+  // stepType: "general",
+  // stepClickable: false,
+  // initialStep: 0,
 
   // > VALIDATION
-  validation: [],
+  validation: [
+    {
+      session: z.string().nonempty(),
+      daterange: z.array(
+        z.object({
+          date: z.string().datetime().nonempty(),
+          time: z.array(z.string()).nonempty(),
+          ground: z.string(),
+        })
+      ),
+    },
+  ],
 
   // > SUBMIT
   transformDataOnSubmit: (formdata: any) => {
-    const { image, ...res } = formdata;
-
     console.log(formdata);
 
     return {
@@ -34,7 +44,7 @@ export const formProps: any = {
       decided_date: _(formdata?.decided_date).format("YYYY-MM-DD"),
     };
   },
-  submitFormData: true,
+  submitFormData: false,
 
   // > API
 

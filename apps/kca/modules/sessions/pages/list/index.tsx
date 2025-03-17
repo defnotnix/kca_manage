@@ -82,6 +82,14 @@ export function _List() {
               >
                 Manage Players
               </Menu.Item>
+              <Menu.Item
+                onClick={() => {
+                  router.push("/sessions/" + row.id + "/routines");
+                }}
+                leftSection={<Users />}
+              >
+                Manage Routine
+              </Menu.Item>
             </>
           )}
           // * MODAL CONFIG

@@ -17,7 +17,11 @@ import {
   Text,
 } from "@mantine/core";
 import { ListHandler, useListHandlerContext } from "@vframework/core";
-import { ModuleTableLayout, triggerNotification } from "@vframework/ui";
+import {
+  ModuleTableLayout,
+  PropModuleConfig,
+  triggerNotification,
+} from "@vframework/ui";
 import { columns } from "./list.columns";
 
 //mantine
@@ -42,9 +46,30 @@ import {
   Star,
   Trash,
 } from "@phosphor-icons/react";
-import { moduleConfig } from "../../module.config";
 
-export function _List() {
+export const moduleConfig: PropModuleConfig = {
+  bread: [
+    {
+      label: "KCA Admin",
+    },
+    {
+      label: "Booking Management",
+    },
+    {
+      label: "Booking Requests",
+    },
+  ],
+  moduleKey: "vauth.booking.requests".split("."),
+  endpoint: "/services/pending/booking/",
+  //
+  moduleTerm: "Booking Request",
+  moduleTermPlural: "Booking Requests",
+  moduleName: "Booking Request",
+  moduleDescription:
+    "A centralized portal for managing all player-related data and activities.",
+};
+
+export function _Req() {
   // * DEFINITIONS
 
   // * CONTEXT
@@ -59,19 +84,20 @@ export function _List() {
 
   const RenderTable = () => {
     const { refetch } = useListHandlerContext();
+
     return (
       <ModuleTableLayout
+        disableAdd
         {...moduleConfig}
         //Data
         columns={columns}
         extraActions={({ row }: { row: any }) => (
           <>
             <Menu.Item
-              disabled={row.status == "1"}
               leftSection={<Check />}
               onClick={async () => {
                 triggerNotification.form.isLoading({});
-                const res = await updateRecord(
+                await updateRecord(
                   {
                     id: row.id,
                     status: "1",
@@ -93,30 +119,6 @@ export function _List() {
               Accept Booking
             </Menu.Item>
             <Menu.Item
-              disabled={row.status == "3"}
-              leftSection={<Check />}
-              onClick={async () => {
-                triggerNotification.form.isLoading({});
-                await updateRecord(
-                  {
-                    id: row.id,
-                    status: "3",
-                  },
-                  row.id
-                ).then((res) => {
-                  if (res.err) {
-                    triggerNotification.form.isError({});
-                  } else {
-                    triggerNotification.form.isSuccess({});
-                    refetch();
-                  }
-                });
-              }}
-            >
-              Set to Pending
-            </Menu.Item>
-            <Menu.Item
-              disabled={row.status == "2"}
               leftSection={<Trash />}
               onClick={() => {
                 triggerNotification.form.isLoading({});

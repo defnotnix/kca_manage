@@ -1,16 +1,15 @@
-import { add } from "lodash";
 import _ from "moment";
 
 export const formProps: any = {
-  initial: {
-    ground: [],
-    addons: [],
-    time: [],
-    status: "3",
-  },
+  initial: {},
 
   // > STEPS
-  steps: ["Ground", "Add-On's", "Timing", "Details"],
+  steps: [
+    "Personal Details",
+    "Guardian Details",
+    "Enroll Details",
+    "Extra Details",
+  ],
   stepType: "general",
   stepClickable: false,
   initialStep: 0,
@@ -20,11 +19,16 @@ export const formProps: any = {
 
   // > SUBMIT
   transformDataOnSubmit: (formdata: any) => {
+    const { image, ...res } = formdata;
+
+    console.log("call", formdata);
+
     return {
-      ...formdata,
+      ...res,
+      ...(formdata.image instanceof File ? { image: formdata.image } : {}),
     };
   },
-  submitFormData: false,
+  submitFormData: true,
 
   // > API
 

@@ -2,99 +2,43 @@ import { Avatar, Badge, Group, Stack, Text } from "@mantine/core";
 
 export const columns = [
   {
-    accessor: "name",
+    accessor: "date",
     title: "Name",
     width: 300,
-    render: (record: any) => (
-      <Group wrap="nowrap">
-        <Avatar size="md" src={record.image} />
-        <div>
-          <Text size="sm" fw={600}>
-            {record.name}
-          </Text>
-          <Text size="xs" opacity={0.5}>
-            {record.member_id} | Enrolled on {record.doe}
-          </Text>
-        </div>
-      </Group>
-    ),
+
     sortable: true,
   },
 
   {
-    accessor: "dob",
+    accessor: "status",
     title: "Payment Status",
     sortable: true,
     render: (record: any) => {
       return (
         <>
-          <Badge color="teal" variant="dot" size="md">
-            PAID & ACTIVE
+          <Badge color={!record?.is_available ? "teal" : "orange"} variant="dot">
+            {record?.is_available ? "Not Used" : "Active Session"}
           </Badge>
-          <Text size="10px" opacity={0.5} ml={22} mt="4px">
-            Next Due in 16 days
-          </Text>
         </>
       );
     },
   },
+
   {
-    accessor: "gender",
-    title: "Gender",
-    render: (record: any) => (
-      <Badge
-        size="sm"
-        variant="light"
-        color={
-          record?.gender == "M"
-            ? "brand"
-            : record?.gender == "F"
-              ? "pink"
-              : "orange"
-        }
-      >
-        {record?.gender == "M"
-          ? "Male"
-          : record?.gender == "F"
-            ? "Female"
-            : "Other"}
-      </Badge>
-    ),
+    accessor: "ground",
+    title: "Experience Level",
     sortable: true,
-  },
-  {
-    accessor: "contact",
-    title: "Contact Details",
-    render: (record: any) => (
-      <Text size="xs">
-        <b>{record?.contact}</b> <br /> {record?.email}
-      </Text>
-    ),
-    sortable: true,
+    render: (record: any) => <>{record?.ground?.name}</>,
   },
 
   {
-    accessor: "team",
-    title: "Team",
-    sortable: true,
-    render: (record: any) => (
-      <Text size="xs">{record?.team?.name} - Team Captain</Text>
-    ),
-  },
-  {
-    accessor: "package",
-    title: "Package",
-    sortable: true,
-    render: (record: any) => <Text size="xs">{record?.package?.name}</Text>,
-  },
-  {
-    accessor: "level_exp",
+    accessor: "time",
     title: "Experience Level",
     sortable: true,
     render: (record: any) => (
-      <Badge size="sm" color="teal">
-        {record?.level_exp}
-      </Badge>
+      <>
+        {record?.time?.start_time} - {record?.time?.end_time}
+      </>
     ),
   },
 ];

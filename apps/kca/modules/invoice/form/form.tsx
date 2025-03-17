@@ -42,7 +42,6 @@ import { Info, Plus, Trash } from "@phosphor-icons/react";
 import { randomId } from "@mantine/hooks";
 
 import { getRecords as getPlayers } from "@/modules/players/module.api";
-import { getRecords as getPackages } from "@/modules/packages/module.api";
 
 // Assuming you have these defined elsewhere
 
@@ -209,7 +208,7 @@ export function _Form() {
                           selected.temp_address || selected.permanent_address
                         );
                         form.setFieldValue(
-                          "invoice_details",
+                          "invoice_items",
                           selected.package?.specification?.map((item: any) => {
                             return {
                               description: item.name,
@@ -232,7 +231,7 @@ export function _Form() {
                           selected.temp_address || selected.permanent_address
                         );
                         form.setFieldValue(
-                          "invoice_details",
+                          "invoice_items",
                           selected.package?.specification?.map((item: any) => {
                             return {
                               description: item.name,
@@ -298,7 +297,7 @@ export function _Form() {
               actionButton={
                 <Button
                   onClick={() => {
-                    form.insertListItem("invoice_details", { id: randomId() });
+                    form.insertListItem("invoice_items", { id: randomId() });
                   }}
                   leftSection={<Plus />}
                 >
@@ -326,7 +325,7 @@ export function _Form() {
               <Table.Tbody>
                 {form
                   .getValues()
-                  ?.invoice_details?.map((iteminfo: any, index: number) => (
+                  ?.invoice_items?.map((iteminfo: any, index: number) => (
                     <Table.Tr key={index}>
                       <Table.Td>
                         <Text size="xs">{index + 1}</Text>
@@ -336,7 +335,7 @@ export function _Form() {
                           variant="filled"
                           placeholder="Item Description"
                           {...form.getInputProps(
-                            `invoice_details.${index}.description`
+                            `invoice_items.${index}.description`
                           )}
                         />
                       </Table.Td>
@@ -345,7 +344,7 @@ export function _Form() {
                           variant="filled"
                           placeholder="Item Rate"
                           {...form.getInputProps(
-                            `invoice_details.${index}.price`
+                            `invoice_items.${index}.price`
                           )}
                         />
                       </Table.Td>
@@ -354,7 +353,7 @@ export function _Form() {
                           variant="filled"
                           placeholder="Amount"
                           {...form.getInputProps(
-                            `invoice_details.${index}.quantity`
+                            `invoice_items.${index}.quantity`
                           )}
                         />
                       </Table.Td>
@@ -364,7 +363,7 @@ export function _Form() {
                           color="red"
                           size="sm"
                           onClick={() => {
-                            form.removeListItem(`invoice_details`, index);
+                            form.removeListItem(`invoice_items`, index);
                           }}
                         >
                           <Trash />

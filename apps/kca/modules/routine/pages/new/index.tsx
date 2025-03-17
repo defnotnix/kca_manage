@@ -15,6 +15,8 @@ import { createRecord } from "../../module.api";
 import { ModuleFormLayout } from "@vframework/ui";
 import { moduleConfig } from "../../module.config";
 
+import _ from "moment";
+
 export function _New() {
   // * DEFINITIONS
 
@@ -24,6 +26,33 @@ export function _New() {
 
   // * FUNCTIONS
 
+  const formattedData = (_data: any) =>
+    _data.daterange
+      ?.filter((e: any) => {
+        return e.is_holiday !== true;
+      })
+      .flatMap(({ date, is_holiday, time, ground }: any) =>
+        time
+          ? time.map((t: any) => ({
+              date: _(date).format("YYYY-MM-DD"),
+              time: t,
+              ground,
+              is_available: is_holiday || false,
+              is_booked: false,
+              session: _data?.session,
+            }))
+          : [
+              {
+                date: _(date).format("YYYY-MM-DD"),
+                ground,
+                is_holiday,
+                is_available: is_holiday || false,
+                is_booked: false,
+                session: _data?.session,
+              },
+            ]
+      );
+
   // * COMPONENTS
 
   // * ANIMATIONS
@@ -32,14 +61,15 @@ export function _New() {
     <>
       <FormHandler
         {...formProps}
-        apiSubmit={createRecord}
-    
+        apiSubmit={(body) => {
+          return createRecord(formattedData(body));
+        }}
       >
         <ModuleFormLayout
           {...moduleConfig}
           size="md"
-          withStepper
-          steps={formProps.steps}
+          // withStepper
+          // steps={formProps.steps}
         >
           <Form />
         </ModuleFormLayout>

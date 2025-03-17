@@ -188,8 +188,11 @@ export function FormHandler({
 
   const handleSubmit = () => {
     console.log("submit");
-    onSubmitInitiate();
-    mutationSubmit.mutate();
+
+    if (form.validate()) {
+      onSubmitInitiate();
+      mutationSubmit.mutate();
+    }
   };
 
   // * COMPONENTS

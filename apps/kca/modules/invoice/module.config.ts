@@ -10,8 +10,8 @@ export const moduleConfig: PropModuleConfig = {
       label: "Invoices",
     },
   ],
-  moduleKey: "vauth.users".split("."),
-  endpoint: "/players/invoice/",
+  moduleKey: "vauth.billing.invoice".split("."),
+  endpoint: "/billing/invoice/",
   //
   moduleTerm: "Invoice",
   moduleTermPlural: "Invoices",

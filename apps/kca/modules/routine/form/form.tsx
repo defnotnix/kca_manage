@@ -42,6 +42,8 @@ import { getRecords as getPackages } from "@/modules/package/module.api";
 import { Label } from "recharts";
 import { Minus } from "@phosphor-icons/react";
 
+import { getRecords } from "../module.api";
+
 // Assuming you have these defined elsewhere
 
 const optionBoolean = [
@@ -87,7 +89,6 @@ export function _Form() {
       }
 
       return dates.map((date, index) => {
-        console.log(date);
         return {
           date: new Date(date),
           is_holiday: false,
@@ -98,6 +99,42 @@ export function _Form() {
       return [];
     }
   };
+
+  const queryGrounds = useQuery({
+    queryKey: ["config", "grounds"], // query key
+    queryFn: async () => {
+      const res = await getRecords({
+        endpoint: "/services/grounds/",
+      });
+
+      return res;
+    },
+    initialData: [],
+  });
+
+  const queryTimeFrames = useQuery({
+    queryKey: ["config", "timeframes"], // query key
+    queryFn: async () => {
+      const res = await getRecords({
+        endpoint: "/services/time/frames/",
+      });
+
+      return res;
+    },
+    initialData: [],
+  });
+
+  const querySessions = useQuery({
+    queryKey: ["config", "sessions"], // query key
+    queryFn: async () => {
+      const res = await getRecords({
+        endpoint: "/players/sessions/",
+      });
+
+      return res;
+    },
+    initialData: [],
+  });
 
   switch (current) {
     case 0:
@@ -113,8 +150,20 @@ export function _Form() {
             }}
           >
             <Stack gap="xs">
+              <Select
+                label="Select Session"
+                description="Select session to add to this routine"
+                data={querySessions?.data?.map((item: any) => {
+                  return {
+                    value: String(item.id),
+                    label: item.name,
+                  };
+                })}
+                placeholder="Select Session"
+                {...form.getInputProps("session")}
+              />
+
               <FormElement.SectionTitle
-                isTopElement
                 title="Pick Calendar Dates"
                 description="Comprehensive student information & details"
                 actionButton={
@@ -147,10 +196,10 @@ export function _Form() {
                   </Grid.Col>
                 </Grid>
                 <Text fw={600} size="xs">
-                  Ground
+                  Time
                 </Text>
                 <Text fw={600} size="xs">
-                  Activity
+                  Ground
                 </Text>
               </SimpleGrid>
 
@@ -191,15 +240,28 @@ export function _Form() {
                     </Grid.Col>
                   </Grid>
 
-                  <TextInput
+                  <MultiSelect
                     disabled={date?.is_holiday}
-                    placeholder="Enter Activity"
-                    {...form.getInputProps(`daterange.${index}.activity`)}
+                    data={queryTimeFrames?.data?.map((item: any) => {
+                      return {
+                        value: String(item.id),
+                        label: `${item.start_time} - ${item.end_time}`,
+                      };
+                    })}
+                    placeholder="Select Time"
+                    {...form.getInputProps(`daterange.${index}.time`)}
                   />
+
                   <Select
                     disabled={date?.is_holiday}
-                    data={[]}
+                    data={queryGrounds?.data?.map((item: any) => {
+                      return {
+                        value: String(item.id),
+                        label: item.name || "",
+                      };
+                    })}
                     placeholder="Select Ground"
+                    {...form.getInputProps(`daterange.${index}.ground`)}
                   />
                 </SimpleGrid>
               ))}
