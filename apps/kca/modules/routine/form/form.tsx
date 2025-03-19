@@ -252,7 +252,7 @@ export function _Form() {
                     {...form.getInputProps(`daterange.${index}.time`)}
                   />
 
-                  <Select
+                  <MultiSelect
                     disabled={date?.is_holiday}
                     data={queryGrounds?.data?.map((item: any) => {
                       return {

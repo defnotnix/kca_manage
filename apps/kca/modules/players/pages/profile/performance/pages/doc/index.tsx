@@ -31,66 +31,59 @@ const playerData: any = {
   studentId: "124123123",
   team: "KCA Core Team",
   enrolled: "2023-05-01",
-  batting: {
-    matchesPlayed: 224,
-    runs: 10245,
-    battingAverage: 48.5,
-    strikeRate: 135.2,
-    halfCenturyCount: 54,
-    centuryCount: 25,
-    bestPerformance: "158*",
-  },
-  bowling: {
-    totalOvers: 982,
-    wicketsTaken: 186,
-    runsConceded: 7650,
-    economyRate: 6.8,
-    averageRuns: 25.5,
-    bestFigureWickets: 6,
-    bestFigureRuns: 22,
-  },
-  fielding: {
-    catchesTaken: 145,
-    stumpCount: 32,
-    runOuts: 28,
-    fieldingEfficiency: 89.4,
-  },
-  agility: {
-    runningSpeed: 8.9, // meters per second
-    beepTestScore: 12.5,
-    yoyoTestScore: 18.2,
-    pushUpCount: 65,
-    pullUpCount: 20,
-    squatsCount: 90,
-    flexibility: 45, // cm
-  },
-  rating: {
-    overallRating: 88.4,
-    batting: 92.5,
-    bowling: 80.3,
-    fielding: 85.2,
-    fitness: 89.1,
-    consistencyScore: 86.5,
-    coachRating: "A",
-  },
-  attendance: {
-    attendancePercent: 96.5,
-    punctualityScore: 9,
-    warningCount: 1,
-    suspensionCount: 0,
-  },
+
+  // Batting
+  batting_grip: "A",
+  stance: "B",
+  batlift: "C",
+  weight_transfer: "A",
+  judgement: "B",
+  shot_selection: "C",
+  execution: "A",
+
+  // Bowling
+  bowling_grip: "B",
+  runup: "C",
+  loading: "A",
+  jump: "B",
+  landing: "C",
+  release: "A",
+  accuracy: "B",
+  swing: "C",
+  turn: "A",
+  variation: "B",
+
+  // Fielding and Catching
+  ground_fielding: "C",
+  technique: "A",
+  collection: "B",
+  throwing: "C",
+  catching_technique: "A",
+  ball_judgement: "B",
+  throwing_technique: "C",
+  // Performance and Mentality
+  strength: "A",
+  mental: "B",
+  physical: "C",
+  team_player: "A",
+  discipline: "B",
+  learning: "C",
+
+  overall: "A",
+  remarks: "Demonstrates strong leadership and technical skills.",
+
   achievements: [
     {
       tournament: "World Cup 2023",
-      position: 1,
-      award: "Best Batsman",
-      awardedDate: "2023-11-19",
+      position: "A",
+      award: "B",
+      awardedDate: "C",
     },
     {
       tournament: "T20 League 2022",
-      position: 2,
-      award: "Most Valuable Player",
-      awardedDate: "2022-08-15",
+      position: "B",
+      award: "A",
+      awardedDate: "C",
     },
   ],
 };
@@ -121,6 +114,68 @@ export const data = [
     sales: 85,
   },
 ];
+
+const playerData2: any = {
+  name: "Paras Khadka",
+  studentId: "124123123",
+  team: "KCA Core Team",
+  enrolled: "2023-05-01",
+
+  // Batting
+  batting_grip: "A",
+  stance: "B",
+  batlift: "C",
+  weight_transfer: "A",
+  judgement: "B",
+  shot_selection: "C",
+  execution: "A",
+
+  // Bowling
+  bowling_grip: "B",
+  runup: "C",
+  loading: "A",
+  jump: "B",
+  landing: "C",
+  release: "A",
+  accuracy: "B",
+  swing: "C",
+  turn: "A",
+  variation: "B",
+
+  // Fielding and Catching
+  ground_fielding: "C",
+  technique: "A",
+  collection: "B",
+  throwing: "C",
+  catching_technique: "A",
+  ball_judgement: "B",
+  throwing_technique: "C",
+  // Performance and Mentality
+  strength: "A",
+  mental: "B",
+  physical: "C",
+  team_player: "A",
+  discipline: "B",
+  learning: "C",
+
+  overall: "A",
+  remarks: "Demonstrates strong leadership and technical skills.",
+
+  achievements: [
+    {
+      tournament: "World Cup 2023",
+      position: "A",
+      award: "B",
+      awardedDate: "C",
+    },
+    {
+      tournament: "T20 League 2022",
+      position: "B",
+      award: "A",
+      awardedDate: "C",
+    },
+  ],
+};
 
 const bread = [
   {
@@ -243,30 +298,37 @@ export function _Doc() {
                   <tr>
                     <td>Batting Grip</td>
                     <td> {playerData.batting_grip}</td>
+                    <td> {playerData2.batting_grip}</td>
                   </tr>
                   <tr>
                     <td>Stance</td>
                     <td> {playerData.stance}</td>
+                    <td> {playerData2.stance}</td>
                   </tr>
                   <tr>
                     <td>Bat Lift</td>
                     <td> {playerData.bat_lift}</td>
+                    <td> {playerData2.bat_lift}</td>
                   </tr>
                   <tr>
                     <td>Weight Transfer</td>
                     <td> {playerData.weight_transfer}</td>
+                    <td> {playerData2.weight_transfer}</td>
                   </tr>
                   <tr>
                     <td>Judgement</td>
                     <td> {playerData.judgement}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Shor Selection</td>
                     <td> {playerData.shot_selection}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Execution</td>
                     <td> {playerData.execution}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td></td>
@@ -279,6 +341,11 @@ export function _Doc() {
                   <tr>
                     <td></td>
                     <td></td>
+                  </tr>
+                  <tr style={{background:"var(--mantine-color-brand-2)"}}>
+                    <td><b>Overalll</b></td>
+                    <td> A</td>
+                    <td>A</td>
                   </tr>
                 </tbody>
               </table>
@@ -296,42 +363,57 @@ export function _Doc() {
                   <tr>
                     <td>Bowling Grip</td>
                     <td>{playerData.bowling_grip}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Run Up</td>
                     <td>{playerData.run_up}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Loading</td>
                     <td>{playerData.loading}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Jump</td>
                     <td>{playerData.jump}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Landing</td>
                     <td>{playerData.landing}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Release</td>
                     <td>{playerData.release}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Accuracy</td>
                     <td>{playerData.accuracy}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Swing</td>
                     <td>{playerData.swing}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Turn</td>
                     <td>{playerData.turn}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Variation</td>
                     <td>{playerData.variation}</td>
+                    <td>{playerData.discipline}</td>
+                  </tr>
+                  <tr style={{background:"var(--mantine-color-brand-2)"}}>
+                    <td><b>Overalll</b></td>
+                    <td> A</td>
+                    <td>A</td>
                   </tr>
                 </tbody>
               </table>
@@ -349,30 +431,37 @@ export function _Doc() {
                   <tr>
                     <td>Ground Fielding</td>
                     <td>{playerData.ground_fielding}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Technique</td>
                     <td>{playerData.technique}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Collection</td>
                     <td>{playerData.collection}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Throwing</td>
                     <td>{playerData.throwing}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Catching Technique</td>
                     <td>{playerData.catching_technique}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Ball Judgement</td>
                     <td>{playerData.ball_judgement}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Throwing Technique</td>
                     <td>{playerData.throwing_technique}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td></td>
@@ -385,6 +474,11 @@ export function _Doc() {
                   <tr>
                     <td></td>
                     <td></td>
+                  </tr>
+                  <tr style={{background:"var(--mantine-color-brand-2)"}}>
+                    <td><b>Overalll</b></td>
+                    <td> A</td>
+                    <td>A</td>
                   </tr>
                 </tbody>
               </table>
@@ -402,26 +496,37 @@ export function _Doc() {
                   <tr>
                     <td>Strength</td>
                     <td>{playerData.strength}</td>
+                    <td>{playerData2.strength}</td>
                   </tr>
                   <tr>
                     <td>Mental</td>
                     <td>{playerData.mental}</td>
+                    <td>{playerData2.mental}</td>
                   </tr>
                   <tr>
                     <td>Physical</td>
                     <td>{playerData.physical}</td>
+                    <td>{playerData2.physical}</td>
                   </tr>
                   <tr>
                     <td>Team Player</td>
+                    <td>{playerData.team_player}</td>
                     <td>{playerData.team_player}</td>
                   </tr>
                   <tr>
                     <td>Discipline</td>
                     <td>{playerData.discipline}</td>
+                    <td>{playerData.discipline}</td>
                   </tr>
                   <tr>
                     <td>Learning</td>
                     <td>{playerData.learning}</td>
+                    <td>{playerData.discipline}</td>
+                  </tr>
+                  <tr style={{background:"var(--mantine-color-brand-2)"}}>
+                    <td><b>Overalll</b></td>
+                    <td> A</td>
+                    <td>A</td>
                   </tr>
                 </tbody>
               </table>
@@ -448,7 +553,7 @@ export function _Doc() {
                   Overall Evaluation Score
                 </Text>
                 <Text ta="right" size="6rem" fw={600} my="sm">
-                  {playerData.overall_performance}
+                  A
                 </Text>
                 <Text ta="right" size="xs" opacity={0.5} fw={600}>
                   Note: This is a general rating based on KCA Standard of

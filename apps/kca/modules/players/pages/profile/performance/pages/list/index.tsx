@@ -21,7 +21,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { Invoice, Pen, Trash, Warning } from "@phosphor-icons/react";
+import { Invoice, Pen, Printer, Trash, Warning } from "@phosphor-icons/react";
 import { moduleConfig } from "../../module.config";
 
 import { _Form as Form } from "../../form/form";
@@ -253,6 +253,15 @@ export function _List() {
                         </Group>
 
                         <Group gap="xs">
+                          <ActionIcon
+                            onClick={() => {
+                              router.push(
+                                "/players/" + Params.id + "/performance"
+                              );
+                            }}
+                          >
+                            <Printer />
+                          </ActionIcon>
                           <EditContainer row={item}>
                             <ActionIcon>
                               <Pen />

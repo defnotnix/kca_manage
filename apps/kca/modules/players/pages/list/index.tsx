@@ -114,26 +114,26 @@ export function _List() {
               <StatCard
                 title="Total Players"
                 icon={Star}
-                value="100"
+                value="54"
                 description="Total number of players"
               />
               <StatCard
                 title="Active Players"
                 icon={Star}
-                value="100"
+                value="32"
                 shortValue="23% of Total"
                 description="Players currently active"
               />
               <StatCard
                 title="Due Payment"
                 icon={Star}
-                value="100"
+                value="5"
                 description="Total number of players"
               />
               <StatCard
                 title="Payment Overdue"
                 icon={Star}
-                value="100"
+                value="10"
                 description="Total number of players"
               />
             </SimpleGrid>

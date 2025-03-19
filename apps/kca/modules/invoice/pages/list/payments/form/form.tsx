@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //mantine
 import {
   ActionIcon,
@@ -42,7 +42,6 @@ import { Info, Plus, Trash } from "@phosphor-icons/react";
 import { randomId } from "@mantine/hooks";
 
 import { getRecords as getPlayers } from "@/modules/players/module.api";
-import { getRecords as getPackages } from "@/modules/packages/module.api";
 
 // Assuming you have these defined elsewhere
 

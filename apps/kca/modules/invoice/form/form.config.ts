@@ -2,7 +2,7 @@ import _ from "moment";
 
 export const formProps: any = {
   initial: {
-    invoice_items: [],
+    invoice_details: [],
     d: new Date(),
     taxable_percent: 13,
     is_student: false,

@@ -1,6 +1,6 @@
 import { apiDispatch, moduleApiCall } from "@vframework/core";
 
-const endpoint = "/players/payment/";
+const endpoint = "/billing/payment/";
 
 export const getRecords = moduleApiCall.getRecords;
 export const getSingleRecord = moduleApiCall.getSingleRecord;

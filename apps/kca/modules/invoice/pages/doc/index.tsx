@@ -37,7 +37,7 @@ export function _Doc() {
   const queryData = useQuery({
     queryKey: ["invoice", "doc", "data"],
     queryFn: async () => {
-      const res = await getSingleRecord("/players/invoice/", Params.id);
+      const res = await getSingleRecord("/billing/invoice/", Params.id);
 
       return {
         ...res,

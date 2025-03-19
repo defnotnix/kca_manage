@@ -6,6 +6,7 @@ import React from "react";
 //mantine
 import {
   Anchor,
+  Badge,
   Box,
   Breadcrumbs,
   Group,
@@ -34,6 +35,81 @@ const bread = [
   },
   {
     label: "Calendar View",
+  },
+];
+
+const sessions = [
+  {
+    name: "Beginner Cricket Training",
+    status: "Active",
+    time: "6:00 AM - 7:00 AM",
+  },
+  {
+    name: "Advanced Batting Practice",
+    status: "Active",
+    time: "7:30 AM - 9:00 AM",
+  },
+  {
+    name: "Bowling Masterclass",
+    status: "Inactive",
+    time: "10:00 AM - 11:30 AM",
+  },
+  {
+    name: "Fielding & Reflex Drills",
+    status: "Active",
+    time: "1:00 PM - 2:30 PM",
+  },
+  {
+    name: "Tactical Game Simulation",
+    status: "Active",
+    time: "4:00 PM - 6:00 PM",
+  },
+  {
+    name: "Evening Fitness & Conditioning",
+    status: "Active",
+    time: "7:00 PM - 8:30 PM",
+  },
+];
+
+const packages = [
+  {
+    name: "Basic Cricket Training",
+    admissionFee: "Rs. 5,000",
+    serviceFee: "Rs. 2,000",
+  },
+  {
+    name: "Advanced Coaching",
+    admissionFee: "Rs. 10,000",
+    serviceFee: "Rs. 3,500",
+  },
+  {
+    name: "Pro League Preparation",
+    admissionFee: "Rs. 15,000",
+    serviceFee: "Rs. 5,000",
+  },
+  {
+    name: "Youth Development Program",
+    admissionFee: "Rs. 7,500",
+    serviceFee: "Rs. 2,500",
+  },
+];
+
+const expiringPlayers = [
+  {
+    name: "Ramesh Shrestha",
+    dueAmount: "Rs. 2,000",
+    expiringDate: "March 20, 2025",
+  },
+  { name: "Sita Lama", dueAmount: "Rs. 3,500", expiringDate: "March 25, 2025" },
+  {
+    name: "Arjun Basnet",
+    dueAmount: "Rs. 1,500",
+    expiringDate: "April 5, 2025",
+  },
+  {
+    name: "Bikash Gurung",
+    dueAmount: "Rs. 4,000",
+    expiringDate: "April 10, 2025",
   },
 ];
 
@@ -131,24 +207,69 @@ export function ModuleDashboard() {
               <Paper withBorder p="md" bg="brand.0">
                 <Text size="sm">Current Sessions</Text>
               </Paper>
-              <Paper withBorder p="md">
-                adsf
+              <Paper withBorder h={600}>
+                <Stack gap={0}>
+                  {sessions.map((session, index) => (
+                    <Paper p="md" key={index}>
+                      <Group justify="space-between">
+                        <Text size="xs">{session.name}</Text>
+                        <Group>
+                          <Badge
+                            color={
+                              session.status === "Active" ? "teal" : "gray"
+                            }
+                            variant="dot"
+                          >
+                            {session.status}
+                          </Badge>
+                          <Badge>{session.time}</Badge>
+                        </Group>
+                      </Group>
+                    </Paper>
+                  ))}
+                </Stack>
               </Paper>
             </Box>
             <Box>
               <Paper withBorder p="md" bg="brand.0">
                 <Text size="sm">Current Sessions</Text>
               </Paper>
-              <Paper withBorder p="md">
-                adsf
+              <Paper withBorder h={600}>
+                <Stack gap={0}>
+                  {packages.map((pkg, index) => (
+                    <Paper p="md" key={index}>
+                      <Group justify="space-between">
+                        <Text size="xs">{pkg.name}</Text>
+                        <Group>
+                          <Badge color="blue">Ad.: {pkg.admissionFee}</Badge>
+                          <Badge color="green">S.F : {pkg.serviceFee}</Badge>
+                        </Group>
+                      </Group>
+                    </Paper>
+                  ))}
+                </Stack>
               </Paper>
             </Box>{" "}
             <Box>
               <Paper withBorder p="md" bg="brand.0">
                 <Text size="sm">Current Sessions</Text>
               </Paper>
-              <Paper withBorder p="md">
-                adsf
+              <Paper withBorder h={600}>
+                <Stack gap={0}>
+                  {expiringPlayers.map((player, index) => (
+                    <Paper p="md" key={index}>
+                      <Group justify="space-between">
+                        <Text size="xs">{player.name}</Text>
+                        <Group>
+                          <Badge color="red">Due: {player.dueAmount}</Badge>
+                          <Badge color="orange">
+                            EX.: {player.expiringDate}
+                          </Badge>
+                        </Group>
+                      </Group>
+                    </Paper>
+                  ))}
+                </Stack>
               </Paper>
             </Box>
           </SimpleGrid>

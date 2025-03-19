@@ -25,7 +25,7 @@ export const formProps: any = {
         z.object({
           date: z.string().datetime().nonempty(),
           time: z.array(z.string()).nonempty(),
-          ground: z.string(),
+          ground: z.array(z.string()).nonempty(),
         })
       ),
     },

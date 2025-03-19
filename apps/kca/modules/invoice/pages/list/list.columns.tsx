@@ -11,21 +11,7 @@ export const columns = [
     title: "Invoice ID",
     sortable: true,
   },
-  {
-    accessor: "gateway_id",
-    title: "Gateway ID",
-    sortable: true,
-  },
-  {
-    accessor: "transaction_id",
-    title: "Transaction ID",
-    sortable: true,
-  },
-  {
-    accessor: "fiscal_year",
-    title: "Fiscal Year",
-    sortable: true,
-  },
+
   {
     accessor: "receipt_date",
     title: "Receipt Date",

@@ -22,6 +22,7 @@ import { formProps } from "./form/form.config";
 import { _Form as Form } from "./form/form";
 
 import { getRecords, createRecord } from "./module.api";
+import { useQuery } from "@tanstack/react-query";
 
 //icons
 
@@ -43,6 +44,17 @@ export function InvoicePayments({ active }: any) {
   }, []);
 
   // * COMPONENTS
+
+  const queryData = useQuery({
+    queryKey: ["invoice", "payments"],
+    queryFn: async () => {
+      const res = await getRecords({
+        endpoint: "/billing/payment/",
+      });
+      return res;
+    },
+    initialData: [],
+  });
 
   // * ANIMATIONS
 
@@ -83,7 +95,12 @@ export function InvoicePayments({ active }: any) {
           <FormHandler
             formType={"new"}
             {...formProps}
-            apiSubmit={createRecord}
+            apiSubmit={(endpoint, body) => {
+              return createRecord({
+                ...body,
+                invoice: active?.id,
+              });
+            }}
             onSubmitSuccess={() => {}}
           >
             <Form />
@@ -103,11 +120,13 @@ export function InvoicePayments({ active }: any) {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            <Table.Tr>
-              <Table.Td>23 May, 2025</Table.Td>
-              <Table.Td>Cash</Table.Td>
-              <Table.Td>Rs. 2500</Table.Td>
-            </Table.Tr>
+            {queryData.data?.map((item: any, index: number) => {
+              <Table.Tr key={index}>
+                <Table.Td>{item.reciept_date}</Table.Td>
+                <Table.Td>{item?.gateway}</Table.Td>
+                <Table.Td>Rs. {item?.amount}</Table.Td>
+              </Table.Tr>;
+            })}
           </Table.Tbody>
         </Table>
       </Stack>

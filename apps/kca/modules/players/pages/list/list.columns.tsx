@@ -1,4 +1,5 @@
 import { Avatar, Badge, Group, Stack, Text } from "@mantine/core";
+import { access } from "fs";
 
 export const columns = [
   {
@@ -13,14 +14,25 @@ export const columns = [
             {record.name}
           </Text>
           <Text size="xs" opacity={0.5}>
-            {record.member_id} | Enrolled on {record.doe}
+            {record.member_id} | Enrolled on {record.date_of_enrollment}
           </Text>
         </div>
       </Group>
     ),
     sortable: true,
   },
-
+  {
+    access: "perm_address",
+    title: "Address",
+  },
+  {
+    access: "parent_name",
+    title: "Guardian",
+  },
+  {
+    access: "parent_contact",
+    title: "Guardian Contact",
+  },
   {
     accessor: "dob",
     title: "Payment Status",
@@ -71,20 +83,5 @@ export const columns = [
       </Text>
     ),
     sortable: true,
-  },
-
-  {
-    accessor: "team",
-    title: "Team",
-    sortable: true,
-    render: (record: any) => (
-      <Text size="xs">{record?.team?.name} - Team Captain</Text>
-    ),
-  },
-  {
-    accessor: "package",
-    title: "Package",
-    sortable: true,
-    render: (record: any) => <Text size="xs">{record?.package?.name}</Text>,
   },
 ];

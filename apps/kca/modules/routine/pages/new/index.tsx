@@ -28,29 +28,18 @@ export function _New() {
 
   const formattedData = (_data: any) =>
     _data.daterange
-      ?.filter((e: any) => {
-        return e.is_holiday !== true;
-      })
+      ?.filter((e: any) => !e.is_holiday)
       .flatMap(({ date, is_holiday, time, ground }: any) =>
-        time
-          ? time.map((t: any) => ({
-              date: _(date).format("YYYY-MM-DD"),
-              time: t,
-              ground,
-              is_available: is_holiday || false,
-              is_booked: false,
-              session: _data?.session,
-            }))
-          : [
-              {
-                date: _(date).format("YYYY-MM-DD"),
-                ground,
-                is_holiday,
-                is_available: is_holiday || false,
-                is_booked: false,
-                session: _data?.session,
-              },
-            ]
+        time.flatMap((t: any) =>
+          ground.map((g: any) => ({
+            date: _(date).format("YYYY-MM-DD"),
+            time: t,
+            ground: g,
+            is_available: is_holiday || false,
+            is_booked: false,
+            session: _data?.session,
+          }))
+        )
       );
 
   // * COMPONENTS

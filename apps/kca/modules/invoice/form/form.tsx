@@ -208,7 +208,7 @@ export function _Form() {
                           selected.temp_address || selected.permanent_address
                         );
                         form.setFieldValue(
-                          "invoice_items",
+                          "invoice_details",
                           selected.package?.specification?.map((item: any) => {
                             return {
                               description: item.name,
@@ -231,7 +231,7 @@ export function _Form() {
                           selected.temp_address || selected.permanent_address
                         );
                         form.setFieldValue(
-                          "invoice_items",
+                          "invoice_details",
                           selected.package?.specification?.map((item: any) => {
                             return {
                               description: item.name,
@@ -297,7 +297,7 @@ export function _Form() {
               actionButton={
                 <Button
                   onClick={() => {
-                    form.insertListItem("invoice_items", { id: randomId() });
+                    form.insertListItem("invoice_details", { id: randomId() });
                   }}
                   leftSection={<Plus />}
                 >
@@ -325,7 +325,7 @@ export function _Form() {
               <Table.Tbody>
                 {form
                   .getValues()
-                  ?.invoice_items?.map((iteminfo: any, index: number) => (
+                  ?.invoice_details?.map((iteminfo: any, index: number) => (
                     <Table.Tr key={index}>
                       <Table.Td>
                         <Text size="xs">{index + 1}</Text>
@@ -335,7 +335,7 @@ export function _Form() {
                           variant="filled"
                           placeholder="Item Description"
                           {...form.getInputProps(
-                            `invoice_items.${index}.description`
+                            `invoice_details.${index}.description`
                           )}
                         />
                       </Table.Td>
@@ -344,7 +344,7 @@ export function _Form() {
                           variant="filled"
                           placeholder="Item Rate"
                           {...form.getInputProps(
-                            `invoice_items.${index}.price`
+                            `invoice_details.${index}.price`
                           )}
                         />
                       </Table.Td>
@@ -353,7 +353,7 @@ export function _Form() {
                           variant="filled"
                           placeholder="Amount"
                           {...form.getInputProps(
-                            `invoice_items.${index}.quantity`
+                            `invoice_details.${index}.quantity`
                           )}
                         />
                       </Table.Td>
@@ -363,7 +363,7 @@ export function _Form() {
                           color="red"
                           size="sm"
                           onClick={() => {
-                            form.removeListItem(`invoice_items`, index);
+                            form.removeListItem(`invoice_details`, index);
                           }}
                         >
                           <Trash />
