@@ -3,6 +3,7 @@
 import { StatCard } from "@/components/StatCard";
 import {
   Anchor,
+  Box,
   Breadcrumbs,
   Center,
   Grid,
@@ -70,7 +71,7 @@ export function ModuleDashboard() {
           </Stack>
         </Paper>
 
-        <Stack mt={-100} p="md">
+        <Stack mt={-100} p="md" gap="xs">
           <SimpleGrid spacing="xs" cols={{ base: 2, lg: 6 }}>
             <StatCard
               title="Total Players"
@@ -110,11 +111,27 @@ export function ModuleDashboard() {
             />
           </SimpleGrid>
           <Grid gutter="xs">
-            <Grid.Col span={{ base: 12, lg: 8 }}>
-              <Paper>
-                <Center>
-                  <Calendar size="sm" classNames={classesCalendar} />
-                </Center>
+            <Grid.Col span={{ base: 12, lg: 6 }}>
+              <Paper pos="relative" withBorder p="sm">
+                <Calendar size="sm" classNames={classesCalendar} />
+              </Paper>
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, lg: 6 }}>
+              <Paper pos="relative" withBorder>
+                <Paper
+                  p="sm"
+                  bg="brand.0"
+                  style={{
+                    borderBottom: "1px solid var(--mantine-color-gray-3)",
+                  }}
+                >
+                  <Text fw={600} size="sm" c="dark.9">
+                    Day Overview
+                  </Text>
+                </Paper>
+                <Box p="sm">
+                  
+                </Box>
               </Paper>
             </Grid.Col>
           </Grid>
