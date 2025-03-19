@@ -244,7 +244,7 @@ export function ModuleTableLayout({
   const mutationSubmit = useMutation({
     mutationFn: async (delId) => {
       triggerNotification.form.isLoading({});
-      const res = await apiDelete(delId,records);
+      const res = await apiDelete(delId, records);
       return res;
     },
     onSuccess: (res: any, delId: any) => {
@@ -457,8 +457,8 @@ export function ModuleTableLayout({
                 </ActionIcon>
               )}
               <div>
-                <Text size="xl" fw={600}>
-                  {moduleName}
+                <Text size="xl" fw={700}>
+                  Manage {moduleName}
                 </Text>
                 <Text size="sm" opacity={0.5}>
                   {moduleDescription}
@@ -499,7 +499,7 @@ export function ModuleTableLayout({
                 rightSection={<MagnifyingGlass />}
                 size="xs"
                 placeholder="Search"
-                w={{ base: "100%", md: "auto" }}
+                w={{ base: "100%", md: "400" }}
                 onChange={(e) => {
                   setSearchVal(e.target.value);
                 }}
@@ -544,10 +544,10 @@ export function ModuleTableLayout({
                   </Button>
                 </Menu.Target>
                 <Menu.Dropdown w={200}>
-                  <Menu.Label>Bulk Actions</Menu.Label>
+                  {/* <Menu.Label>Bulk Actions</Menu.Label>
                   <Menu.Item leftSection={<Pen />}>Bulk Edit</Menu.Item>
                   <Menu.Item leftSection={<Trash />}>Bulk Delete</Menu.Item>
-                  <Menu.Divider />
+                  <Menu.Divider /> */}
                   <Menu.Label>General</Menu.Label>
 
                   <Menu.Item
@@ -591,7 +591,7 @@ export function ModuleTableLayout({
                 >
                   {customCreateText || "Add " + moduleTerm || "Item"}
                 </Button>
-                <Button
+                {/* <Button
                   disabled={!withAddExtra}
                   variant="filled"
                   size="xs"
@@ -599,7 +599,7 @@ export function ModuleTableLayout({
                   ml={1}
                 >
                   <CaretDown />
-                </Button>
+                </Button> */}
               </ButtonGroup>
             </Group>
           </Group>
@@ -747,7 +747,7 @@ export function ModuleTableLayout({
                 },
               }}
               //fonts
-              fz="sm"
+              fz="xs"
               fw={500}
               // styling
               highlightOnHover

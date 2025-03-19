@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 //mantine
 import {
   ActionIcon,
+  Alert,
   AppShell,
   Badge,
   Box,
@@ -29,6 +30,7 @@ import {
 //icons
 import {
   Atom,
+  Calendar,
   ChartDonut,
   Circle,
   DotsThree,
@@ -276,13 +278,16 @@ export function _AdminNavLayoutSidenav({
               "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1))",
           }}
         >
-          <Paper mb="sm" bg="rgba(255,255,255,.1)" p="md">
-            <Text size="xs" c="gray.0" mb={3}>
-              This is a message for the software user.
-            </Text>
-            <Text size="10px" c="gray.0" opacity={0.5}>
-              Something like a license.
-            </Text>
+          <Paper p="xs" bg="dark.7">
+            <Group wrap="nowrap">
+              <Calendar
+                weight="duotone"
+                color="var(--mantine-color-orange-5)"
+              />
+              <Text size="xs" c="gray.0">
+                You have 3 booking requests on pending
+              </Text>
+            </Group>
           </Paper>
 
           <Group justify="space-between">
