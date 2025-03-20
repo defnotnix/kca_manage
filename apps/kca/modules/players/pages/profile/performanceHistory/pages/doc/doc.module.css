@@ -1,0 +1,29 @@
+.doctable {
+  background: var(--mantine-color-brand-0);
+}
+
+.doctable,
+.doctable th,
+.doctable td {
+  border: 1px solid var(--mantine-color-gray-4);
+  border-collapse: collapse;
+}
+
+.doctable td {
+  padding: 0.05in 0.1in;
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 600;
+  height: 0.3in;
+}
+
+.doctable td:first-child {
+  font-weight: 700;
+  width: 60%;
+}
+
+.doctable th {
+  padding: 0.05in 0.1in;
+  text-align: left;
+  font-size: var(--mantine-font-size-sm);
+  background: var(--mantine-color-brand-1);
+}

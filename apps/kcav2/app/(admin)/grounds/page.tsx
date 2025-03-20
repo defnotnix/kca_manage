@@ -1,2 +1,2 @@
-import { ModuleGrounds } from "@/modules";
-export default ModuleGrounds.List;
+import { Modules } from "@/modules";
+export default Modules.Grounds.List;

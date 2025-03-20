@@ -1,2 +1,2 @@
-import { LayoutAdmin } from "@/layouts/admin";
-export default LayoutAdmin;
+import { LayouAdmin } from "@/layouts/admin";
+export default LayouAdmin;
