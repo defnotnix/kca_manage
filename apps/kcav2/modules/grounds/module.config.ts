@@ -7,17 +7,14 @@ export const moduleConfig: PropModuleConfig = {
       label: "KCA Admin",
     },
     {
-      label: "Configure",
-    },
-    {
       label: "Grounds",
     },
   ],
-  moduleKey: "vauth.configure.grounds".split("."),
+  moduleKey: "vauth.grounds".split("."),
   endpoint: "/services/grounds/",
   //
-  moduleTerm: "Grounds",
+  moduleTerm: "Ground",
   moduleTermPlural: "Grounds",
   moduleName: "Ground",
-  moduleDescription: "Manage all grounds & their pricings.",
+  moduleDescription: "Manage all player-packages & their pricings.",
 };

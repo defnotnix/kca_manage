@@ -9,8 +9,11 @@ export const moduleConfig: PropModuleConfig = {
     {
       label: "Sessions",
     },
+    {
+      label: "Manage Sessions",
+    },
   ],
-  moduleKey: "vauth.users".split("."),
+  moduleKey: "vauth.sessions".split("."),
   endpoint: "/players/sessions/",
   //
   moduleTerm: "Session",

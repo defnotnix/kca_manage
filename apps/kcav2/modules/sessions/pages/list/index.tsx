@@ -15,13 +15,30 @@ import { createRecord as createAttendance } from "../../form/attendance/form.api
 import { columns } from "./list.columns";
 import {
   ActionIcon,
+  Badge,
+  Box,
+  Group,
   LoadingOverlay,
   Menu,
   Modal,
+  Paper,
+  SimpleGrid,
   Space,
+  Stack,
   Text,
 } from "@mantine/core";
-import { Chair, Check, Invoice, UserPlus, Users } from "@phosphor-icons/react";
+import {
+  Calendar,
+  Chair,
+  Check,
+  Cricket,
+  DotsThree,
+  Invoice,
+  Pen,
+  Trash,
+  UserPlus,
+  Users,
+} from "@phosphor-icons/react";
 import { moduleConfig } from "../../module.config";
 
 import { _Form as Form } from "../../form/form";
@@ -72,30 +89,93 @@ export function _List() {
               gender === "male" ? "var(--mantine-color-indigo-0)" : "",
           })}
           // * EXTRA ACTIONS
-          extraActions={({ row }: { row: any }) => (
-            <>
-              <Menu.Item
-                onClick={() => {
-                  router.push("/sessions/" + row.id);
-                }}
-                leftSection={<Users />}
-              >
-                Manage Players
-              </Menu.Item>
-              <Menu.Item
-                onClick={() => {
-                  router.push("/sessions/" + row.id + "/routines");
-                }}
-                leftSection={<Users />}
-              >
-                Manage Routine
-              </Menu.Item>
-            </>
-          )}
+
           // * MODAL CONFIG
           hasModalForms
           modalFormProps={{ width: "lg", formProps }}
           modalForm={<Form />}
+          customRender={({ data, renderEdit, handleDelete }: any) => {
+            const RenderEdit = renderEdit;
+            return (
+              <SimpleGrid spacing="xs" cols={{ base: 1, md: 3, lg: 5 }} px="md">
+                {data.map((item: any, index: number) => (
+                  <Box key={index}>
+                    <Paper withBorder p="md" radius={0}>
+                      <Group wrap="nowrap" justify="space-between">
+                        <Text size="sm">{item.name}</Text>
+
+                        <Menu>
+                          <Menu.Target>
+                            <ActionIcon variant="light">
+                              <DotsThree weight="bold" />
+                            </ActionIcon>
+                          </Menu.Target>
+                          <Menu.Dropdown>
+                            <Menu.Item
+                              leftSection={<Cricket />}
+                              onClick={() => {
+                                router.push("/addons/" + item.id);
+                              }}
+                            >
+                              Manage Add-On's
+                            </Menu.Item>
+                            <Menu.Item
+                              onClick={() => {
+                                router.push("/sessions/" + item.id);
+                              }}
+                              leftSection={<Users />}
+                            >
+                              Manage Players
+                            </Menu.Item>
+                            <Menu.Item
+                              onClick={() => {
+                                router.push(
+                                  "/sessions/" + item.id + "/routines"
+                                );
+                              }}
+                              leftSection={<Calendar />}
+                            >
+                              Review Session Ground Routine
+                            </Menu.Item>
+
+                            <RenderEdit row={item}>
+                              <Menu.Item leftSection={<Pen />}>Edit</Menu.Item>
+                            </RenderEdit>
+                            <Menu.Item
+                              onClick={() => {
+                                handleDelete(item.id);
+                              }}
+                              leftSection={<Trash />}
+                              color="red"
+                            >
+                              Delete
+                            </Menu.Item>
+                          </Menu.Dropdown>
+                        </Menu>
+                      </Group>
+                    </Paper>
+                    <Paper
+                      bg={item?.player?.length > 0 ? "brand.0" : "teal.0"}
+                      radius={0}
+                      px="md"
+                      py="xs"
+                      withBorder
+                    >
+                      {item?.player?.length > 0 ? (
+                        <Text size="xs">
+                          {item.player?.length} Active Players
+                        </Text>
+                      ) : (
+                        <Text size="xs">
+                          New Session, Add Players to activate
+                        </Text>
+                      )}
+                    </Paper>
+                  </Box>
+                ))}
+              </SimpleGrid>
+            );
+          }}
         />
       </ListHandler>
 

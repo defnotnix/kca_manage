@@ -2,7 +2,7 @@ import _ from "moment";
 
 export const formProps: any = {
   initial: {
-    items: [],
+    type: "Staff",
   },
 
   // > STEPS

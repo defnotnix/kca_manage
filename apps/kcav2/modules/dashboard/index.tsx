@@ -29,7 +29,7 @@ const bread = [
   },
 ];
 
-export function ModuleDashboard() {
+export function Module() {
   return (
     <>
       <Stack gap="xs">

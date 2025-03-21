@@ -739,6 +739,7 @@ export function ModuleTableLayout({
         ) : (
           <Paper radius="md" withBorder h={"calc(100vh - 205px)"} mx="md">
             <DataTable
+            
               //Loading
               fetching={isFetching}
               styles={{

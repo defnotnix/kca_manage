@@ -180,6 +180,24 @@ export function FormHandler({
               "It seems some fields are missing or incorrect. Please review and resubmit.",
           });
           break;
+        case "Error":
+          console.log(errObject);
+          if (errObject?._message) {
+            triggerNotification.form.isError({
+              title: "Whoops! Hold on a Moment 🖐️",
+              message:
+                errObject?._message ||
+                "It seems some fields are missing or incorrect. Please review and resubmit.",
+            });
+          } else {
+            form.setErrors(errObject);
+            triggerNotification.form.isError({
+              title: "Whoops! Hold on a Moment 🖐️",
+              message:
+                "It seems some fields are missing or incorrect. Please review and resubmit.",
+            });
+          }
+          break;
         default:
           triggerNotification.form.isError({});
       }

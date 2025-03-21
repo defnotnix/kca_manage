@@ -26,7 +26,7 @@ export const navItems: PropAdminNavItems[] = [
     children: [
       {
         label: "Manage Sessions",
-        value: "/manage",
+        value: "/sessions",
       },
       {
         label: "Session Routine",
@@ -63,7 +63,7 @@ export const navItems: PropAdminNavItems[] = [
     children: [
       {
         label: "Packages",
-        value: "/package",
+        value: "/packages",
       },
       {
         label: "Add-On's",
@@ -78,11 +78,15 @@ export const navItems: PropAdminNavItems[] = [
     children: [
       {
         label: "Booking Requests",
-        value: "/requests",
+        value: "/bookings/requests",
       },
       {
         label: "Booking",
-        value: "/manage",
+        value: "/bookings",
+      },
+      {
+        label: "New Booking",
+        value: "/bookings/new",
       },
     ],
   },

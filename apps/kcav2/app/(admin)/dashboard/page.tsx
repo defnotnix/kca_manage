@@ -1,2 +1,2 @@
-import { ModuleDashboard } from "@/modules/dashboard/page";
-export default ModuleDashboard;
+import { Modules } from "@/modules";
+export default Modules.Dashboard;
