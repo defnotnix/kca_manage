@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //mantine
 import {
   ActionIcon,
@@ -42,10 +42,11 @@ import { Info, Plus, Trash } from "@phosphor-icons/react";
 import { randomId } from "@mantine/hooks";
 
 import { getRecords as getPlayers } from "@/modules/players/module.api";
+import { useProfileContext } from "../../context";
 
 // Assuming you have these defined elsewhere
 
-export function _Form() {
+export function _Form({}) {
   // * DEFINITIONS
 
   const form = FormHandler.useForm();
@@ -54,22 +55,75 @@ export function _Form() {
 
   const { current } = FormHandler.usePropContext();
 
+  const { playerData } = useProfileContext();
+
   //  const current: number = 3;
 
   // * STATES
 
   // * PRELOADING
 
-  const queryStudent = useQuery({
-    queryKey: ["invoice", "players"],
-    queryFn: async () => {
-      const res = await getPlayers({
-        endpoint: "/players/info/",
-      });
+  function setAddons() {
+    if (playerData?.decided_rate) {
+      form.setFieldValue("invoice_items", [
+        {
+          description: "Service Fee (Special Pricing)",
+          quantity: 1,
+          price: Number(playerData?.decided_rate),
+        },
+      ]);
+    } else {
+      form.setFieldValue("invoice_items", [
+        {
+          description: "Admission Fee",
+          quantity: 1,
+          price: playerData?.package?.admission_fee,
+        },
+        {
+          description: "Service Fee",
+          quantity: 1,
+          price: playerData?.package?.service_fee,
+        },
+        ...(playerData?.package?.addon
+          ? playerData?.package?.addon?.map((item: any) => {
+              return {
+                description: item.name,
+                quantity: 1,
+                price: item.price,
+              };
+            })
+          : []),
+      ]);
+    }
+  }
 
-      return res;
-    },
-  });
+  function setPlayerData() {
+    form.setFieldValue("player", playerData.id);
+    form.setFieldValue("bill_student", true);
+    form.setFieldValue("customer_name", playerData.name);
+    form.setFieldValue("customer_contact", playerData.contact);
+    form.setFieldValue("decided_rate", playerData?.decided_rate);
+    form.setFieldValue("service_rate", playerData?.package?.service_fee);
+    form.setFieldValue("decided_date", playerData?.decided_date);
+    form.setFieldValue("decided_by", playerData?.decided_by);
+    form.setFieldValue(
+      "customer_address",
+      playerData.temp_address || playerData.permanent_address
+    );
+    setAddons();
+  }
+
+  function setParentData() {
+    form.setFieldValue("bill_student", true);
+
+    setAddons();
+  }
+
+  useEffect(() => {
+    if (playerData) {
+      setPlayerData();
+    }
+  }, []);
 
   // * FUNCTIONS
 
@@ -154,7 +208,7 @@ export function _Form() {
               description="Details of the bill"
             />
 
-            <SimpleGrid cols={2} spacing="xs">
+            <SimpleGrid cols={{ base: 1, lg: 2 }} spacing="xs">
               <TextInput
                 disabled
                 label="Bill Date"
@@ -172,13 +226,13 @@ export function _Form() {
                 label="Renew Date"
                 description="Date of Package Renewal"
                 placeholder="Select Renew Date"
-                {...form.getInputProps("renew_date")}
+                {...form.getInputProps("new_renew_date")}
               />
               <DateInput
                 label="Expiry Date"
                 description="New Date for Package Expiry"
                 placeholder="Select Expiry Date"
-                {...form.getInputProps("expiry_date")}
+                {...form.getInputProps("new_expiry_date")}
               />
             </SimpleGrid>
 
@@ -187,165 +241,93 @@ export function _Form() {
               description="Person this bill is assigned to"
               actionButton={
                 <Group gap="xs">
-                  {form.getValues().is_student && (
-                    <Paper
-                      style={{
-                        cursor: "pointer",
-                      }}
-                      p="xs"
-                      withBorder
-                      bg={form.getValues().bill_student ? "brand.0" : ""}
-                      onClick={() => {
-                        form.setFieldValue(
-                          "is_student",
-                          !form.getValues().bill_student
-                        );
-                      }}
-                    >
-                      <Checkbox
-                        label="Bill to student"
-                        checked={form.getValues().bill_student}
-                        onChange={(e) => {
-                          console.log(e);
-                          form.setFieldValue("bill_student", e.target?.checked);
-                        }}
-                      />
-                    </Paper>
-                  )}
-
-                  {/* <Paper
+                  <Paper
                     style={{
                       cursor: "pointer",
                     }}
                     p="xs"
                     withBorder
-                    bg={form.getValues().is_student ? "brand.0" : ""}
+                    bg={form.getValues().bill_student ? "brand.0" : ""}
                     onClick={() => {
-                      form.setFieldValue(
-                        "is_student",
-                        !form.getValues().is_student
-                      );
+                      form.setFieldValue("bill_student", true);
+                      setPlayerData();
                     }}
                   >
                     <Checkbox
-                      label="Student Invoice"
-                      checked={form.getValues().is_student}
+                      styles={{
+                        label: {
+                          fontSize: "var(--mantine-font-size-xs)",
+                          fontWeight: 600,
+                        },
+                      }}
+                      label="Bill to Student"
+                      checked={form.getValues().bill_student}
                       onChange={(e) => {
-                        console.log(e);
-                        form.setFieldValue("is_student", e.target?.checked);
-                        if (!e.target?.checked) {
-                          form.setFieldValue("bill_student", false);
-                        }
+                        form.setFieldValue("bill_student", true);
                       }}
                     />
-                  </Paper> */}
+                  </Paper>
+
+                  <Paper
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    p="xs"
+                    withBorder
+                    bg={!form.getValues().bill_student ? "brand.0" : ""}
+                    onClick={() => {
+                      form.setFieldValue("bill_student", false);
+                      setParentData();
+                    }}
+                  >
+                    <Checkbox
+                      styles={{
+                        label: {
+                          fontSize: "var(--mantine-font-size-xs)",
+                          fontWeight: 600,
+                        },
+                      }}
+                      fs="xs"
+                      label="Bill to Parent"
+                      checked={!form.getValues().bill_student}
+                      onChange={(e) => {
+                        form.setFieldValue("bill_student", false);
+                      }}
+                    />
+                  </Paper>
                 </Group>
               }
             />
 
-            {form.getValues().is_student ? (
-              <SimpleGrid cols={2} spacing="xs">
-                <Select
-                  data={queryStudent?.data?.map((sinfo: any) => {
-                    return {
-                      value: String(sinfo.id),
-                      label: `${sinfo.name} (${sinfo.member_id})}`,
-                    };
-                  })}
-                  label="Select Student"
-                  description="Bill number of the invoice"
-                  placeholder="Enter bill number"
-                  {...form.getInputProps("student")}
-                  onChange={(e) => {
-                    form.setFieldValue("student_id", e);
-
-                    const selected = queryStudent?.data?.find(
-                      (sinfo: any) => sinfo.id == e
-                    );
-
-                    if (selected) {
-                      if (form.getValues().bill_student) {
-                        form.setFieldValue("customer_name", selected.name);
-                        form.setFieldValue(
-                          "customer_contact",
-                          selected.contact
-                        );
-                        form.setFieldValue(
-                          "customer_address",
-                          selected.temp_address || selected.permanent_address
-                        );
-                        form.setFieldValue(
-                          "invoice_items",
-                          selected.package?.specification?.map((item: any) => {
-                            return {
-                              description: item.name,
-                              quantity: 1,
-                              price: item.price,
-                            };
-                          })
-                        );
-                      } else {
-                        form.setFieldValue(
-                          "customer_name",
-                          selected.parent_name
-                        );
-                        form.setFieldValue(
-                          "customer_contact",
-                          selected.primary_contact
-                        );
-                        form.setFieldValue(
-                          "customer_address",
-                          selected.temp_address || selected.permanent_address
-                        );
-                        form.setFieldValue(
-                          "invoice_items",
-                          selected.package?.specification?.map((item: any) => {
-                            return {
-                              description: item.name,
-                              quantity: 1,
-                              price: item.price,
-                            };
-                          })
-                        );
-                      }
-                    }
-                  }}
-                />
-                <TextInput
-                  label="PAN/VAT Number"
-                  description="Enter PAN/VAT number if applicable, leave empty if not"
-                  placeholder="Enter PAN/VAT number"
-                  {...form.getInputProps("customer_pan")}
-                />
-              </SimpleGrid>
-            ) : (
-              <SimpleGrid cols={2} spacing="xs">
-                <TextInput
-                  label="Full Name / Organization"
-                  description="Name of the individual or organization being billed"
-                  placeholder="Enter full name or organization name"
-                  {...form.getInputProps("customer_name")}
-                />
-                <TextInput
-                  label="Invoice Address"
-                  description="Address of the recipient of this invoice"
-                  placeholder="e.g. Balkot, Kathmandu, Nepal"
-                  {...form.getInputProps("customer_address")}
-                />
-                <TextInput
-                  label="Billing Contact"
-                  description="Phone number or email of the billing recipient"
-                  placeholder="Enter contact number or email"
-                  {...form.getInputProps("customer_contact")}
-                />
-                <TextInput
-                  label="PAN/VAT Number"
-                  description="Enter PAN/VAT number if applicable, leave empty if not"
-                  placeholder="Enter PAN/VAT number"
-                  {...form.getInputProps("customer_pan")}
-                />
-              </SimpleGrid>
-            )}
+            <SimpleGrid spacing="xs" cols={{ base: 1, lg: 2 }}>
+              <TextInput
+                disabled
+                label="Full Name / Organization"
+                description="Name of the individual or organization being billed"
+                placeholder="Enter full name or organization name"
+                {...form.getInputProps("customer_name")}
+              />
+              <TextInput
+                disabled
+                label="Invoice Address"
+                description="Address of the recipient of this invoice"
+                placeholder="e.g. Balkot, Kathmandu, Nepal"
+                {...form.getInputProps("customer_address")}
+              />
+              <TextInput
+                disabled
+                label="Billing Contact"
+                description="Phone number or email of the billing recipient"
+                placeholder="Enter contact number or email"
+                {...form.getInputProps("customer_contact")}
+              />
+              <TextInput
+                label="PAN/VAT Number"
+                description="Enter PAN/VAT number if applicable, leave empty if not"
+                placeholder="Enter PAN/VAT number"
+                {...form.getInputProps("customer_pan")}
+              />
+            </SimpleGrid>
 
             {form.getValues().is_student && (
               <Alert
@@ -356,6 +338,40 @@ export function _Form() {
                     : "Billed to details is set to Student's Details"
                 }
               />
+            )}
+
+            {playerData?.decided_rate && (
+              <>
+                <FormElement.SectionTitle
+                  title="Custom Rates"
+                  description="Details of the bill"
+                />
+                <SimpleGrid cols={{ base: 1, lg: 3 }}>
+                  <TextInput
+                    disabled
+                    label="Decided Rate/Month"
+                    description="The agreed monthly rate for the student."
+                    placeholder="Enter rate"
+                    {...form.getInputProps("decided_rate")}
+                  />
+                  <TextInput
+                    disabled
+                    label="Decided Date"
+                    description="The date the rate added."
+                    placeholder="Select Date"
+                    required
+                    {...form.getInputProps("decided_date")}
+                  />
+                  <TextInput
+                    disabled
+                    label="Decided By"
+                    description="Enter the person who gave this discount"
+                    placeholder="e.g. Ram Kumar"
+                    required
+                    {...form.getInputProps("decided_by")}
+                  />
+                </SimpleGrid>
+              </>
             )}
 
             <FormElement.SectionTitle
@@ -465,13 +481,13 @@ export function _Form() {
             </Table>
 
             <FormElement.SectionTitle
-              title="Advance Payments / Booking Payments"
+              title="Advance Payments "
               description="Any advance payments or pre-booking details."
             />
 
             <NumberInput
               min={0}
-              label="Advance/Booking Amount"
+              label="Advance Payment"
               description="Enter the advance amount paid for this invoice"
               placeholder="Enter amount"
               {...form.getInputProps("advance")}

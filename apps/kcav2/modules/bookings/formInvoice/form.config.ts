@@ -58,6 +58,11 @@ export const formProps: any = {
         user_id: _userId,
         status:
           formdata?.advance == total ? "3" : formdata?.advance ? "2" : "1",
+        is_custom: false,
+        new_decided_rate: formdata?.decided_rate,
+        new_service_rate: formdata?.service_rate,
+        renew_data: formdata?.new_renew_date,
+        expiry_data: formdata?.new_expiry_date,
       };
     } catch (err) {
       const _userId = "";

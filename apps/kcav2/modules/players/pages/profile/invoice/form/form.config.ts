@@ -3,11 +3,11 @@ import { jwtDecode } from "jwt-decode";
 
 export const formProps: any = {
   initial: {
+    bill_student: true,
     invoice_items: [],
     d: new Date(),
     taxable_percent: 13,
     is_student: false,
-    bill_student: false,
     advance: 0,
     discount: 0,
     status_choice: "1",
@@ -15,7 +15,12 @@ export const formProps: any = {
   },
 
   // > STEPS
-  steps: ["Billing Details", "Particulars"],
+  steps: [
+    "Personal Details",
+    "Guardian Details",
+    "Enroll Details",
+    "Extra Details",
+  ],
   stepType: "general",
   stepClickable: false,
   initialStep: 0,
@@ -25,6 +30,8 @@ export const formProps: any = {
 
   // > SUBMIT
   transformDataOnSubmit: (formdata: any) => {
+    console.log(formdata);
+
     try {
       const sessionData: any = sessionStorage.getItem("kcatoken");
       const _decoded: any = jwtDecode(sessionData);
@@ -58,12 +65,18 @@ export const formProps: any = {
         user_id: _userId,
         status:
           formdata?.advance == total ? "3" : formdata?.advance ? "2" : "1",
+        is_custom: false,
+        new_decided_rate: formdata?.decided_rate,
+        new_service_rate: formdata?.service_rate,
+        renew_data: formdata?.new_renew_date,
+        expiry_data: formdata?.new_expiry_date,
       };
     } catch (err) {
       const _userId = "";
       return formdata;
     }
   },
+  submitFormData: false,
 
   // > API
 

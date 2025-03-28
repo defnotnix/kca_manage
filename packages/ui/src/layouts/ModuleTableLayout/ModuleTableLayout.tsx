@@ -255,6 +255,7 @@ export function ModuleTableLayout({
       }
     },
     onError: (err: any) => {
+      console.log(err);
       triggerNotification.form.isError({});
     },
   });
@@ -739,7 +740,6 @@ export function ModuleTableLayout({
         ) : (
           <Paper radius="md" withBorder h={"calc(100vh - 205px)"} mx="md">
             <DataTable
-            
               //Loading
               fetching={isFetching}
               styles={{

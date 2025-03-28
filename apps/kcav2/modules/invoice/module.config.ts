@@ -15,6 +15,6 @@ export const moduleConfig: PropModuleConfig = {
   //
   moduleTerm: "Invoice",
   moduleTermPlural: "Invoices",
-  moduleName: "Manage Invoices",
+  moduleName: "Invoices",
   moduleDescription: "Manage all player-invoices & their pricings.",
 };

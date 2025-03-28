@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //mantine
 import {
   ActionIcon,
@@ -45,7 +45,7 @@ import { getRecords as getPlayers } from "@/modules/players/module.api";
 
 // Assuming you have these defined elsewhere
 
-export function _Form() {
+export function FormInvoice({ active }: { active: any }) {
   // * DEFINITIONS
 
   const form = FormHandler.useForm();
@@ -72,6 +72,31 @@ export function _Form() {
   });
 
   // * FUNCTIONS
+
+  useEffect(() => {
+    if (active) {
+      form.setValues({
+        is_booking: true,
+        booking: active.id,
+        customer_name: active.name,
+        customer_contact: active.contact,
+        invoice_items: [
+          {
+            description: "Ground Booking",
+            price: active?.time?.length * active?.ground?.price_hr,
+            quantity: 1,
+          },
+          ...(active?.addons?.map((item: any) => {
+            return {
+              description: item?.name,
+              price: item?.price,
+              quantity: 1,
+            };
+          }) || []),
+        ],
+      });
+    }
+  }, []);
 
   // * COMPONENTS
 
@@ -168,14 +193,9 @@ export function _Form() {
                 placeholder="Enter tax percentage"
                 {...form.getInputProps("taxable_percent")}
               />
+
               <DateInput
-                label="Renew Date"
-                description="Date of Package Renewal"
-                placeholder="Select Renew Date"
-                {...form.getInputProps("renew_date")}
-              />
-              <DateInput
-                label="Expiry Date"
+                label="Invoice Expiry Date"
                 description="New Date for Package Expiry"
                 placeholder="Select Expiry Date"
                 {...form.getInputProps("expiry_date")}

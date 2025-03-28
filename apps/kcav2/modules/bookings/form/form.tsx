@@ -126,8 +126,6 @@ export function _Form() {
         },
       });
 
-      console.log("existing", res);
-
       return res.map((_: any) => {
         return {
           ..._,
@@ -144,7 +142,12 @@ export function _Form() {
       const active = form.getValues()?.time.includes(time.id);
 
       const _activeDay = queryBookingLogs?.data?.find((item: any) => {
-        return item.time == time.id && item.date == date;
+        return (
+          item.time == time.id &&
+          item.date == date &&
+          item.ground == form.getValues()?.ground &&
+          item.is_available == false
+        );
       });
 
       return (

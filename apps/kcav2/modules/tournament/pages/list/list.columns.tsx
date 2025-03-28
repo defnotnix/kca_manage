@@ -7,7 +7,7 @@ export const columns = [
     width: 300,
     render: (record: any) => (
       <Group wrap="nowrap">
-        <Avatar size="sm" src={record.icon} />
+      
         <Text size="sm">{record.name}</Text>
       </Group>
     ),

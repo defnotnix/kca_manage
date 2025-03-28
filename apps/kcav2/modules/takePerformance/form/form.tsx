@@ -102,7 +102,7 @@ export function _Form() {
       createRecord({
         player: id,
       }).then((res) => {
-        console.log(res);
+        form.setValues(res.data);
       });
     }
     return res;

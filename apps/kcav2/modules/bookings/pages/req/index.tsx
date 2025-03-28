@@ -103,17 +103,22 @@ export function _Req() {
                     status: "1",
                   },
                   row.id
-                ).then((res) => {
-                  if (res.err) {
-                    triggerNotification.form.isError({
-                      message:
-                        "Time frame overlaps with Session. Pleases confirm with coach for shifting & verify",
-                    });
-                  } else {
-                    triggerNotification.form.isSuccess({});
-                    refetch();
-                  }
-                });
+                )
+                  .then((res) => {
+                    console.log("ERRORMESSAGE", res);
+                    if (res.err) {
+                      triggerNotification.form.isError({
+                        message:
+                          "Time frame overlaps with Session. Pleases confirm with coach for shifting & verify",
+                      });
+                    } else {
+                      triggerNotification.form.isSuccess({});
+                      refetch();
+                    }
+                  })
+                  .catch((err) => {
+                    console.log("ERRORMESSAGE", err);
+                  });
               }}
             >
               Accept Booking

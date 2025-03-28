@@ -71,7 +71,7 @@ export function _New() {
             ),
             children: (
               <>
-                <Text size="xs" my="md">
+                <Text size="sm" my="md">
                   The current data is stored as a general performance data.
                   Click on Save Permanent to store it permanently.
                   <br />
@@ -88,7 +88,7 @@ export function _New() {
                 <Space h="6px" />
               </>
             ),
-            labels: { confirm: "Confirm", cancel: "Cancel" },
+            labels: { confirm: "Save Permanent", cancel: "Cancel" },
             confirmProps: {
               color: "teal",
               size: "xs",

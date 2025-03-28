@@ -7,14 +7,14 @@ export const moduleConfig: PropModuleConfig = {
       label: "Player",
     },
     {
-      label: "Performances",
+      label: "Student Invoices",
     },
   ],
-  moduleKey: "vauth.users.performance".split("."),
-  endpoint: "/players/grading/",
+  moduleKey: "vauth.users.invoice".split("."),
+  endpoint: "/billing/invoice/",
   //
-  moduleTerm: "Performance",
-  moduleTermPlural: "Performances",
-  moduleName: "Performance",
+  moduleTerm: "Student Invoice",
+  moduleTermPlural: "Student Invoices",
+  moduleName: "Student Invoice",
   moduleDescription: "Manage all player-packages & their pricings.",
 };

@@ -4,13 +4,13 @@ import { PropModuleConfig } from "@vframework/ui";
 export const moduleConfig: PropModuleConfig = {
   bread: [
     {
-      label: "KCA Admin",
+      label: "Player",
     },
     {
       label: "Tournaments",
     },
   ],
-  moduleKey: "vauth.users.tournament".split("."),
+  moduleKey: "kca.players.tournament".split("."),
   endpoint: "/players/tournament/sorted/",
   //
   moduleTerm: "Tournament",

@@ -4,7 +4,7 @@ import { PropModuleConfig } from "@vframework/ui";
 export const moduleConfig: PropModuleConfig = {
   bread: [
     {
-      label: "KCA Admin",
+      label: "Player",
     },
     {
       label: "Attendances",
