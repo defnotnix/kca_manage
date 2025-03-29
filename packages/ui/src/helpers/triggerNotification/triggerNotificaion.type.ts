@@ -3,4 +3,5 @@ export type propTriggerNotification = {
   message?: string;
   autoClose?: number | false;
   onClose?: () => void;
+  newMessage?: boolean;
 };

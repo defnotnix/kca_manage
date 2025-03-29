@@ -11,7 +11,7 @@ export const moduleConfig: PropModuleConfig = {
     },
   ],
   moduleKey: "vauth.attendance".split("."),
-  endpoint: "/users",
+  endpoint: "/player/attendance",
   //
   moduleTerm: "Session Attendance",
   moduleTermPlural: "Session Attendances",

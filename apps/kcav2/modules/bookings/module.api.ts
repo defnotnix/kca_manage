@@ -14,4 +14,12 @@ export const deleteRecord = (id: any) =>
   moduleApiCall.deleteRecord(endpoint, id);
 
 export const createInvoice = (body: any) =>
-  moduleApiCall.createRecord("/billing/invoice/", body);
+  moduleApiCall.createRecord("/billing/create/custom/invoice/", body);
+
+export const checkInvoice = (id: any) =>
+  moduleApiCall.getRecords({
+    endpoint: "/billing/check/booking/invoice/",
+    params: {
+      booking_id: id,
+    },
+  });

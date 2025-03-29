@@ -35,8 +35,11 @@ export function _List() {
         endpoint={moduleConfig.endpoint}
         moduleKey={moduleConfig.moduleKey}
         getRecords={getRecords}
+        enableServerSearch
+        enableServerPagination
       >
         <ModuleTableLayout
+          hasServerSearch
           {...moduleConfig}
           idAccessor="id"
           apiEdit={updateRecord}

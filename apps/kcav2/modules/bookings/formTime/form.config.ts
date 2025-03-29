@@ -1,12 +1,16 @@
+import { add } from "lodash";
 import _ from "moment";
 
 export const formProps: any = {
   initial: {
-    gateway: "1",
+    ground: [],
+    addons: [],
+    time: [],
+    status: "3",
   },
 
   // > STEPS
-  steps: ["Billing Details", "Particulars"],
+  steps: ["Ground", "Add-On's", "Timing", "Details"],
   stepType: "general",
   stepClickable: false,
   initialStep: 0,
@@ -18,10 +22,9 @@ export const formProps: any = {
   transformDataOnSubmit: (formdata: any) => {
     return {
       ...formdata,
-      status: 1,
-      type: 2,
     };
   },
+  submitFormData: false,
 
   // > API
 

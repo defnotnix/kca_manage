@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 //next
 
 //mantine
@@ -120,7 +120,10 @@ export function ListHandler({
   const [state, dispatch] = useReducer(reducer, initialState);
   const { page, pageSize, selectedRecords, filters, totalPages } = state;
 
-  const [searchVal, setSearchVal] = useDebouncedState("", 300);
+  const [searchVal, setSearchVal] = useDebouncedState(
+    "",
+    enableServerPagination ? 1000 : 300
+  );
 
   // * FUNCTIONS
 
@@ -138,7 +141,18 @@ export function ListHandler({
         },
       });
       console.log(res);
-      const _data = dataKey ? res?.[dataKey] : res;
+      const _data = enableServerSearch
+        ? res.results
+        : dataKey
+          ? res?.[dataKey]
+          : res;
+
+      if (enableServerPagination) {
+        dispatch({
+          type: "SET_TOTAL_RECORDS",
+          payload: res?.pagination?.total_pages || 1,
+        });
+      }
 
       if (!Array.isArray(_data)) {
         console.log("Warning: _data is not an array", _data);
@@ -149,6 +163,12 @@ export function ListHandler({
     },
     initialData: [],
   });
+
+  useEffect(() => {
+    if (enableServerPagination) {
+      refetch();
+    }
+  }, [searchVal]);
 
   const getSelectiveData = (records: any) => {
     try {

@@ -29,8 +29,8 @@ export const navItems: PropAdminNavItems[] = [
         value: "/sessions",
       },
       {
-        label: "Session Routine",
-        value: "/routine",
+        label: "Add Session Routine",
+        value: "/routines/new",
       },
     ],
   },

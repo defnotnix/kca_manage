@@ -20,7 +20,9 @@ async function getRecords({
   const res: any = await get({
     endpoint,
     params: {
+      page: page,
       page_size: pageSize,
+      query: searchValue,
       ...params,
     },
   });

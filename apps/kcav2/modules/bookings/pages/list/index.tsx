@@ -39,26 +39,39 @@ import { columns } from "./list.columns";
 //components
 
 //api
-import { createInvoice, getRecords, updateRecord } from "../../module.api";
+import {
+  checkInvoice,
+  createInvoice,
+  getRecords,
+  updateRecord,
+} from "../../module.api";
 import {
   ArrowLeft,
   Atom,
   CaretRight,
   Check,
+  Clock,
   DotsThreeVertical,
   Eye,
   House,
   Invoice,
+  Pause,
   PlugsConnected,
   Plus,
   Star,
   Trash,
+  X,
 } from "@phosphor-icons/react";
 import { moduleConfig } from "../../module.config";
 import { useDisclosure } from "@mantine/hooks";
 import { FormInvoice } from "../../formInvoice/form";
+import { _FormTime } from "../../formTime/form";
 
 import { formProps } from "../../formInvoice/form.config";
+import { Cross } from "recharts";
+import { useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
+import { configModule } from "@/modules/auth";
 
 const statusMap: any = {
   "1": "Approved",
@@ -80,12 +93,15 @@ export function _List() {
   const [active, setActive] = useState<any>({});
   const [openProfile, handlersProfile] = useDisclosure(false);
   const [openInvoice, handlersInvoice] = useDisclosure(false);
+  const [openTime, handlersTime] = useDisclosure(false);
 
   // * CONTEXT
 
   // * STATE
 
   // * FUNCTIONS
+
+  const query = useQueryClient();
 
   // * COMPONENTS
 
@@ -100,6 +116,7 @@ export function _List() {
         columns={columns}
         extraActions={({ row }: { row: any }) => (
           <>
+            <Menu.Label>Details</Menu.Label>
             <Menu.Item
               leftSection={<Eye />}
               onClick={async () => {
@@ -110,95 +127,134 @@ export function _List() {
               Booking Profile
             </Menu.Item>
             <Menu.Item
-              leftSection={<Eye />}
+              leftSection={<Clock />}
               onClick={async () => {
-                handlersInvoice.open();
+                handlersTime.open();
                 setActive(row);
+              }}
+            >
+              Set Booking Time
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Label>Billings</Menu.Label>
+            <Menu.Item
+              leftSection={<Invoice />}
+              onClick={async () => {
+                checkInvoice(row.id)
+                  .then((res) => {
+                    if (res.err) {
+                      triggerNotification.form.isError({
+                        newMessage: true,
+                        message: "Invoice already exists for this booking",
+                      });
+                    } else {
+                      handlersInvoice.open();
+                      setActive(row);
+                    }
+                  })
+                  .catch((err) => {
+                    triggerNotification.form.isError({
+                      newMessage: true,
+                      message: "Invoice already exists for this booking",
+                    });
+                  });
               }}
             >
               Create Invoice
             </Menu.Item>
             <Menu.Divider />
-            <Menu.Item
-              disabled={row.status == "1"}
-              leftSection={<Check />}
-              onClick={async () => {
-                triggerNotification.form.isLoading({});
-                const res = await updateRecord(
-                  {
-                    id: row.id,
-                    status: "1",
-                  },
-                  row.id
-                )
-                  .then((res) => {
-                    if (res.err) {
+            <Menu.Label>Actions</Menu.Label>
+            {row.status !== "1" && (
+              <Menu.Item
+                color="teal.7"
+                disabled={row.status == "1"}
+                leftSection={<Check />}
+                onClick={async () => {
+                  triggerNotification.form.isLoading({});
+                  const res = await updateRecord(
+                    {
+                      id: row.id,
+                      status: "1",
+                    },
+                    row.id
+                  )
+                    .then((res) => {
+                      if (res.err) {
+                        triggerNotification.form.isError({
+                          message:
+                            "Time frame overlaps with Session. Pleases confirm with coach for shifting & verify",
+                        });
+                      } else {
+                        triggerNotification.form.isSuccess({});
+                        refetch();
+                      }
+                    })
+                    .catch((err) => {
                       triggerNotification.form.isError({
                         message:
+                          err.obkect?.message ||
                           "Time frame overlaps with Session. Pleases confirm with coach for shifting & verify",
                       });
+                    });
+                }}
+              >
+                Accept Booking
+              </Menu.Item>
+            )}
+
+            {row.status !== "3" && (
+              <Menu.Item
+                color="blue.7"
+                disabled={row.status == "3"}
+                leftSection={<Pause />}
+                onClick={async () => {
+                  triggerNotification.form.isLoading({});
+                  await updateRecord(
+                    {
+                      id: row.id,
+                      status: "3",
+                    },
+                    row.id
+                  ).then((res) => {
+                    if (res.err) {
+                      triggerNotification.form.isError({});
                     } else {
                       triggerNotification.form.isSuccess({});
                       refetch();
                     }
-                  })
-                  .catch((err) => {
-                    triggerNotification.form.isError({
-                      message:
-                        err.obkect?.message ||
-                        "Time frame overlaps with Session. Pleases confirm with coach for shifting & verify",
-                    });
                   });
-              }}
-            >
-              Accept Booking
-            </Menu.Item>
-            <Menu.Item
-              disabled={row.status == "3"}
-              leftSection={<Check />}
-              onClick={async () => {
-                triggerNotification.form.isLoading({});
-                await updateRecord(
-                  {
-                    id: row.id,
-                    status: "3",
-                  },
-                  row.id
-                ).then((res) => {
-                  if (res.err) {
-                    triggerNotification.form.isError({});
-                  } else {
-                    triggerNotification.form.isSuccess({});
-                    refetch();
-                  }
-                });
-              }}
-            >
-              Set to Pending
-            </Menu.Item>
-            <Menu.Item
-              disabled={row.status == "2"}
-              leftSection={<Trash />}
-              onClick={() => {
-                triggerNotification.form.isLoading({});
-                updateRecord(
-                  {
-                    id: row.id,
-                    status: "2",
-                  },
-                  row.id
-                ).then((res) => {
-                  if (res.err) {
-                    triggerNotification.form.isError({});
-                  } else {
-                    triggerNotification.form.isSuccess({});
-                    refetch();
-                  }
-                });
-              }}
-            >
-              Reject Booking
-            </Menu.Item>
+                }}
+              >
+                Set to Pending
+              </Menu.Item>
+            )}
+
+            {row.status !== "2" && (
+              <Menu.Item
+                color="orange.7"
+                disabled={row.status == "2"}
+                leftSection={<X />}
+                onClick={() => {
+                  triggerNotification.form.isLoading({});
+                  updateRecord(
+                    {
+                      id: row.id,
+                      status: "2",
+                    },
+                    row.id
+                  ).then((res) => {
+                    if (res.err) {
+                      triggerNotification.form.isError({});
+                    } else {
+                      triggerNotification.form.isSuccess({});
+                      refetch();
+                    }
+                  });
+                }}
+              >
+                Reject Booking
+              </Menu.Item>
+            )}
           </>
         )}
         contentPreTable={
@@ -246,10 +302,30 @@ export function _List() {
     );
   };
 
+  const RenderFormTime = () => {
+    const { handleSubmit } = FormHandler.usePropContext();
+
+    return (
+      <>
+        <_FormTime active={active} />
+
+        <Group justify="flex-end" gap="xs" p="md">
+          <Button
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
+            Set Time
+          </Button>
+        </Group>
+      </>
+    );
+  };
+
   return (
     <>
       <ListHandler
-        endpoint={`/services/${tab}/booking`}
+        endpoint={`/services/${tab}/booking/`}
         moduleKey={[...moduleConfig.moduleKey, tab]}
         //enableServerPagination
         //enableServerSearch
@@ -261,19 +337,50 @@ export function _List() {
       </ListHandler>
 
       <Modal
+        title="Create Booking Invoice"
         opened={openInvoice}
         onClose={() => {
           handlersInvoice.close();
         }}
         size="xl"
       >
-        <FormHandler {...formProps} apiSubmit={createInvoice}>
+        <FormHandler
+          {...formProps}
+          apiSubmit={createInvoice}
+          onSubmitSuccess={() => {
+            //@ts-ignore
+            query.invalidateQueries([...moduleConfig.moduleKey, tab]);
+            handlersInvoice.close();
+          }}
+        >
           <RenderForm />
         </FormHandler>
       </Modal>
 
       <Modal
-        size={"sm"}
+        title="Set Booking Time"
+        opened={openTime}
+        onClose={() => {
+          handlersTime.close();
+        }}
+        size="xl"
+      >
+        <FormHandler
+          {...formProps}
+          apiSubmit={updateRecord}
+          variant="edit"
+          onSubmitSuccess={() => {
+            //@ts-ignore
+            query.invalidateQueries([...moduleConfig.moduleKey, tab]);
+            handlersTime.close();
+          }}
+        >
+          <RenderFormTime />
+        </FormHandler>
+      </Modal>
+
+      <Modal
+        size={"md"}
         opened={openProfile}
         onClose={() => {
           setActive(null);
@@ -290,7 +397,7 @@ export function _List() {
             General Details
           </Text>
 
-          <SimpleGrid cols={2}>
+          <SimpleGrid cols={2} spacing="xs">
             <Text size="xs">Booking Date</Text>
             <Text size="xs" fw={600}>
               {active?.date}
@@ -311,6 +418,10 @@ export function _List() {
             <Badge color={statusColorMap[active?.status]}>
               {statusMap[active?.status]}
             </Badge>{" "}
+            {/* <Text size="xs">Invoice Status</Text>
+            <Button size="xs" variant="light">
+              View Invoice
+            </Button> */}
           </SimpleGrid>
 
           <Divider />
@@ -363,7 +474,7 @@ export function _List() {
             Booking Add-on's
           </Text>
 
-          <SimpleGrid cols={2}>
+          <SimpleGrid cols={2} spacing="xs">
             {active?.addons?.map((item: any, index: number) => (
               <Card p={"xs"} withBorder key={index}>
                 <Text size="sm" fw={600}>

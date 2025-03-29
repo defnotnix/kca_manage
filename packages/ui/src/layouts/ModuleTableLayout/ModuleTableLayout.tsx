@@ -29,7 +29,7 @@ import {
 } from "@mantine/core";
 //mantine
 import { modals } from "@mantine/modals";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useTimeout } from "@mantine/hooks";
 
 //icons
 import {
@@ -215,6 +215,7 @@ export function ModuleTableLayout({
   } = state;
 
   // * STATE
+  const [curPageValue, setCurPageValue] = useState<any>({});
   const [records, setRecords] = useState<any[]>([]);
   const [enableRowStyle, setEnableRowStyle] = useState(false);
   const [paginationData, setPaginationData] = useState<any>({});
@@ -239,6 +240,17 @@ export function ModuleTableLayout({
       setRecords(data);
     }
   }, [data, sortStatus]);
+
+  useEffect(() => {
+    if (page == curPageValue?.page && pageSize == curPageValue?.pageSize) {
+      console.log("Same Page");
+    } else {
+      setTimeout(() => {
+        refetch();
+      }, 100);
+      setCurPageValue({ page, pageSize });
+    }
+  }, [page, pageSize]);
 
   // * MUTATIONS
   const mutationSubmit = useMutation({

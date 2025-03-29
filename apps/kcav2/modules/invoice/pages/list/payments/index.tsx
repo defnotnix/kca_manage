@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 //next
 
 //mantine
@@ -33,6 +33,8 @@ import { useQuery } from "@tanstack/react-query";
 export function InvoicePayments({ active }: any) {
   // * DEFINITIONS
 
+  const [dataActive, setActive] = useState({});
+
   // * CONTEXT
 
   // * STATE
@@ -40,7 +42,7 @@ export function InvoicePayments({ active }: any) {
   // * FUNCTIONS
 
   useEffect(() => {
-    console.log(active);
+    setActive(active);
   }, []);
 
   // * COMPONENTS
@@ -71,7 +73,8 @@ export function InvoicePayments({ active }: any) {
                 sections={[
                   {
                     value:
-                      (Number(active?.paid_amount) / Number(active?.amount)) *
+                      (Number(active?.paid_amount) /
+                        Number(active?.total_amount)) *
                       100,
                     color: "teal",
                   },
@@ -80,11 +83,15 @@ export function InvoicePayments({ active }: any) {
 
               <div>
                 <Text size="sm">
-                  {(Number(active?.paid_amount) / Number(active?.amount)) * 100}
+                  {Math.round(
+                    (Number(active?.paid_amount) /
+                      Number(active?.total_amount)) *
+                      100
+                  )}
                   % of the invoice is paid
                 </Text>
                 <Text opacity={0.5} size="xs">
-                  Rs. {active?.paid_amount} / {active?.amount}
+                  Rs. {active?.paid_amount} / {active?.total_amount}
                 </Text>
               </div>
             </Group>

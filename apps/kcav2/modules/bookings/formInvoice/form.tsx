@@ -38,10 +38,12 @@ import { DateInput, YearPickerInput } from "@mantine/dates";
 import { useQuery } from "@tanstack/react-query";
 
 import classes from "./form.module.css";
-import { Info, Plus, Trash } from "@phosphor-icons/react";
+import { Info, Plus, Spinner, Trash } from "@phosphor-icons/react";
 import { randomId } from "@mantine/hooks";
 
 import { getRecords as getPlayers } from "@/modules/players/module.api";
+
+import Decimal from "decimal.js";
 
 // Assuming you have these defined elsewhere
 
@@ -73,7 +75,37 @@ export function FormInvoice({ active }: { active: any }) {
 
   // * FUNCTIONS
 
+  function getMinutesDifference(time1: any, time2: any) {
+    const [h1, m1, s1] = time1.split(":").map(Number);
+    const [h2, m2, s2] = time2.split(":").map(Number);
+
+    const minutes1 = h1 * 60 + m1 + s1 / 60;
+    const minutes2 = h2 * 60 + m2 + s2 / 60;
+
+    return Math.abs(minutes2 - minutes1);
+  }
+
+  function calculateQuantity(startTime: any, endTime: any) {
+    console.log(startTime, endTime);
+
+    const hours =
+      Number(String(endTime).substring(0, 2)) -
+      Number(String(startTime).substring(0, 2));
+
+    const minutes =
+      60 -
+      Number(String(startTime).substring(3, 4)) +
+      Number(String(endTime).substring(3, 4));
+
+    return hours + (minutes < 15 ? 0 : minutes < 46 ? 0.5 : 1);
+  }
+
   useEffect(() => {
+    const _calculateQuantity = calculateQuantity(
+      active?.start_time,
+      active?.end_time
+    );
+
     if (active) {
       form.setValues({
         is_booking: true,
@@ -82,8 +114,13 @@ export function FormInvoice({ active }: { active: any }) {
         customer_contact: active.contact,
         invoice_items: [
           {
-            description: "Ground Booking",
-            price: active?.time?.length * active?.ground?.price_hr,
+            description: `Ground Booking (${String(active?.start_time).substring(0, 5)} to ${String(active?.end_time).substring(0, 5)}) (${
+              _calculateQuantity
+            } hr/s)`,
+            price:
+              active?.time?.length *
+              active?.ground?.price_hr *
+              _calculateQuantity,
             quantity: 1,
           },
           ...(active?.addons?.map((item: any) => {
@@ -263,120 +300,37 @@ export function FormInvoice({ active }: { active: any }) {
               }
             />
 
-            {form.getValues().is_student ? (
-              <SimpleGrid cols={2} spacing="xs">
-                <Select
-                  data={queryStudent?.data?.map((sinfo: any) => {
-                    return {
-                      value: String(sinfo.id),
-                      label: `${sinfo.name} (${sinfo.member_id})}`,
-                    };
-                  })}
-                  label="Select Student"
-                  description="Bill number of the invoice"
-                  placeholder="Enter bill number"
-                  {...form.getInputProps("student")}
-                  onChange={(e) => {
-                    form.setFieldValue("student_id", e);
-
-                    const selected = queryStudent?.data?.find(
-                      (sinfo: any) => sinfo.id == e
-                    );
-
-                    if (selected) {
-                      if (form.getValues().bill_student) {
-                        form.setFieldValue("customer_name", selected.name);
-                        form.setFieldValue(
-                          "customer_contact",
-                          selected.contact
-                        );
-                        form.setFieldValue(
-                          "customer_address",
-                          selected.temp_address || selected.permanent_address
-                        );
-                        form.setFieldValue(
-                          "invoice_items",
-                          selected.package?.specification?.map((item: any) => {
-                            return {
-                              description: item.name,
-                              quantity: 1,
-                              price: item.price,
-                            };
-                          })
-                        );
-                      } else {
-                        form.setFieldValue(
-                          "customer_name",
-                          selected.parent_name
-                        );
-                        form.setFieldValue(
-                          "customer_contact",
-                          selected.primary_contact
-                        );
-                        form.setFieldValue(
-                          "customer_address",
-                          selected.temp_address || selected.permanent_address
-                        );
-                        form.setFieldValue(
-                          "invoice_items",
-                          selected.package?.specification?.map((item: any) => {
-                            return {
-                              description: item.name,
-                              quantity: 1,
-                              price: item.price,
-                            };
-                          })
-                        );
-                      }
-                    }
-                  }}
-                />
-                <TextInput
-                  label="PAN/VAT Number"
-                  description="Enter PAN/VAT number if applicable, leave empty if not"
-                  placeholder="Enter PAN/VAT number"
-                  {...form.getInputProps("customer_pan")}
-                />
-              </SimpleGrid>
-            ) : (
-              <SimpleGrid cols={2} spacing="xs">
-                <TextInput
-                  label="Full Name / Organization"
-                  description="Name of the individual or organization being billed"
-                  placeholder="Enter full name or organization name"
-                  {...form.getInputProps("customer_name")}
-                />
-                <TextInput
-                  label="Invoice Address"
-                  description="Address of the recipient of this invoice"
-                  placeholder="e.g. Balkot, Kathmandu, Nepal"
-                  {...form.getInputProps("customer_address")}
-                />
-                <TextInput
-                  label="Billing Contact"
-                  description="Phone number or email of the billing recipient"
-                  placeholder="Enter contact number or email"
-                  {...form.getInputProps("customer_contact")}
-                />
-                <TextInput
-                  label="PAN/VAT Number"
-                  description="Enter PAN/VAT number if applicable, leave empty if not"
-                  placeholder="Enter PAN/VAT number"
-                  {...form.getInputProps("customer_pan")}
-                />
-              </SimpleGrid>
-            )}
-
-            {form.getValues().is_student && (
-              <Alert
-                icon={<Info />}
-                title={
-                  !form.getValues()?.bill_student
-                    ? "Billed to details is set to Student's Guardian Details"
-                    : "Billed to details is set to Student's Details"
-                }
+            <SimpleGrid cols={{ base: 1, lg: 2 }}>
+              <TextInput
+                label="Full Name / Organization"
+                description="Name of the individual or organization being billed"
+                placeholder="Enter full name or organization name"
+                {...form.getInputProps("customer_name")}
               />
-            )}
+              <TextInput
+                label="Invoice Address"
+                description="Address of the recipient of this invoice"
+                placeholder="e.g. Balkot, Kathmandu, Nepal"
+                {...form.getInputProps("customer_address")}
+              />
+              <TextInput
+                label="Billing Contact"
+                description="Phone number or email of the billing recipient"
+                placeholder="Enter contact number or email"
+                {...form.getInputProps("customer_contact")}
+              />
+              <TextInput
+                label="PAN/VAT Number"
+                description="Enter PAN/VAT number if applicable, leave empty if not"
+                placeholder="Enter PAN/VAT number"
+                {...form.getInputProps("customer_pan")}
+              />
+            </SimpleGrid>
+
+            <FormElement.SectionTitle
+              title="Pricing Details"
+              description="Details of the bill"
+            />
 
             <FormElement.SectionTitle
               title="Discounts"
@@ -425,8 +379,8 @@ export function FormInvoice({ active }: { active: any }) {
                   >
                     Particulars
                   </Table.Th>
-                  <Table.Th>Rate</Table.Th>
                   <Table.Th>Amount</Table.Th>
+                  <Table.Th>Quantity</Table.Th>
                   <Table.Th>#</Table.Th>
                 </Table.Tr>
               </Table.Thead>

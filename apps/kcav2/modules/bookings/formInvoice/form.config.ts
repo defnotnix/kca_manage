@@ -48,6 +48,23 @@ export const formProps: any = {
         Number(formdata?.discount) -
         Number(formdata?.advance);
 
+      console.log({
+        ...formdata,
+        amount: amount,
+        taxable_amount: taxable_amount,
+        total_amount: total,
+        paid_amount: formdata?.advance,
+        remaining_payment: total - formdata?.advance,
+        user_id: _userId,
+        status:
+          formdata?.advance == total ? "3" : formdata?.advance ? "2" : "1",
+        is_custom: false,
+        new_decided_rate: formdata?.decided_rate,
+        new_service_rate: formdata?.service_rate,
+        renew_data: formdata?.new_renew_date,
+        expiry_data: formdata?.new_expiry_date,
+      });
+
       return {
         ...formdata,
         amount: amount,

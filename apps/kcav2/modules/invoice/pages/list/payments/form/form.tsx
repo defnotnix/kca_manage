@@ -87,19 +87,33 @@ export function _Form() {
             />
 
             <SimpleGrid cols={2} spacing="xs">
-              <DateInput
-                label="Receipt Date"
-                description="Select the date of the receipt"
-                placeholder="Select date"
-                {...form.getInputProps("receipt_date")}
-              />
-              <DateInput
-                label="Package Renewed Till"
-                description="Select the package renew date."
-                placeholder="Select date"
-                {...form.getInputProps("valid_till")}
-              />
-              <TextInput
+              <Select
+                data={[
+                  {
+                    value: "1",
+                    label: "Cash",
+                  },
+                  {
+                    value: "2",
+                    label: "Cheque",
+                  },
+                  {
+                    value: "3",
+                    label: "E-Sewa",
+                  },
+                  {
+                    value: "4",
+                    label: "FonePay",
+                  },
+                  {
+                    value: "5",
+                    label: "Khalti",
+                  },
+                  {
+                    value: "6",
+                    label: "Others",
+                  },
+                ]}
                 label="Payment Gateway"
                 description="The gateway used for payment"
                 placeholder="Enter payment gateway"

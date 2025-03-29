@@ -3,7 +3,7 @@ export type PropModuleConfig = {
     label: string;
     url?: string;
   }[];
-  moduleKey: string[];
+  moduleKey: any[];
   moduleTerm: string;
   moduleTermPlural: string;
   moduleName: string;

@@ -101,7 +101,7 @@ export function _List() {
                 {data.map((item: any, index: number) => (
                   <Box key={index}>
                     <Paper withBorder p="md" radius={0}>
-                      <Group wrap="nowrap" justify="space-between">
+                      <Group wrap="nowrap" justify="space-between" align="flex-start" h={80}>
                         <Text size="sm">{item.name}</Text>
 
                         <Menu>

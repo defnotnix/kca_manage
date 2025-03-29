@@ -51,7 +51,7 @@ export const columns = [
   {
     accessor: "name",
     title: "Booked By",
-    width: 300,
+    width: 200,
     sortable: true,
   },
 
@@ -68,6 +68,7 @@ export const columns = [
   {
     accessor: "ground",
     title: "Ground",
+    width: 200,
     sortable: true,
     render: (record: any) => <>{record?.ground?.name}</>,
   },

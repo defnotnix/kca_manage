@@ -56,16 +56,26 @@ function isWarning({
 function isError({
   title = "On Snap!",
   message = "Unfortunately your request was rejected. Please try again",
-
+  newMessage = false,
   ...props
 }: propTriggerNotification) {
-  notifications.update({
-    ...configTriggerNotification.isError,
-    title,
-    message,
-    icon: <ExclamationMark />,
-    ...props,
-  });
+  if (newMessage) {
+    notifications.show({
+      ...configTriggerNotification.isError,
+      title,
+      message,
+      icon: <ExclamationMark />,
+      ...props,
+    });
+  } else {
+    notifications.update({
+      ...configTriggerNotification.isError,
+      title,
+      message,
+      icon: <ExclamationMark />,
+      ...props,
+    });
+  }
 }
 
 function isValidationError({
