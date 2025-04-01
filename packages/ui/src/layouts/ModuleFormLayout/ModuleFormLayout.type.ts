@@ -1,4 +1,4 @@
-import { PropModuleConfig } from "@/src/types";
+import { PropModuleConfig } from "../../types/moduleConfig";
 import { ReactNode } from "react";
 
 export type PropModuleFormLayout = {

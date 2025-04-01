@@ -840,7 +840,15 @@ export function ModuleTableLayout({
             <ModuleModalFormLayout
               variant="new"
               isLoading={false}
-              moduleConfig={moduleConfig}
+              moduleConfig={{
+                ...moduleConfig,
+                bread: [],
+                moduleKey: ["form", "x"],
+                moduleDescription,
+                moduleTerm: "x",
+                moduleTermPlural: "x",
+                moduleName: "x",
+              }}
             >
               {modalForm}
             </ModuleModalFormLayout>
@@ -866,7 +874,15 @@ export function ModuleTableLayout({
             <ModuleModalFormLayout
               variant="edit"
               isLoading={false}
-              moduleConfig={moduleConfig}
+              moduleConfig={{
+                ...moduleConfig,
+                bread: [],
+                moduleKey: ["form", "x"],
+                moduleDescription,
+                moduleTerm: "x",
+                moduleTermPlural: "x",
+                moduleName: "x",
+              }}
             >
               {modalEdit
                 ? React.cloneElement(modalEdit, { preData: activeEdit })

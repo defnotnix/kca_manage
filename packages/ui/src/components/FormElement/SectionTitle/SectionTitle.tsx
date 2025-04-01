@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Divider, Group, Text, UnstyledButton } from "@mantine/core";
-import { ReactNode } from "react";
+import { JSX, ReactNode } from "react";
 
 export function FormElementSectionTitle({
   preTitle,

@@ -1,4 +1,4 @@
-import { PropGetRecords } from "@/src/helpers";
+import { PropGetRecords } from "@vframework/core";
 import { ReactNode } from "react";
 
 export type PropListHandler = {

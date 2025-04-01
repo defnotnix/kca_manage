@@ -30,6 +30,7 @@ export function AdminNavLayout({
   classNames = {},
   //essentials
   essentials,
+  onLogout,
   //content
   children,
 }: PropAdminNavLayout) {
@@ -59,6 +60,7 @@ export function AdminNavLayout({
           navModules={navModules}
           navItems={navItems}
           essentials={essentials}
+          onLogout={onLogout}
         />
         <AppShell.Main
           mt={{ base: 60, lg: 0 }}

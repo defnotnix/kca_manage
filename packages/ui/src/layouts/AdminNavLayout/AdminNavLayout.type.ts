@@ -19,10 +19,11 @@ type PropAdminNavSideNav = {
     module?: string;
     moduleDescription?: string;
   };
-  
+
   essentials?: JSX.Element;
   navItems: PropAdminNavItems[];
   navModules?: PropAdminNavModule[];
+  onLogout?: () => void;
 };
 
 type PropAdminNavStyles = {

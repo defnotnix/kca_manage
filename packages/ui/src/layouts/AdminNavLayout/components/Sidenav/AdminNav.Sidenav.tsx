@@ -34,6 +34,7 @@ import {
   ChartDonut,
   Circle,
   DotsThree,
+  Info,
   MagnifyingGlass,
   Plus,
   SignOut,
@@ -45,6 +46,7 @@ import { PropAdminNavSideNav } from "../../AdminNavLayout.type";
 import classes from "./AdminNav.Sidenav.module.css";
 import classesNavLink from "./AdminNav.NavLink.module.css";
 import { useDisclosure } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
 
 //components
 
@@ -53,6 +55,7 @@ export function _AdminNavLayoutSidenav({
   softwareInfo,
   navItems,
   navModules = [],
+  onLogout = () => {},
 }: PropAdminNavSideNav) {
   // * DEFINITIONS
 
@@ -278,7 +281,7 @@ export function _AdminNavLayoutSidenav({
               "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1))",
           }}
         >
-          <Paper p="xs" bg="dark.7">
+          {/* <Paper p="xs" bg="dark.7">
             <Group wrap="nowrap">
               <Calendar
                 weight="duotone"
@@ -288,7 +291,7 @@ export function _AdminNavLayoutSidenav({
                 You have 3 booking requests on pending
               </Text>
             </Group>
-          </Paper>
+          </Paper> */}
 
           <Group justify="space-between">
             <Button
@@ -297,6 +300,64 @@ export function _AdminNavLayoutSidenav({
               color="dark"
               c="gray.0"
               leftSection={<SignOut />}
+              onClick={() => {
+                modals.openConfirmModal({
+                  title: (
+                    <Group>
+                      <ActionIcon size="sm" color="brand" variant="light">
+                        <Info size={12} />
+                      </ActionIcon>
+                      <Text
+                        size="sm"
+                        style={{
+                          fontWeight: 600,
+                        }}
+                      >
+                        Are you sure you want to sign out?
+                      </Text>
+                    </Group>
+                  ),
+                  children: (
+                    <>
+                      <Text size="xs" my="md">
+                        On proceeding, you will be logged out of all your
+                        applications and sessions will be closed.
+                        <br />
+                        <br />
+                        <span
+                          style={{
+                            fontWeight: 600,
+                          }}
+                        >
+                          Are you sure you want to proceed?
+                        </span>
+                      </Text>
+                      <Space h="6px" />
+                    </>
+                  ),
+                  labels: {
+                    confirm: "Yes",
+                    cancel: "No",
+                  },
+                  confirmProps: {
+                    color: "brand",
+                    size: "xs",
+                  },
+                  cancelProps: {
+                    size: "xs",
+                  },
+                  onCancel: () => {},
+                  onConfirm: () => {
+                    onLogout();
+                  },
+                  styles: {
+                    header: {
+                      background: "var(--mantine-color-brand-0)",
+                    },
+                  },
+                  size: "sm",
+                });
+              }}
             >
               Sign Out
             </Button>

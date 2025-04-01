@@ -184,9 +184,9 @@ export function ModuleFormLayout({
           )}
 
           <Group justify="flex-end" gap={4} py="md">
-            <Button size="sm" leftSection={<X />} variant="light">
+            {/* <Button size="sm" leftSection={<X />} variant="light">
               Cancel
-            </Button>
+            </Button> */}
 
             {withStepper && current < steps.length - 1 && (
               <Button

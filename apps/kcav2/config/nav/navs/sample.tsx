@@ -1,13 +1,9 @@
 import {
-  Building,
   Calendar,
   ChartDonut,
-  Clock,
   Cricket,
-  Gear,
   Invoice,
   Package,
-  Users,
   User,
   GearSix,
 } from "@phosphor-icons/react";
@@ -21,7 +17,7 @@ export const navItems: PropAdminNavItems[] = [
   },
   {
     label: "Sessions",
-    icon: Users,
+    icon: Calendar,
     value: "/sessions",
     children: [
       {
@@ -36,7 +32,7 @@ export const navItems: PropAdminNavItems[] = [
   },
   {
     label: "Players",
-    icon: Users,
+    icon: User,
     value: "/players",
   },
 

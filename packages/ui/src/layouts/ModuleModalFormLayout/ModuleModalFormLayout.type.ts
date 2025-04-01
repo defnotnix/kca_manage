@@ -1,4 +1,4 @@
-import { PropConfigModule } from "@vsphere/core";
+import { PropModuleConfig } from "../../types/moduleConfig";
 import { ReactNode } from "react";
 
 type propHintDetails = {
@@ -8,7 +8,7 @@ type propHintDetails = {
 };
 
 export type PropModuleModalFormLayout = {
-  moduleConfig: PropConfigModule;
+  moduleConfig: PropModuleConfig;
   //variant
   variant?: "new" | "edit";
   //hint
