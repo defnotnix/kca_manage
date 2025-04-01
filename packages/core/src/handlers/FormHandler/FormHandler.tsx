@@ -150,7 +150,9 @@ export function FormHandler({
     onSuccess: (res: any) => {
       console.log("success");
       if (formType == "new") {
+        console.log("Resetting Form");
         form.reset();
+        form.setValues({});
       }
       triggerNotification.form.isSuccess({});
       // initialization

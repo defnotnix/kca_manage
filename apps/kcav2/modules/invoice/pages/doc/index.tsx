@@ -3,6 +3,7 @@
 import {
   Anchor,
   Avatar,
+  Badge,
   Box,
   Breadcrumbs,
   Button,
@@ -23,11 +24,18 @@ import { House, Pen, Printer } from "@phosphor-icons/react";
 import imgLogo from "@/assets/img/logo.png";
 import { useQuery } from "@tanstack/react-query";
 
-import { getSingleRecord } from "../../module.api";
+import {
+  createPrint,
+  getRecords,
+  getSingleRecord,
+  getStudentInvoices,
+} from "../../module.api";
 import { useParams } from "next/navigation";
 
 import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
+
+import { jwtDecode } from "jwt-decode";
 
 export function _Doc() {
   const ref = useRef(null);
@@ -38,9 +46,27 @@ export function _Doc() {
     queryKey: ["invoice", "doc", "data"],
     queryFn: async () => {
       const res = await getSingleRecord("/billing/invoice/", Params.id);
+      const resPendingInvoice = await getStudentInvoices({
+        params: {
+          player_id: res?.player,
+        },
+      });
+
+      const pendingInvoices = resPendingInvoice?.filter((item: any) => {
+        return Number(item?.remaining_payment) > 0;
+      });
+
+      const pendingSum = pendingInvoices?.reduce(
+        (sum: any, item: any) => sum + Number(item?.remaining_payment),
+        0
+      );
+
+      console.log(resPendingInvoice);
 
       return {
         ...res,
+        pendingInvoices,
+        pendingSum,
       };
     },
     initialData: {},
@@ -60,10 +86,21 @@ export function _Doc() {
 
   const handlePrint = useReactToPrint({
     documentTitle: "Print This Document",
-    // onBeforePrint: () => {
-    //   return true;
-    // },
-    onAfterPrint: async () => {},
+
+    onAfterPrint: async () => {
+      try {
+        const sessionData: any = sessionStorage.getItem("kcatoken");
+        const _decoded: any = jwtDecode(sessionData);
+        const _userId = _decoded?.user_id;
+
+        createPrint({
+          invoice_id: queryData?.data?.invoice_id,
+          user_id: _userId,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
   });
 
   return (
@@ -147,8 +184,13 @@ export function _Doc() {
                   <Text size="sm" tt="uppercase">
                     N.Invoice
                   </Text>
-                  <Text size="md" tt="uppercase" fw={700}>
-                    {queryData?.data?.invoice_id?.substring(0, 10)}
+                  <Text size="xs" tt="uppercase" fw={700}>
+                    {queryData?.data?.invoice_id?.substring(0, 15) || "-"}
+                    <br />
+                    {queryData?.data?.invoice_id?.substring(
+                      16,
+                      queryData?.data?.invoice_id?.length
+                    ) || "-"}
                   </Text>
                 </div>
                 <div>
@@ -156,26 +198,36 @@ export function _Doc() {
                     Date
                   </Text>
                   <Text size="md" tt="uppercase" fw={700}>
-                    {String(new Date(queryData?.data?.receipt_date)).substring(
+                    {String(new Date(queryData?.data?.created_at)).substring(
                       0,
                       15
                     )}
                   </Text>
                 </div>
-                <div>
-                  <Text size="sm" tt="uppercase">
-                    Payment Method
-                  </Text>
-                  <Text size="md" tt="uppercase" fw={700}>
-                    {queryData?.data?.gateway_type || "-"}
-                  </Text>
-                </div>
+
                 <div>
                   <Text size="sm" tt="uppercase">
                     Amount Due
                   </Text>
                   <Text size="md" tt="uppercase" fw={700}>
-                    Rs. {Number(queryData?.data?.amount || 0).toFixed(2)}
+                    Rs.{" "}
+                    {Number(queryData?.data?.remaining_payment || 0).toFixed(2)}
+                  </Text>
+                </div>
+
+                <div>
+                  <Text size="sm" tt="uppercase">
+                    Payment STATUS
+                  </Text>
+                  <Text
+                    size="md"
+                    tt="uppercase"
+                    fw={700}
+                    c={queryData?.data?.remaining_amount == 0 ? "teal.7" : ""}
+                  >
+                    {queryData?.data?.remaining_amount == 0
+                      ? "Paid"
+                      : "Pending"}
                   </Text>
                 </div>
               </SimpleGrid>
@@ -241,7 +293,7 @@ export function _Doc() {
                 </Table.Thead>
 
                 <Table.Tbody>
-                  {queryData?.data?.invoice_details?.map(
+                  {queryData?.data?.invoice_items?.map(
                     (item: any, index: number) => (
                       <Table.Tr key={index}>
                         <Table.Td>{item.description}</Table.Td>
@@ -275,6 +327,13 @@ export function _Doc() {
                     <Table.Td bg="gray.1"></Table.Td>
                     <Table.Td fw={800}>Discount</Table.Td>
                     <Table.Td>Rs. {queryData?.data?.discount}</Table.Td>
+                  </Table.Tr>
+
+                  <Table.Tr>
+                    <Table.Td bg="gray.1"></Table.Td>
+                    <Table.Td bg="gray.1"></Table.Td>
+                    <Table.Td fw={800}>Remaining</Table.Td>
+                    <Table.Td>Rs. {queryData?.data?.pendingSum || 0}</Table.Td>
                   </Table.Tr>
 
                   <Table.Tr>

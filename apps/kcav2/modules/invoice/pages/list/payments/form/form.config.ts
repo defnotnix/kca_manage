@@ -16,6 +16,8 @@ export const formProps: any = {
 
   // > SUBMIT
   transformDataOnSubmit: (formdata: any) => {
+    console.log(formdata);
+
     return {
       ...formdata,
       status: 1,

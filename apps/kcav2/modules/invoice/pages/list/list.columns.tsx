@@ -7,6 +7,35 @@ export const columns = [
     sortable: true,
   },
   {
+    accessor: "status",
+    title: "Status",
+    sortable: true,
+    render: (row: any) => {
+      const status =
+        row?.remaining_payment == 0
+          ? "Paid"
+          : Number(row?.remaining_payment) < Number(row?.total_amount)
+            ? "Semi Paid"
+            : "Not Paid";
+
+      return (
+        <Badge
+          w={100}
+          color={
+            status === "Paid"
+              ? "teal"
+              : status === "Semi Paid"
+                ? "orange"
+                : "red"
+          }
+          size="sm"
+        >
+          {status}
+        </Badge>
+      );
+    },
+  },
+  {
     accessor: "created_at",
     title: "Invoice Date",
     sortable: true,
@@ -33,8 +62,8 @@ export const columns = [
   },
 
   {
-    accessor: "paid_amount",
-    title: "Paid Amount",
+    accessor: "remaining_payment",
+    title: "Remaining Amount",
     sortable: true,
   },
 ];

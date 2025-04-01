@@ -20,12 +20,15 @@ import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import { InvoicePayments } from "./payments";
 import { InvoicePrintings } from "./printlogs";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function _List() {
   const Router = useRouter();
 
   const [openPayments, handlerPayments] = useDisclosure(false);
   const [openPrintings, handlersPrintings] = useDisclosure(false);
+
+  const query = useQueryClient();
 
   const [active, setActive] = useState(null);
 
@@ -102,6 +105,8 @@ export function _List() {
         opened={openPayments}
         onClose={() => {
           setActive(null);
+          //@ts-ignore
+          query.invalidateQueries(moduleConfig?.moduleKey);
           handlerPayments.close();
         }}
         title={

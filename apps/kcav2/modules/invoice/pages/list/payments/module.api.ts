@@ -9,4 +9,4 @@ export const createRecord = (body: any) =>
 export const updateRecord = (body: any, id: any) =>
   moduleApiCall.editRecord(endpoint, body, id);
 export const deleteRecord = (id: any) =>
-  moduleApiCall.deleteRecord(endpoint, id);
+  moduleApiCall.editRecord("/billing/cancel/payment/", {}, id);

@@ -5,24 +5,28 @@ import React, { useEffect, useState } from "react";
 
 //mantine
 import {
+  ActionIcon,
   Badge,
   Button,
   Group,
   Paper,
   RingProgress,
+  ScrollArea,
   SimpleGrid,
+  Space,
   Stack,
   Table,
   Text,
 } from "@mantine/core";
-import { Plus } from "@phosphor-icons/react";
+import { Plus, Trash, Warning } from "@phosphor-icons/react";
 import { FormHandler } from "@vframework/core";
 import { formProps } from "./form/form.config";
 //mantine
 import { _Form as Form } from "./form/form";
 
-import { getRecords, createRecord } from "./module.api";
-import { useQuery } from "@tanstack/react-query";
+import { getRecords, createRecord, deleteRecord } from "./module.api";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { modals } from "@mantine/modals";
 
 //icons
 
@@ -30,16 +34,18 @@ import { useQuery } from "@tanstack/react-query";
 
 //components
 
-export function InvoicePayments({ active }: any) {
+export function InvoicePayments({ active, queryKey }: any) {
   // * DEFINITIONS
 
-  const [dataActive, setActive] = useState({});
+  const [dataActive, setActive] = useState<any>({});
 
   // * CONTEXT
 
   // * STATE
 
   // * FUNCTIONS
+
+  const query = useQueryClient();
 
   useEffect(() => {
     setActive(active);
@@ -52,8 +58,11 @@ export function InvoicePayments({ active }: any) {
     queryFn: async () => {
       const res = await getRecords({
         endpoint: "/billing/payment/",
+        params: {
+          invoice_id: active?.id,
+        },
       });
-      return res;
+      return res.reverse();
     },
     initialData: [],
   });
@@ -73,8 +82,10 @@ export function InvoicePayments({ active }: any) {
                 sections={[
                   {
                     value:
-                      (Number(active?.paid_amount) /
-                        Number(active?.total_amount)) *
+                      (Number(
+                        dataActive?.total_amount - dataActive?.remaining_payment
+                      ) /
+                        Number(dataActive?.total_amount)) *
                       100,
                     color: "teal",
                   },
@@ -84,14 +95,16 @@ export function InvoicePayments({ active }: any) {
               <div>
                 <Text size="sm">
                   {Math.round(
-                    (Number(active?.paid_amount) /
-                      Number(active?.total_amount)) *
+                    ((dataActive?.total_amount -
+                      dataActive?.remaining_payment) /
+                      Number(dataActive?.total_amount)) *
                       100
                   )}
-                  % of the invoice is paid
+                  % of the Invoice is Paid.
                 </Text>
                 <Text opacity={0.5} size="xs">
-                  Rs. {active?.paid_amount} / {active?.total_amount}
+                  Rs. {dataActive?.total_amount - dataActive?.remaining_payment}{" "}
+                  / {dataActive?.total_amount}
                 </Text>
               </div>
             </Group>
@@ -102,13 +115,28 @@ export function InvoicePayments({ active }: any) {
           <FormHandler
             formType={"new"}
             {...formProps}
-            apiSubmit={(endpoint, body) => {
+            initial={{
+              ...formProps.initial,
+              invoice: dataActive?.id,
+            }}
+            apiSubmit={(body) => {
+              console.log(body);
+
               return createRecord({
                 ...body,
-                invoice: active?.id,
+                invoice: dataActive?.id,
               });
             }}
-            onSubmitSuccess={() => {}}
+            onSubmitSuccess={(res) => {
+              if (!res.err) {
+                queryData?.refetch();
+                setActive({
+                  ...dataActive,
+                  remaining_payment:
+                    dataActive?.remaining_payment - Number(res?.data?.amount),
+                });
+              }
+            }}
           >
             <Form />
           </FormHandler>
@@ -122,17 +150,115 @@ export function InvoicePayments({ active }: any) {
           <Table.Thead>
             <Table.Tr>
               <Table.Th>Date</Table.Th>
-              <Table.Th>Medium</Table.Th>
+              <Table.Th>Source</Table.Th>
               <Table.Th>Amount</Table.Th>
+              <Table.Th>Status</Table.Th>
+              <Table.Th></Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
             {queryData.data?.map((item: any, index: number) => {
-              <Table.Tr key={index}>
-                <Table.Td>{item.reciept_date}</Table.Td>
-                <Table.Td>{item?.gateway}</Table.Td>
-                <Table.Td>Rs. {item?.amount}</Table.Td>
-              </Table.Tr>;
+              return (
+                <Table.Tr
+                  key={index}
+                  style={{
+                    opacity: item?.status == "Commited" ? 1 : 0.6,
+                  }}
+                >
+                  <Table.Td>
+                    <Text size="xs">{item.created_at.substring(0, 10)}</Text>
+                  </Table.Td>
+                  <Table.Td>
+                    <Text size="xs">{item.gateway}</Text>
+                  </Table.Td>
+                  <Table.Td>
+                    <Text size="xs">Rs. {item?.amount}</Text>
+                  </Table.Td>
+                  <Table.Td>
+                    <Badge
+                      color={item?.status == "Commited" ? "brand" : "red"}
+                      size="xs"
+                    >
+                      {item?.status == "Commited" ? "Commited" : "Cancelled"}
+                    </Badge>
+                  </Table.Td>
+                  <Table.Td>
+                    <ActionIcon
+                      disabled={item?.status == "Rollback"}
+                      onClickCapture={() => {
+                        modals.openConfirmModal({
+                          title: (
+                            <Group>
+                              <ActionIcon size="sm" color="red" variant="light">
+                                <Warning size={12} />
+                              </ActionIcon>
+                              <Text
+                                size="sm"
+                                style={{
+                                  fontWeight: 600,
+                                }}
+                              >
+                                Please confirm your action
+                              </Text>
+                            </Group>
+                          ),
+                          children: (
+                            <>
+                              <Text size="xs" my="md">
+                                This will permanently cancell the payment.
+                                <br />
+                                <br />
+                                <span
+                                  style={{
+                                    fontWeight: 600,
+                                  }}
+                                >
+                                  Are you sure you want to proceed?
+                                </span>
+                              </Text>
+                              <Space h="6px" />
+                            </>
+                          ),
+                          labels: { confirm: "Confirm", cancel: "Cancel" },
+                          confirmProps: {
+                            color: "red",
+                            size: "xs",
+                          },
+                          cancelProps: {
+                            size: "xs",
+                          },
+                          onCancel: () => {},
+                          onConfirm: () => {
+                            deleteRecord(item?.id).then((res) => {
+                              if (!res.err) {
+                                queryData?.refetch();
+                                setActive({
+                                  ...dataActive,
+                                  remaining_payment:
+                                    Number(dataActive?.remaining_payment) +
+                                    Number(item?.amount),
+                                });
+                              }
+                            });
+                          },
+                          styles: {
+                            header: {
+                              background: "var(--mantine-color-red-1)",
+                            },
+                          },
+                          size: "sm",
+                        });
+                      }}
+                      variant="light"
+                      size="sm"
+                      color="red"
+                      onClick={() => {}}
+                    >
+                      <Trash size={12} />
+                    </ActionIcon>
+                  </Table.Td>
+                </Table.Tr>
+              );
             })}
           </Table.Tbody>
         </Table>
