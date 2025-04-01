@@ -16,13 +16,14 @@ import { moduleConfig } from "../../module.config";
 
 import { _Form as Form } from "../../form/form";
 import { formProps } from "../../form/form.config";
+import { RBACCheck } from "@/components/RBACCheck";
 
 export function _List() {
   const router = useRouter();
   const Params = useParams();
 
   return (
-    <>
+    <RBACCheck showStaff>
       <ListHandler
         endpoint={moduleConfig.endpoint}
         moduleKey={moduleConfig.moduleKey}
@@ -66,6 +67,6 @@ export function _List() {
           withBackButton
         />
       </ListHandler>
-    </>
+    </RBACCheck>
   );
 }

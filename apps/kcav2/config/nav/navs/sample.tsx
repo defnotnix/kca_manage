@@ -77,10 +77,6 @@ export const navItems: PropAdminNavItems[] = [
     value: "/bookings",
     children: [
       {
-        label: "Booking Requests",
-        value: "/bookings/requests",
-      },
-      {
         label: "Booking",
         value: "/bookings",
       },
@@ -109,6 +105,16 @@ export const navItems: PropAdminNavItems[] = [
     label: "Invoices",
     icon: Invoice,
     value: "/invoices",
+    children: [
+      {
+        label: "All Invoices",
+        value: "/invoices",
+      },
+      {
+        label: "Pending Invoices",
+        value: "/pending-invoices",
+      },
+    ],
   },
   {
     label: "Accounts",

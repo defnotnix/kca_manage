@@ -14,6 +14,7 @@ import { formProps } from "../../form/form.config";
 import { createRecord } from "../../module.api";
 import { ModuleFormLayout } from "@vframework/ui";
 import { moduleConfig } from "../../module.config";
+import { RBACCheck } from "@/components/RBACCheck";
 
 export function _New() {
   // * DEFINITIONS
@@ -29,12 +30,8 @@ export function _New() {
   // * ANIMATIONS
 
   return (
-    <>
-      <FormHandler
-        {...formProps}
-        apiSubmit={createRecord}
-    
-      >
+    <RBACCheck showStaff>
+      <FormHandler {...formProps} apiSubmit={createRecord}>
         <ModuleFormLayout
           {...moduleConfig}
           size="md"
@@ -44,6 +41,6 @@ export function _New() {
           <Form />
         </ModuleFormLayout>
       </FormHandler>
-    </>
+    </RBACCheck>
   );
 }

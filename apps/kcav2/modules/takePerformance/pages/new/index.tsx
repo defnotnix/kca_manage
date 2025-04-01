@@ -112,7 +112,6 @@ export function _New() {
       >
         <ModuleFormLayout
           {...moduleConfig}
-          formType="edit"
           size="md"
           withStepper
           steps={formProps.steps}

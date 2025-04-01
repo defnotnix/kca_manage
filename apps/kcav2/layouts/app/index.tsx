@@ -20,7 +20,7 @@ export function LayoutApp({ children }: PropsWithChildren) {
   return (
     <QueryWrapper
       //apiProvider={"https://dummyjson.com"}
-      apiProvider="http://192.168.30.12:8000"
+      apiProvider="http://188.245.86.116:8000"
       queryProps={{
         defaultOptions: {
           queries: {

@@ -132,7 +132,7 @@ export function _List() {
         moduleKey={moduleConfig.moduleKey}
         //enableServerPagination
         //enableServerSearch
-        getRecords={(props: any) => {
+        getRecords={async (props: any) => {
           if (dateRange.length == 2) {
             return getRecords(props);
           } else {

@@ -10,18 +10,17 @@ import {
   getRecords,
 } from "../../module.api";
 import { columns } from "./list.columns";
-import { ActionIcon, Space } from "@mantine/core";
-import { Invoice } from "@phosphor-icons/react";
 import { moduleConfig } from "../../module.config";
 
 import { _Form as Form } from "../../form/form";
 import { formProps } from "../../form/form.config";
+import { RBACCheck } from "@/components/RBACCheck";
 
 export function _List() {
   const router = useRouter();
 
   return (
-    <>
+    <RBACCheck>
       <ListHandler
         endpoint={moduleConfig.endpoint}
         moduleKey={moduleConfig.moduleKey}
@@ -55,6 +54,6 @@ export function _List() {
           modalForm={<Form />}
         />
       </ListHandler>
-    </>
+    </RBACCheck>
   );
 }

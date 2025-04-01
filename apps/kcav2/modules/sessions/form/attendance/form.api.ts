@@ -1,4 +1,4 @@
-import { apiDispatch, moduleApiCall, PropGetApiProps } from "@vframework/core";
+import { apiDispatch, moduleApiCall } from "@vframework/core";
 
 const endpoint = "/users";
 

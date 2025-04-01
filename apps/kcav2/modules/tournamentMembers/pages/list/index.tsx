@@ -56,8 +56,8 @@ export function _List() {
               player: String(row.player?.id),
             };
           }}
-          apiCreate={(body: any, records: any) =>
-            updateRecord(
+          apiCreate={(body: any, records: any) => {
+            return updateRecord(
               {
                 player: [
                   ...records?.map((e: any) => {
@@ -67,21 +67,23 @@ export function _List() {
                 ],
               },
               Params.id
-            )
-          }
-          apiDelete={(id, records) => {
-            updateRecord(
-              {
-                player: records
-                  .filter((e: any) => {
-                    return e.id !== id;
-                  })
-                  .map((item: any) => {
-                    return item.id;
-                  }),
-              },
-              Params.id
             );
+          }}
+          apiDelete={(id, records) => {
+            {
+              return updateRecord(
+                {
+                  player: records
+                    .filter((e: any) => {
+                      return e.id !== id;
+                    })
+                    .map((item: any) => {
+                      return item.id;
+                    }),
+                },
+                Params.id
+              );
+            }
           }}
           columns={columns}
           // * TABS

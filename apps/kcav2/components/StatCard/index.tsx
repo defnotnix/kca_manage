@@ -1,32 +1,25 @@
 "use client";
 
-import {
-  Badge,
-  Group,
-  Paper,
-  SimpleGrid,
-  Text,
-  ThemeIcon,
-} from "@mantine/core";
+import { Badge, Group, Paper, Text, ThemeIcon } from "@mantine/core";
 import { Icon } from "@phosphor-icons/react";
 
-export function StatCard({
-  title,
-  icon,
-  value,
-  shortValue,
-  description,
-  color,
-}: {
+interface StatCardProps {
   title?: string;
   icon?: Icon;
   value?: string;
   shortValue?: string;
   description?: string;
   color?: string;
-}) {
-  const CardIcon: any = icon;
+}
 
+export function StatCard({
+  title,
+  icon: CardIcon, // Rename destructured prop to avoid reassignment
+  value,
+  shortValue,
+  description,
+  color,
+}: StatCardProps) {
   return (
     <Paper withBorder p="md" radius="md">
       <Group justify="space-between">
@@ -34,11 +27,11 @@ export function StatCard({
           {title}
         </Text>
         <ThemeIcon variant="light" color={color}>
-          <CardIcon />
+          {CardIcon && <CardIcon />}
         </ThemeIcon>
       </Group>
 
-      <Group align="flex-end" gap="xs" mt={"xs"}>
+      <Group align="flex-end" gap="xs" mt="xs">
         <Text size="2rem" fw={700}>
           {value}
         </Text>
@@ -49,7 +42,11 @@ export function StatCard({
           {description}
         </Text>
 
-        {shortValue && <Badge variant="light" size="xs">{shortValue}</Badge>}
+        {shortValue && (
+          <Badge variant="light" size="xs">
+            {shortValue}
+          </Badge>
+        )}
       </Group>
     </Paper>
   );

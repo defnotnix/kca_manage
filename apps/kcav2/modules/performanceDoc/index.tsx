@@ -25,6 +25,9 @@ import classes from "./doc.module.css";
 import { useState } from "react";
 
 import imgLogo from "@/assets/img/logo.png";
+import { useQuery } from "@tanstack/react-query";
+import { getRecords } from "../package/module.api";
+import { useParams } from "next/navigation";
 
 const playerData: any = {
   name: "Paras Khadka",
@@ -136,6 +139,21 @@ const bread = [
 
 export function _Doc() {
   const [comparision, setComparision] = useState(true);
+  const Params = useParams();
+
+  const queryStudents = useQuery({
+    queryKey: ["config", "sessions"], // query key
+    queryFn: async () => {
+      const res = await getRecords({
+        endpoint: "/players/grading/history/" + Params.id + "/",
+      });
+
+      console.log(res);
+
+      return res;
+    },
+    initialData: [],
+  });
 
   return (
     <>

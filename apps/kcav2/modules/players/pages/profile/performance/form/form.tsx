@@ -111,7 +111,7 @@ export function _Form() {
                   {[
                     "batting_grip",
                     "stance",
-                    "bat_lift",
+                    "batlift",
                     "weight_transfer",
                     "judgement",
                     "shot_selection",
@@ -158,7 +158,7 @@ export function _Form() {
                 <Stack gap={0}>
                   {[
                     "bowling_grip",
-                    "run_up",
+                    "runup",
                     "loading",
                     "jump",
                     "landing",
@@ -274,7 +274,7 @@ export function _Form() {
                 <Text size="sm">Overall Performance</Text>
                 <SegmentedControl
                   data={gradingChoice}
-                  {...form.getInputProps("overall_performance")}
+                  {...form.getInputProps("overall")}
                 />
               </Group>
             </Stack>

@@ -17,6 +17,7 @@ import { moduleConfig } from "../../module.config";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { RBACCheck } from "@/components/RBACCheck";
 
 export function _Edit() {
   // * DEFINITIONS
@@ -62,7 +63,7 @@ export function _Edit() {
   }
 
   return (
-    <>
+    <RBACCheck showStaff>
       <FormHandler
         {...formProps}
         initial={data}
@@ -71,6 +72,6 @@ export function _Edit() {
       >
         {!isLoading && <RenderForm />}
       </FormHandler>
-    </>
+    </RBACCheck>
   );
 }

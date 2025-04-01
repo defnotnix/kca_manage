@@ -195,7 +195,7 @@ export function ModuleAuth() {
               </ThemeIcon>
 
               <Text size="sm" fw={700}>
-                vSphere Inc.
+                Kathmandu Cricket Academy
               </Text>
             </Group>
 
@@ -206,11 +206,11 @@ export function ModuleAuth() {
                     Welcome Back!
                   </Text>
                   <Text size="sm" ta="center" opacity={0.6}>
-                    Login with your Apple or Google account
+                    Login with your Credentials
                   </Text>
                 </div>
 
-                <Stack my="md" gap="xs">
+                {/* <Stack my="md" gap="xs">
                   <Button
                     variant="light"
                     leftSection={<AppleLogo weight="bold" />}
@@ -227,7 +227,7 @@ export function ModuleAuth() {
                   </Button>
                 </Stack>
 
-                <Divider label="or continue with" />
+                <Divider label="or continue with" /> */}
 
                 <TextInput
                   label="Email"
@@ -244,7 +244,8 @@ export function ModuleAuth() {
 
                 <Group justify="space-between">
                   <Checkbox
-                    disabled={form.getValues()?.fLoading}
+                    disabled
+                    //disabled={form.getValues()?.fLoading}
                     size="xs"
                     label="Remember me"
                   />

@@ -72,6 +72,7 @@ import { Cross } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { configModule } from "@/modules/auth";
+import { RBACCheck } from "@/components/RBACCheck";
 
 const statusMap: any = {
   "1": "Approved",
@@ -139,6 +140,7 @@ export function _List() {
             <Menu.Label>Billings</Menu.Label>
             <Menu.Item
               leftSection={<Invoice />}
+              disabled={!row?.start_time && !row?.end_time}
               onClick={async () => {
                 checkInvoice(row.id)
                   .then((res) => {
@@ -323,7 +325,7 @@ export function _List() {
   };
 
   return (
-    <>
+    <RBACCheck showStaff>
       <ListHandler
         endpoint={`/services/${tab}/booking/`}
         moduleKey={[...moduleConfig.moduleKey, tab]}
@@ -380,7 +382,7 @@ export function _List() {
       </Modal>
 
       <Modal
-        size={"md"}
+        size={"lg"}
         opened={openProfile}
         onClose={() => {
           setActive(null);
@@ -430,7 +432,7 @@ export function _List() {
             Booking Slots
           </Text>
 
-          <Group>
+          <Group gap={4}>
             {active?.time?.map((timeinfo: any, index: number) => (
               <Badge key={index}>
                 {timeinfo.start_time} - {timeinfo.end_time}
@@ -447,7 +449,7 @@ export function _List() {
           <Card p={0} radius="md" withBorder>
             <Group wrap="nowrap" align="flex-start" p="xs">
               <div>
-                <Text size="sm" fw={600}>
+                <Text size="xs" fw={600}>
                   {active?.ground?.name}
                 </Text>
                 <Text size="xs" opacity={0.5}>
@@ -474,20 +476,22 @@ export function _List() {
             Booking Add-on's
           </Text>
 
-          <SimpleGrid cols={2} spacing="xs">
+          <SimpleGrid cols={{ base: 1, lg: 3 }} spacing="xs">
             {active?.addons?.map((item: any, index: number) => (
-              <Card p={"xs"} withBorder key={index}>
-                <Text size="sm" fw={600}>
+              <Card withBorder key={index} p={0}>
+                <Text size="xs" fw={600} p={"xs"} h={64}>
                   {item?.name}
                 </Text>
-                <Text size="xs" fw={600} opacity={0.5}>
-                  Rs. {item?.price} / hr
-                </Text>
+                <Paper p={"xs"} bg="teal.1">
+                  <Text size="xs" fw={600}>
+                    Rs. {item?.price} / hr
+                  </Text>
+                </Paper>
               </Card>
             ))}
           </SimpleGrid>
         </Stack>
       </Modal>
-    </>
+    </RBACCheck>
   );
 }

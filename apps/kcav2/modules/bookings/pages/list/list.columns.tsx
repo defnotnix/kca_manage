@@ -37,13 +37,19 @@ export const columns = [
     accessor: "Booked Times",
     title: "Booking Slots",
     sortable: true,
+    width: 300,
     render: (record: any) => (
       <Group gap={2}>
-        {record.time?.map((item: any, index: number) => (
+        {record.time?.slice(0, 4).map((item: any, index: number) => (
           <Badge variant="light" key={index}>
             {item.start_time} - {item.end_time}
           </Badge>
         ))}
+        {record.time?.length > 4 && (
+          <Badge size="xs" variant="subtle">
+            & {record.time?.length - 4} more
+          </Badge>
+        )}
       </Group>
     ),
   },

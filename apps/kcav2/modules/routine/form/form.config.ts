@@ -4,6 +4,7 @@ import z from "zod";
 export const formProps: any = {
   initial: {
     daterange: [],
+    allow_custom_dates: false,
   },
 
   // > STEPS

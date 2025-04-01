@@ -60,6 +60,7 @@ export function _Form() {
   const { current } = FormHandler.usePropContext();
 
   const [activeSlot, setActiveSlot] = useState<any>(null);
+  const [activeCategory, setActiveCategory] = useState("x");
 
   const [excludeList, setExcludeList] = useState<any[]>([
     "2025-02-26",
@@ -98,6 +99,20 @@ export function _Form() {
         endpoint: "/services/time/frames/",
       });
 
+      return res.filter((item: any) => {
+        return item.status == true;
+      });
+    },
+    initialData: [],
+  });
+
+  const queryAddonsCategory = useQuery({
+    queryKey: ["service", "addons-category"],
+    queryFn: async (id: any) => {
+      const res = await getRecords({
+        endpoint: "/services/addons/category/",
+      });
+      console.log(res);
       return res;
     },
     initialData: [],
@@ -204,7 +219,8 @@ export function _Form() {
     const date = _(new Date(_date)).format("YYYY-MM-DD");
 
     const _isBooked = queryBookingLogs?.data?.find(
-      (item: any) => item.date == date
+      (item: any) =>
+        item.date == date && item.ground == form.getValues()?.ground
     );
 
     const active = _date == form.getValues()?.date;
@@ -243,13 +259,8 @@ export function _Form() {
     );
 
     return (
-      <Indicator
-        inline
-        size="xs"
-        label={String(_isBooked.length)}
-        disabled={!_isBooked.length}
-      >
-        <Text size="sm" fw={600} p="sm">
+      <Indicator inline size="xs" disabled={!_isBooked.length}>
+        <Text size="xs" fw={600} p="sm">
           {day}
         </Text>
       </Indicator>
@@ -319,37 +330,68 @@ export function _Form() {
                 isTopElement
                 title="Select Add-On's"
                 description="Comprehensive service information & details"
+                actionButton={
+                  <Select
+                    data={[
+                      {
+                        value: "x",
+                        label: "All",
+                      },
+                      ...queryAddonsCategory.data?.map((item: any) => {
+                        return {
+                          value: String(item.id),
+                          label: item.name,
+                        };
+                      }),
+                    ]}
+                    placeholder="Item/Service"
+                    nothingFoundMessage="No add-ons added yet"
+                    required
+                    value={activeCategory}
+                    onChange={(e: any) => {
+                      setActiveCategory(e);
+                    }}
+                  />
+                }
               />
 
               <Checkbox.Group {...form.getInputProps("addons")}>
                 <SimpleGrid cols={{ base: 1, lg: 3 }} my="md" spacing="xs">
-                  {queryAddons.data?.map((ground: any, index: number) => (
-                    <Checkbox.Card
-                      key={index}
-                      className={classes.root}
-                      radius="md"
-                      value={String(ground.id)}
-                    >
-                      <Group wrap="nowrap" align="flex-start" p="md">
-                        <Checkbox.Indicator size="xs" />
-                        <div>
-                          <Text size="sm" fw={600}>
-                            {ground?.name}
-                          </Text>
-                          <Text size="xs" opacity={0.5}>
-                            {ground?.pitch}
-                          </Text>
-                        </div>
-                      </Group>
-                      <Paper bg="brand.0" p="md">
-                        <Group>
-                          <Text size="xs" fw={600}>
-                            Rs. {ground?.price} / hr
-                          </Text>
+                  {queryAddons.data
+                    ?.filter((e: any) => {
+                      if (activeCategory == "x") {
+                        return true;
+                      } else {
+                        return e.category == Number(activeCategory);
+                      }
+                    })
+                    ?.map((ground: any, index: number) => (
+                      <Checkbox.Card
+                        key={index}
+                        className={classes.root}
+                        radius="md"
+                        value={String(ground.id)}
+                      >
+                        <Group wrap="nowrap" align="flex-start" p="md">
+                          <Checkbox.Indicator size="xs" />
+                          <div>
+                            <Text size="sm" fw={600}>
+                              {ground?.name}
+                            </Text>
+                            <Text size="xs" opacity={0.5}>
+                              {ground?.pitch}
+                            </Text>
+                          </div>
                         </Group>
-                      </Paper>
-                    </Checkbox.Card>
-                  ))}
+                        <Paper bg="brand.0" p="md">
+                          <Group>
+                            <Text size="xs" fw={600}>
+                              Rs. {ground?.price} / hr
+                            </Text>
+                          </Group>
+                        </Paper>
+                      </Checkbox.Card>
+                    ))}
                 </SimpleGrid>
               </Checkbox.Group>
             </Stack>
@@ -377,11 +419,9 @@ export function _Form() {
                 }}
                 size="md"
                 highlightToday
-                // excludeDate={(date) => {
-                //   return excludeList.includes(
-                //     new Date(date).toLocaleDateString("en-CA").split("T")[0]
-                //   );
-                // }}
+                excludeDate={(date) => {
+                  return new Date(date) < new Date();
+                }}
                 value={form.getValues()?.date}
                 getDayProps={getDayProps}
                 onChange={(e) => {
@@ -398,6 +438,34 @@ export function _Form() {
               isTopElement
               title="Available Slots"
               description="Comprehensive service information & details"
+              actionButton={
+                <Button
+                  size="xs"
+                  onClick={() => {
+                    form.setFieldValue(
+                      "time",
+                      queryTimeFrames?.data?.map((item: any) => item.id)
+                    );
+                  }}
+                  disabled={queryBookingLogs?.data?.find((item: any) => {
+                    return (
+                      item.ground == form.getValues()?.ground &&
+                      item.date == form.getValues()?.date &&
+                      item.is_booked == true
+                    );
+                  })}
+                >
+                  {queryBookingLogs?.data?.find((item: any) => {
+                    return (
+                      item.ground == form.getValues()?.ground &&
+                      item.date == form.getValues()?.date &&
+                      item.is_booked == true
+                    );
+                  })
+                    ? "Full Day Booking Not Available"
+                    : "Full Day Booking"}
+                </Button>
+              }
             />
 
             <RenderSlots date={form.getValues().date} />

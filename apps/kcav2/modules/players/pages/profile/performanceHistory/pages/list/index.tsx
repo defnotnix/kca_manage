@@ -20,7 +20,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { Invoice, Pen, Trash } from "@phosphor-icons/react";
+import { Invoice, Pen, Printer, Trash } from "@phosphor-icons/react";
 import { moduleConfig } from "../../module.config";
 
 import { _Form as Form } from "../../form/form";
@@ -82,6 +82,10 @@ export function _List() {
                 {data.map((item: any, index: number) => {
                   return (
                     <Paper key={index} withBorder p="xs">
+                      <Group justify="space-between" pb="sm">
+                        <Text size="xs">Date: {item.date}</Text>
+                        <Text size="xs">Overall : {item.overall}</Text>
+                      </Group>
                       <SimpleGrid cols={{ base: 1, md: 2, lg: 4 }} spacing="xs">
                         <Paper p="sm" bg="teal.0">
                           <Stack gap="xs">
@@ -90,7 +94,7 @@ export function _List() {
                             {[
                               "batting_grip",
                               "stance",
-                              "bat_lift",
+                              "batlift",
                               "weight_transfer",
                               "judgement",
                               "shot_selection",
@@ -120,7 +124,7 @@ export function _List() {
 
                             {[
                               "bowling_grip",
-                              "run_up",
+                              "runup",
                               "loading",
                               "jump",
                               "landing",
@@ -219,6 +223,15 @@ export function _List() {
                         </Group>
 
                         <Group gap="xs">
+                          <ActionIcon
+                            onClick={() => {
+                              router.push(
+                                "/players/" + item.id + "/performance"
+                              );
+                            }}
+                          >
+                            <Printer />
+                          </ActionIcon>
                           <ActionIcon onClick={() => handleDelete(item.id)}>
                             <Trash />
                           </ActionIcon>

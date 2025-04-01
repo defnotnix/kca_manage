@@ -18,16 +18,9 @@ export const formProps: any = {
 
     console.log(formdata);
 
-    return {
-      ...formdata,
-      ...(formdata.image instanceof File ? { image: formdata.image } : {}),
-      // * FIXINGS
-      doe: _(formdata?.doe).format("YYYY-MM-DD"),
-      dob: _(formdata?.dob).format("YYYY-MM-DD"),
-      decided_date: _(formdata?.decided_date).format("YYYY-MM-DD"),
-    };
+    return formdata?.students || [];
   },
-  submitFormData: true,
+  submitFormData: false,
 
   // > API
 

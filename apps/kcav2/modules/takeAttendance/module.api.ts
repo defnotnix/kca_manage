@@ -1,8 +1,7 @@
 import { apiDispatch, moduleApiCall } from "@vframework/core";
 
-const endpoint = "/users";
+const endpoint = "/players/attendance/bulk/";
 
 export const getRecords = moduleApiCall.getRecords;
-export const createRecord = moduleApiCall.createRecord;
-export const updateRecord = moduleApiCall.editRecord;
-export const deleteRecord = moduleApiCall.deleteRecord;
+export const createRecord = (body: any) =>
+  moduleApiCall.createRecord(endpoint, body);

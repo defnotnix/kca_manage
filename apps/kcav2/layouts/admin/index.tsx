@@ -12,7 +12,7 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
-import { AdminNavLayout } from "@vframework/ui";
+import { AdminNavLayout, triggerNotification } from "@vframework/ui";
 import { navItems, navModules } from "@/config/nav";
 import {
   Calendar,
@@ -23,6 +23,7 @@ import {
   UserPlus,
 } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
+import { moduleApiCall } from "@vframework/core";
 //mantine
 
 //icons
@@ -55,6 +56,22 @@ export function LayoutAdmin({ children }: PropsWithChildren) {
   return (
     <>
       <AdminNavLayout
+        onLogout={() => {
+          triggerNotification.form.isLoading({
+            message: "Signin Out",
+          });
+          moduleApiCall
+            .createRecord("/authenticate/logout/", {})
+            .then((res) => {
+              triggerNotification.form.isSuccess({
+                message: "You have signed out successfully!",
+              });
+              if (!res.err) {
+                sessionStorage.clear();
+                Router.push("/");
+              }
+            });
+        }}
         softwareInfo={{
           org: "KCA Admin",
           module: "KCA Management",

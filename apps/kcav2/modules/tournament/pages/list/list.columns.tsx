@@ -7,18 +7,12 @@ export const columns = [
     width: 300,
     render: (record: any) => (
       <Group wrap="nowrap">
-      
-        <Text size="sm">{record.name}</Text>
+        <Text size="xs">{record.name}</Text>
       </Group>
     ),
     sortable: true,
   },
-  {
-    accessor: "add",
-    title: "Address",
-    render: (record: any) => <Text size="sm">{record.location}</Text>,
-    sortable: true,
-  },
+
   {
     accessor: "location",
     title: "Event Location",

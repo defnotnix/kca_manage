@@ -353,7 +353,7 @@ export function _Form() {
                 <Text size="sm">Overall Performance</Text>
                 <SegmentedControl
                   data={gradingChoice}
-                  {...form.getInputProps("overall_performance")}
+                  {...form.getInputProps("overall")}
                 />
               </Group>
             </Stack>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //mantine
 import {
   ActionIcon,
@@ -24,6 +24,7 @@ import {
   Select,
   SimpleGrid,
   Stack,
+  Switch,
   Text,
   Textarea,
   TextInput,
@@ -119,7 +120,9 @@ export function _Form() {
         endpoint: "/services/time/frames/",
       });
 
-      return res;
+      return res.filter((e: any) => {
+        return e.status == true;
+      });
     },
     initialData: [],
   });
@@ -135,6 +138,16 @@ export function _Form() {
     },
     initialData: [],
   });
+
+  const [allowCustomDate, setAllowCustomDate] = useState(false);
+  const [selectedDates, setSelectedDates] = useState<any[]>([]);
+
+  useEffect(() => {
+    form.setFieldValue(
+      "daterange",
+      selectedDates.map((item) => ({ date: new Date(item) }))
+    );
+  }, [selectedDates]);
 
   switch (current) {
     case 0:
@@ -167,19 +180,63 @@ export function _Form() {
                 title="Pick Calendar Dates"
                 description="Comprehensive student information & details"
                 actionButton={
-                  <DatePickerInput
-                    w={300}
-                    type="range"
-                    placeholder="Pick dates range"
-                    onChange={(e: any) => {
-                      if (e[0] !== null && e[1] !== null) {
-                        form.setFieldValue(
-                          "daterange",
-                          generateDateList({ startDate: e[0], endDate: e[1] })
-                        );
-                      }
-                    }}
-                  />
+                  <Group>
+                    {/* <Switch
+                      size="xs"
+                      defaultChecked
+                      label="Pick Custom Dates"
+                      checked={allowCustomDate}
+                      onChange={(e) => {
+                        setAllowCustomDate(e.currentTarget.checked);
+                        setSelectedDates([]); // Reset selected dates when switching modes
+                      }}
+                    /> */}
+
+                    <DatePickerInput
+                      w={300}
+                      type="range"
+                      placeholder="Pick dates range"
+                      onChange={(e: any) => {
+                        if (Array.isArray(e) && e[0] && e[1]) {
+                          form.setFieldValue(
+                            "daterange",
+                            generateDateList({
+                              startDate: e[0],
+                              endDate: e[1],
+                            })
+                          );
+                        }
+                      }}
+                    />
+                    {/* 
+                    {allowCustomDate ? (
+                      <DatePickerInput
+                        w={300}
+                        type="multiple"
+                        placeholder="Pick dates range"
+                        onChange={(e: any) => {
+                          setSelectedDates(e || []); // Update local state instead of setting form directly
+                        }}
+                      />
+                    ) : (
+                      <DatePickerInput
+                        w={300}
+                        type="range"
+                        placeholder="Pick dates range"
+                        onChange={(e: any) => {
+                          if (Array.isArray(e) && e[0] && e[1]) {
+                            form.setFieldValue(
+                              "daterange",
+                              generateDateList({
+                                startDate: e[0],
+                                endDate: e[1],
+                              })
+                            );
+                          }
+                        }}
+                      />
+                    )} */}
+                  </Group>
                 }
               />
             </Stack>
@@ -227,10 +284,7 @@ export function _Form() {
                           <ActionIcon
                             variant="light"
                             onClick={() => {
-                              form.setFieldValue(
-                                `daterange.${index}.is_holiday`,
-                                !date.is_holiday
-                              );
+                              form.removeListItem("daterange", index);
                             }}
                           >
                             <Minus />

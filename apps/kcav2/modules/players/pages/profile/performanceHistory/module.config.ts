@@ -11,7 +11,7 @@ export const moduleConfig: PropModuleConfig = {
     },
   ],
   moduleKey: "vauth.users.performance.history".split("."),
-  endpoint: "/players/grading/history",
+  endpoint: "/players/grading/history/",
   //
   moduleTerm: "Performance History",
   moduleTermPlural: "Performance History",

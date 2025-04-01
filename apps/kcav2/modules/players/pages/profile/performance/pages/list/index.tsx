@@ -13,6 +13,7 @@ import {
 import { columns } from "./list.columns";
 import {
   ActionIcon,
+  Divider,
   Group,
   Paper,
   SegmentedControl,
@@ -124,7 +125,7 @@ export function _List() {
                             {[
                               "batting_grip",
                               "stance",
-                              "bat_lift",
+                              "batlift",
                               "weight_transfer",
                               "judgement",
                               "shot_selection",
@@ -154,7 +155,7 @@ export function _List() {
 
                             {[
                               "bowling_grip",
-                              "run_up",
+                              "runup",
                               "loading",
                               "jump",
                               "landing",
@@ -245,7 +246,9 @@ export function _List() {
                       </SimpleGrid>
 
                       <Group justify="space-between" mt="sm">
-                        <Group>
+                        <Group gap="xs">
+                          <Text size="xs">Overall : {item.overall}</Text>
+                          <Divider orientation="vertical" />
                           <Text size="xs">
                             Remarks:
                             {item?.remarks}
@@ -253,15 +256,6 @@ export function _List() {
                         </Group>
 
                         <Group gap="xs">
-                          <ActionIcon
-                            onClick={() => {
-                              router.push(
-                                "/players/" + Params.id + "/performance"
-                              );
-                            }}
-                          >
-                            <Printer />
-                          </ActionIcon>
                           <EditContainer row={item}>
                             <ActionIcon>
                               <Pen />

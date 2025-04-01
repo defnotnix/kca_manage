@@ -13,46 +13,79 @@ export const columns = [
             {record.name}
           </Text>
           <Text size="xs" opacity={0.5}>
-            {record.member_id} | Enrolled on {record.date_of_enrollment}
+            Enrolled on {record.date_of_enroll}
           </Text>
         </div>
       </Group>
     ),
     sortable: true,
   },
+
+  {
+    accessor: "st",
+    title: "Status",
+    render: (record: any) => {
+      const expiryDate = new Date(record?.expiry_date);
+      const today = new Date();
+      const diffInDays = Math.ceil(
+        (expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+      );
+
+      let status = "Expired";
+      let color = "red";
+
+      if (diffInDays > 10) {
+        status = "Active";
+        color = "green";
+      } else if (diffInDays > 0) {
+        status = "Expiring Soon";
+        color = "yellow";
+      }
+
+      return (
+        <>
+          <Group gap="xs">
+            <Badge size="sm" color={color}>
+              {status}
+            </Badge>
+            <Text size="xs" opacity={0.5}>
+              {diffInDays >= 0
+                ? ` Next due in ${diffInDays} days`
+                : `Player expired on ${record?.expiry_date}`}
+            </Text>
+          </Group>
+        </>
+      );
+    },
+    sortable: true,
+  },
+
   {
     accessor: "perm_address",
     title: "Address",
   },
   {
-    accessor: "parent_name",
-    title: "Guardian",
-    render: (row: any) => (
-      <>
-        {row.parent_name}({row.parent_relation})
-      </>
+    accessor: "contact",
+    title: "Contact Details",
+    render: (record: any) => (
+      <Text size="xs">
+        <b>{record?.contact}</b> <br /> {record?.email}
+      </Text>
     ),
+    sortable: true,
   },
   {
     accessor: "parent_contact",
     title: "Guardian Contact",
   },
   {
-    accessor: "dob",
-    title: "Payment Status",
-    sortable: true,
-    render: (record: any) => {
-      return (
-        <>
-          <Badge color="teal" variant="dot" size="md">
-            PAID & ACTIVE
-          </Badge>
-          <Text size="10px" opacity={0.5} ml={22} mt="4px">
-            Next Due in 16 days
-          </Text>
-        </>
-      );
-    },
+    accessor: "parent_name",
+    title: "Guardian",
+    render: (row: any) => (
+      <>
+        {row.parent_name}({row.relation})
+      </>
+    ),
   },
   {
     accessor: "gender",
@@ -62,29 +95,15 @@ export const columns = [
         size="sm"
         variant="light"
         color={
-          record?.gender == "M"
+          record?.gender == "Male"
             ? "brand"
-            : record?.gender == "F"
+            : record?.gender == "Female"
               ? "pink"
               : "orange"
         }
       >
-        {record?.gender == "M"
-          ? "Male"
-          : record?.gender == "F"
-            ? "Female"
-            : "Other"}
+        {record?.gender}
       </Badge>
-    ),
-    sortable: true,
-  },
-  {
-    accessor: "contact",
-    title: "Contact Details",
-    render: (record: any) => (
-      <Text size="xs">
-        <b>{record?.contact}</b> <br /> {record?.email}
-      </Text>
     ),
     sortable: true,
   },

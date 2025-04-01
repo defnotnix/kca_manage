@@ -42,6 +42,8 @@ import { getRecords as getSessions } from "@/modules/sessions/module.api";
 import classes from "./form.module.css";
 import { getRecords } from "../module.api";
 
+import _ from "moment";
+
 // Assuming you have these defined elsewhere
 
 export function _Form() {
@@ -102,7 +104,17 @@ export function _Form() {
                         endpoint: "/players/sessions/" + sessiondata.id + "/",
                       });
 
-                      console.log(res);
+                      form.setFieldValue(
+                        "students",
+                        res.player?.map((item: any, index: number) => {
+                          return {
+                            name: item.name,
+                            player: item.id,
+                            is_present: false,
+                            date: _(new Date()).format("YYYY-MM-DD"),
+                          };
+                        })
+                      );
 
                       setStudents(res.player || []);
                       handleStepNext();
@@ -133,20 +145,27 @@ export function _Form() {
           </Paper>
           <Paper withBorder>
             <Stack gap={0}>
-              {students?.map((playerinfo: any, index: number) => (
-                <Group
-                  px="lg"
-                  py="sm"
-                  wrap="nowrap"
-                  justify="space-between"
-                  key={index}
-                  bg={index % 2 == 0 ? "brand.0" : ""}
-                >
-                  <Text size="sm">{playerinfo.name}</Text>
+              {form
+                .getValues()
+                ?.students.map((playerinfo: any, index: number) => (
+                  <Group
+                    px="lg"
+                    py="sm"
+                    wrap="nowrap"
+                    justify="space-between"
+                    key={index}
+                    bg={index % 2 == 0 ? "brand.0" : ""}
+                  >
+                    <Text size="sm">{playerinfo.name}</Text>
 
-                  <Checkbox size="md" />
-                </Group>
-              ))}
+                    <Checkbox
+                      size="md"
+                      {...form.getInputProps("termsOfService", {
+                        type: `students.${index}.is_present`,
+                      })}
+                    />
+                  </Group>
+                ))}
             </Stack>
           </Paper>
         </>

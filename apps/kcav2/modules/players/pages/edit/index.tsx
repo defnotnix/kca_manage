@@ -17,6 +17,7 @@ import { moduleConfig } from "../../module.config";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { RBACCheck } from "@/components/RBACCheck";
 
 const GENDER_MAP: any = {
   "Not Specified": "3",
@@ -89,7 +90,7 @@ export function _Edit() {
   }
 
   return (
-    <>
+    <RBACCheck showStaff>
       <FormHandler
         {...formProps}
         initial={data}
@@ -99,6 +100,6 @@ export function _Edit() {
       >
         {!isLoading && <RenderForm />}
       </FormHandler>
-    </>
+    </RBACCheck>
   );
 }

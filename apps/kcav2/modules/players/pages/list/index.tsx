@@ -46,6 +46,8 @@ import { moduleConfig } from "../../module.config";
 import { StatCard } from "@/components/StatCard";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { getStats } from "@/modules/dashboard/module.api";
+import { RBACCheck } from "@/components/RBACCheck";
 
 export function _List() {
   // * DEFINITIONS
@@ -64,6 +66,15 @@ export function _List() {
     initialData: {},
   });
 
+  const queryStats = useQuery({
+    queryKey: ["dashboard", "stats"],
+    queryFn: async () => {
+      const res = await getStats();
+      console.log(res);
+      return res;
+    },
+  });
+
   // * FUNCTIONS
 
   // * COMPONENTS
@@ -72,78 +83,85 @@ export function _List() {
 
   return (
     <>
-      <ListHandler
-        endpoint={moduleConfig.endpoint}
-        moduleKey={moduleConfig.moduleKey}
-        //enableServerPagination
-        //enableServerSearch
-        getRecords={getRecords}
-      >
-        <ModuleTableLayout
-          {...moduleConfig}
-          apiDelete={deleteRecord}
-          //Data
-          columns={columns}
-          //styles
-          rowStyle={({ gender }: any) => {
-            switch (gender) {
-              case "male":
-                return {
-                  background: "var(--mantine-color-indigo-0)",
-                };
+      <RBACCheck showStaff>
+        <ListHandler
+          endpoint={moduleConfig.endpoint}
+          moduleKey={moduleConfig.moduleKey}
+          //enableServerPagination
+          //enableServerSearch
+          getRecords={getRecords}
+        >
+          <ModuleTableLayout
+            {...moduleConfig}
+            apiDelete={deleteRecord}
+            //Data
+            columns={columns}
+            //styles
+            rowStyle={({ gender }: any) => {
+              switch (gender) {
+                case "male":
+                  return {
+                    background: "var(--mantine-color-indigo-0)",
+                  };
 
-              default:
-                return {};
-            }
-          }}
-          // * EXTRA ACTIONS
-          extraActions={({ row }: { row: any }) => (
-            <>
-              <Menu.Item
-                onClick={() => {
-                  Router.push(`/players/${row.id}`);
-                }}
-                leftSection={<IdentificationBadge />}
+                default:
+                  return {};
+              }
+            }}
+            // * EXTRA ACTIONS
+            extraActions={({ row }: { row: any }) => (
+              <>
+                <Menu.Item
+                  onClick={() => {
+                    Router.push(`/players/${row.id}`);
+                  }}
+                  leftSection={<IdentificationBadge />}
+                >
+                  Player Profile
+                </Menu.Item>
+              </>
+            )}
+            contentPreTable={
+              <SimpleGrid
+                cols={{ base: 2, lg: 4 }}
+                px="md"
+                mb="md"
+                spacing="xs"
               >
-                Player Profile
-              </Menu.Item>
-            </>
-          )}
-          contentPreTable={
-            <SimpleGrid cols={{ base: 2, lg: 4 }} px="md" mb="md" spacing="xs">
-              <StatCard
-                key={1}
-                title="Total Players"
-                icon={Star}
-                value="54"
-                description="Total number of players"
-              />
-              <StatCard
-                key={2}
-                title="Active Players"
-                icon={Star}
-                value="32"
-                shortValue="23% of Total"
-                description="Players currently active"
-              />
-              <StatCard
-                key={3}
-                title="Due Payment"
-                icon={Star}
-                value="5"
-                description="Total number of players"
-              />
-              <StatCard
-                key={4}
-                title="Payment Overdue"
-                icon={Star}
-                value="10"
-                description="Total number of players"
-              />
-            </SimpleGrid>
-          }
-        />
-      </ListHandler>
+                <StatCard
+                  key={1}
+                  title="Total Players"
+                  icon={Star}
+                  value={queryStats?.data?.total_players}
+                  description="Total number of players"
+                />
+                <StatCard
+                  key={2}
+                  title="Active Players"
+                  icon={Star}
+                  value={queryStats?.data?.active_players_count}
+                  shortValue="23% of Total"
+                  description="Active Players"
+                />
+                <StatCard
+                  key={3}
+                  title="Due Payment"
+                  icon={Star}
+                  value={queryStats?.data?.soon_expiring_players}
+                  description="Players Expiring Soon "
+                />
+                <StatCard
+                  key={4}
+                  title="Payment Overdue"
+                  icon={Star}
+                  value={queryStats?.data?.pending_invoices_count}
+                  description="Pending Invoices"
+                />
+              </SimpleGrid>
+            }
+          />
+        </ListHandler>
+      </RBACCheck>
     </>
   );
 }

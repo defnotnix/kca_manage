@@ -21,6 +21,7 @@ import { useState } from "react";
 import { InvoicePayments } from "./payments";
 import { InvoicePrintings } from "./printlogs";
 import { useQueryClient } from "@tanstack/react-query";
+import { RBACCheck } from "@/components/RBACCheck";
 
 export function _List() {
   const Router = useRouter();
@@ -33,7 +34,7 @@ export function _List() {
   const [active, setActive] = useState(null);
 
   return (
-    <>
+    <RBACCheck showStaff>
       <ListHandler
         endpoint={moduleConfig.endpoint}
         moduleKey={moduleConfig.moduleKey}
@@ -133,6 +134,6 @@ export function _List() {
       >
         <InvoicePrintings active={active} />
       </Modal>
-    </>
+    </RBACCheck>
   );
 }

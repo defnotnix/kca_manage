@@ -14,6 +14,7 @@ import { formProps } from "../../form/form.config";
 import { createRecord } from "../../module.api";
 import { ModuleFormLayout } from "@vframework/ui";
 import { moduleConfig } from "../../module.config";
+import { RBACCheck } from "@/components/RBACCheck";
 
 export function _New() {
   // * DEFINITIONS
@@ -29,17 +30,15 @@ export function _New() {
   // * ANIMATIONS
 
   return (
-    <>
-      <FormHandler {...formProps} apiSubmit={createRecord}>
-        <ModuleFormLayout
-          {...moduleConfig}
-          size="md"
-          withStepper
-          steps={formProps.steps}
-        >
-          <Form />
-        </ModuleFormLayout>
-      </FormHandler>
-    </>
+    <FormHandler {...formProps} apiSubmit={createRecord}>
+      <ModuleFormLayout
+        {...moduleConfig}
+        size="md"
+        withStepper
+        steps={formProps.steps}
+      >
+        <Form />
+      </ModuleFormLayout>
+    </FormHandler>
   );
 }
