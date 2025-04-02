@@ -74,7 +74,7 @@ export async function get({
       }
     } else {
       if (error?.code == "ERR_NETWORK") {
-        alert("Server Offline");
+       // alert("Server Offline");
       } else {
         err.object = error;
         throw err;
