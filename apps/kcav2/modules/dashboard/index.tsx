@@ -222,7 +222,7 @@ export function Module() {
 
             <Stack gap="4px">
               <Text size="2rem" fw={600} c="dark.9">
-                Hello Suraj, Welcome back!
+                Hello, Welcome back!
               </Text>
               <Text fw={400} size="sm" opacity={0.5} c="dark.9">
                 We have arranged few things for you!

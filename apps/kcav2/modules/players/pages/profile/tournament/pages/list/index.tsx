@@ -32,6 +32,9 @@ export function _List() {
         }}
       >
         <ModuleTableLayout
+          disableAdd
+          disableDelete
+          disableEdit
           {...moduleConfig}
           idAccessor="id"
           apiEdit={updateRecord}
