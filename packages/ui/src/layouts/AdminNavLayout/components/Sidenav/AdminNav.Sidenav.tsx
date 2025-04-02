@@ -272,7 +272,6 @@ export function _AdminNavLayoutSidenav({
 
         <Paper
           p="md"
-          w={252}
           style={{
             position: "absolute",
             bottom: 0,
