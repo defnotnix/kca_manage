@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge, Group, Paper, Text, ThemeIcon } from "@mantine/core";
+import { useHover } from "@mantine/hooks";
 import { Icon } from "@phosphor-icons/react";
 
 interface StatCardProps {
@@ -22,8 +23,20 @@ export function StatCard({
   color,
   onClick,
 }: StatCardProps) {
+  const { hovered, ref } = useHover();
+
   return (
-    <Paper withBorder p="md" radius="md" onClick={onClick}>
+    <Paper
+      withBorder
+      p="md"
+      radius="md"
+      onClick={onClick}
+      ref={ref}
+      style={{
+        cursor: onClick ? "pointer" : "default",
+      }}
+      bg={hovered ? "var(--mantine-color-brand-0)" : ""}
+    >
       <Group justify="space-between">
         <Text size="sm" c="dimmed">
           {title}
