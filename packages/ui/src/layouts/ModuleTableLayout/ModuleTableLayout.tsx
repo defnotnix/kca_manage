@@ -172,6 +172,7 @@ export function ModuleTableLayout({
   customRender,
   withBackButton,
   customCreateText,
+  forceFilter,
 }: PropModuleTableLayout) {
   // Create moduleConfig object to maintain compatibility
 
@@ -769,7 +770,7 @@ export function ModuleTableLayout({
               horizontalSpacing="md"
               //Data
               idAccessor={idAccessor}
-              records={records}
+              records={forceFilter ? forceFilter(records) : records}
               columns={[
                 {
                   accessor: "#",

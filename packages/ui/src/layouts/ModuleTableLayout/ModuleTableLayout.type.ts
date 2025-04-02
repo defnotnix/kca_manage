@@ -114,6 +114,7 @@ export type PropModuleTableLayout = {
   customCreate?: any;
   withBackButton?: boolean;
   customCreateText?: string;
+  forceFilter?: (records: any) => any;
 } & APIHandlers &
   DataTable &
   ExtraContent &

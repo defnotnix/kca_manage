@@ -10,6 +10,7 @@ interface StatCardProps {
   shortValue?: string;
   description?: string;
   color?: string;
+  onClick?: () => void;
 }
 
 export function StatCard({
@@ -19,9 +20,10 @@ export function StatCard({
   shortValue,
   description,
   color,
+  onClick,
 }: StatCardProps) {
   return (
-    <Paper withBorder p="md" radius="md">
+    <Paper withBorder p="md" radius="md" onClick={onClick}>
       <Group justify="space-between">
         <Text size="sm" c="dimmed">
           {title}
