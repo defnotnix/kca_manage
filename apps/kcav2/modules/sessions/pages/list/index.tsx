@@ -124,14 +124,6 @@ export function _List() {
                             </Menu.Target>
                             <Menu.Dropdown>
                               <Menu.Item
-                                leftSection={<Cricket />}
-                                onClick={() => {
-                                  router.push("/addons/" + item.id);
-                                }}
-                              >
-                                Manage Add-On's
-                              </Menu.Item>
-                              <Menu.Item
                                 onClick={() => {
                                   router.push("/sessions/" + item.id);
                                 }}

@@ -19,8 +19,8 @@ import "@/public/styles/global.css";
 export function LayoutApp({ children }: PropsWithChildren) {
   return (
     <QueryWrapper
-      //apiProvider={"https://dummyjson.com"}
-      apiProvider="http://188.245.86.116/api"
+      apiProvider={"https://api.kathmanducricketacademy.com.np"}
+      // apiProvider="http://188.245.86.116/api"
       queryProps={{
         defaultOptions: {
           queries: {
