@@ -6,7 +6,7 @@ export default function ClientBookingSuccess() {
       <Container size="xs">
         <Paper p="xl" my={32}>
           <Text size="lg" ta="center">
-            You're booking is successful!
+            The booking is successful!
             <br /> We will contact you shortly.
           </Text>
         </Paper>
