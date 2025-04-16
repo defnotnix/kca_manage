@@ -1,5 +1,4 @@
-import { Container, Paper, Text, ThemeIcon } from "@mantine/core";
-import { Check, CheckCircle, CheckSquare } from "@phosphor-icons/react";
+import { Container, Paper, Text } from "@mantine/core";
 
 export default function ClientBookingSuccess() {
   return (
