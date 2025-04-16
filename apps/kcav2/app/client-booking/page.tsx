@@ -1,2 +1,2 @@
 import { Modules } from "@/modules";
-export default Modules.Bookings.New;
+export default Modules.Bookings.ClientBooking;

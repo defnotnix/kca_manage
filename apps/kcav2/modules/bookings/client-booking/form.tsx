@@ -47,12 +47,10 @@ import classes from "./form.module.css";
 import { getRecords } from "../module.api";
 import { start } from "repl";
 import _ from "moment";
-//capcha
-// import ReCAPTCHA from "react-google-recaptcha";
 
 // Assuming you have these defined elsewhere
 
-export function _FormClientBooking() {
+export function _Form() {
   // * DEFINITIONS
 
   const form = FormHandler.useForm();
@@ -86,7 +84,7 @@ export function _FormClientBooking() {
     queryKey: ["config", "grounds"], // query key
     queryFn: async () => {
       const res = await getRecords({
-        endpoint: "/services/public/grounds/",
+        endpoint: "/services/grounds/",
       });
 
       return res;
@@ -98,7 +96,7 @@ export function _FormClientBooking() {
     queryKey: ["config", "timeframes"], // query key
     queryFn: async () => {
       const res = await getRecords({
-        endpoint: "/services/public/time/frames/",
+        endpoint: "/services/time/frames/",
       });
 
       return res.filter((item: any) => {
@@ -112,7 +110,7 @@ export function _FormClientBooking() {
     queryKey: ["service", "addons-category"],
     queryFn: async (id: any) => {
       const res = await getRecords({
-        endpoint: "/services/public/addons/category/",
+        endpoint: "/services/addons/category/",
       });
       console.log(res);
       return res;
@@ -124,7 +122,7 @@ export function _FormClientBooking() {
     queryKey: ["config", "addons"], // query key
     queryFn: async () => {
       const res = await getRecords({
-        endpoint: "/services/public/addons/",
+        endpoint: "/services/addons/",
       });
 
       return res;
@@ -136,7 +134,7 @@ export function _FormClientBooking() {
     queryKey: ["config", "bookingLogs"], // query key
     queryFn: async () => {
       const res = await getRecords({
-        endpoint: "/schedule/public/sessions/",
+        endpoint: "/schedule/sessions/",
         params: {
           start_date: _(dateRange[0]).format("YYYY-MM-DD"),
           end_date: _(dateRange[1]).format("YYYY-MM-DD"),
@@ -504,6 +502,26 @@ export function _FormClientBooking() {
                 placeholder="Enter email address"
                 description="Enter the email address of the individual performing the booking"
                 {...form.getInputProps("email")}
+              />
+              <Select
+                label="Status"
+                placeholder="Select status"
+                description="Select the status of the individual performing the booking"
+                data={[
+                  {
+                    label: "Approved",
+                    value: "1",
+                  },
+                  {
+                    label: "Rejected",
+                    value: "2",
+                  },
+                  {
+                    label: "Pending",
+                    value: "3",
+                  },
+                ]}
+                {...form.getInputProps("status")}
               />
             </SimpleGrid>
           </Stack>

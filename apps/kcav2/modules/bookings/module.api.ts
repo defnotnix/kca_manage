@@ -8,6 +8,8 @@ export const getSingleRecord = (id: any) =>
   moduleApiCall.getSingleRecord(endpoint, id);
 export const createRecord = (body: any) =>
   moduleApiCall.createRecord(endpoint, body);
+export const createClientBooking = (body: any) =>
+  moduleApiCall.createRecord("/services/public/booking/", body);
 export const updateRecord = (body: any, id: any) =>
   moduleApiCall.editRecord(endpoint, body, id);
 export const deleteRecord = (id: any) =>
