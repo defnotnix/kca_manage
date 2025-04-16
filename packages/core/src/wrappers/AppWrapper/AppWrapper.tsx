@@ -16,7 +16,7 @@ import type { PropAppWrapper } from "./AppWrapper.type";
 
 export function AppWrapper({
   extraHeadTags,
-  title = "vSphere",
+  title = "Kathmandu Cricket Academy",
 
   theme,
   defaultColorScheme = "light",
