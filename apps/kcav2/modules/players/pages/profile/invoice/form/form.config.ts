@@ -9,7 +9,7 @@ export const formProps: any = {
     bill_student: true,
     invoice_items: [],
     d: new Date(),
-    taxable_percent: 13,
+    taxable_percent: 0,
     is_student: false,
     advance: 0,
     discount: 0,

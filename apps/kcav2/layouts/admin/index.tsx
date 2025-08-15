@@ -81,7 +81,7 @@ export function LayoutAdmin({ children }: PropsWithChildren) {
         essentials={
           <>
             <Stack gap={2} p="md">
-              <Button
+              {/* <Button
                 px="xs"
                 justify="space-between"
                 bg="indigo.9"
@@ -96,8 +96,8 @@ export function LayoutAdmin({ children }: PropsWithChildren) {
                 >
                   Take Attendance
                 </span>
-              </Button>
-              <Button
+              </Button> */}
+              {/* <Button
                 px="xs"
                 justify="space-between"
                 bg="teal.9"
@@ -112,8 +112,8 @@ export function LayoutAdmin({ children }: PropsWithChildren) {
                 >
                   Take Performance Metric
                 </span>
-              </Button>
-              <Button
+              </Button> */}
+              {/* <Button
                 px="xs"
                 justify="space-between"
                 bg="orange.9"
@@ -128,7 +128,7 @@ export function LayoutAdmin({ children }: PropsWithChildren) {
                 >
                   New Booking
                 </span>
-              </Button>
+              </Button> */}
             </Stack>
           </>
         }

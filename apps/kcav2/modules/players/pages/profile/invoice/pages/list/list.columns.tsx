@@ -1,81 +1,58 @@
-import { Badge } from "@mantine/core";
+import { Badge } from '@mantine/core';
 
 export const columns = [
   {
-    accessor: "bill_id",
-    title: "Bill ID",
+    accessor: 'status',
+    title: 'Status',
     sortable: true,
+    render: (row: any) => {
+      const status =
+        row?.remaining_payment == 0
+          ? 'Paid'
+          : Number(row?.remaining_payment) < Number(row?.total_amount)
+            ? 'Semi Paid'
+            : 'Not Paid';
+
+      return (
+        <Badge
+          w={100}
+          color={status === 'Paid' ? 'teal' : status === 'Semi Paid' ? 'orange' : 'red'}
+          size="sm"
+        >
+          {status}
+        </Badge>
+      );
+    },
   },
   {
-    accessor: "invoice_id",
-    title: "Invoice ID",
+    accessor: 'created_at',
+    title: 'Invoice Date',
+    sortable: true,
+    render: (row: any) => <>{String(row.created_at).substring(0, 10)}</>,
+    width: 120,
+  },
+  {
+    accessor: 'customer_name',
+    title: 'Billed To',
+    sortable: true,
+    width: 200,
+  },
+  {
+    accessor: 'customer_address',
+    title: 'Billing Address',
+    sortable: true,
+    width: 200,
+  },
+
+  {
+    accessor: 'total_amount',
+    title: 'Amount',
     sortable: true,
   },
 
   {
-    accessor: "receipt_date",
-    title: "Receipt Date",
-    sortable: true,
-  },
-  {
-    accessor: "customer_name",
-    title: "Customer Name",
-    sortable: true,
-  },
-  {
-    accessor: "customer_pan",
-    title: "Customer PAN",
-    sortable: true,
-  },
-  {
-    accessor: "gateway_type",
-    title: "Gateway Type",
-    sortable: true,
-  },
-  {
-    accessor: "amount",
-    title: "Amount",
-    sortable: true,
-  },
-  {
-    accessor: "discount",
-    title: "Discount",
-    sortable: true,
-  },
-  {
-    accessor: "taxable_amount",
-    title: "Taxable Amount",
-    sortable: true,
-  },
-  {
-    accessor: "total_amount",
-    title: "Total Amount",
-    sortable: true,
-  },
-  {
-    accessor: "discount_issued_by",
-    title: "Discount Issued By",
-    sortable: true,
-  },
-  {
-    accessor: "payer_id",
-    title: "Payer ID",
-    sortable: true,
-  },
-  {
-    accessor: "paid_amount",
-    title: "Paid Amount",
-    sortable: true,
-  },
-  {
-    accessor: "status",
-    title: "Status",
-    render: (record: any) => <Badge variant="light">{record.status}</Badge>,
-    sortable: true,
-  },
-  {
-    accessor: "remarks",
-    title: "Remarks",
+    accessor: 'remaining_payment',
+    title: 'Remaining Amount',
     sortable: true,
   },
 ];

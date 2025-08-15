@@ -1,13 +1,19 @@
-import { Avatar, Badge, Group, Stack, Text } from "@mantine/core";
+import { Avatar, Badge, Group, Stack, Text } from '@mantine/core';
 
 export const columns = [
   {
-    accessor: "name",
-    title: "Name",
+    accessor: 'name',
+    title: 'Name',
     width: 300,
     render: (record: any) => (
       <Group wrap="nowrap">
-        <Avatar size="md" src={record.image} />
+        <Avatar
+          name={record?.name}
+          color="initials"
+          variant={record.image ? 'image' : 'initials'}
+          size="md"
+          src={record.image}
+        />
         <div>
           <Text size="sm" fw={600}>
             {record.name}
@@ -22,24 +28,24 @@ export const columns = [
   },
 
   {
-    accessor: "st",
-    title: "Status",
+    accessor: 'st',
+    title: 'Status',
     render: (record: any) => {
       const expiryDate = new Date(record?.expiry_date);
       const today = new Date();
       const diffInDays = Math.ceil(
-        (expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+        (expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
       );
 
-      let status = "Expired";
-      let color = "red";
+      let status = 'Expired';
+      let color = 'red';
 
       if (diffInDays > 10) {
-        status = "Active";
-        color = "green";
+        status = 'Active';
+        color = 'green';
       } else if (diffInDays > 0) {
-        status = "Expiring Soon";
-        color = "yellow";
+        status = 'Expiring Soon';
+        color = 'yellow';
       }
 
       return (
@@ -61,12 +67,12 @@ export const columns = [
   },
 
   {
-    accessor: "perm_address",
-    title: "Address",
+    accessor: 'perm_address',
+    title: 'Address',
   },
   {
-    accessor: "contact",
-    title: "Contact Details",
+    accessor: 'contact',
+    title: 'Contact Details',
     render: (record: any) => (
       <Text size="xs">
         <b>{record?.contact}</b> <br /> {record?.email}
@@ -75,12 +81,12 @@ export const columns = [
     sortable: true,
   },
   {
-    accessor: "parent_contact",
-    title: "Guardian Contact",
+    accessor: 'parent_contact',
+    title: 'Guardian Contact',
   },
   {
-    accessor: "parent_name",
-    title: "Guardian",
+    accessor: 'parent_name',
+    title: 'Guardian',
     render: (row: any) => (
       <>
         {row.parent_name}({row.relation})
@@ -88,19 +94,13 @@ export const columns = [
     ),
   },
   {
-    accessor: "gender",
-    title: "Gender",
+    accessor: 'gender',
+    title: 'Gender',
     render: (record: any) => (
       <Badge
         size="sm"
         variant="light"
-        color={
-          record?.gender == "Male"
-            ? "brand"
-            : record?.gender == "Female"
-              ? "pink"
-              : "orange"
-        }
+        color={record?.gender == 'Male' ? 'brand' : record?.gender == 'Female' ? 'pink' : 'orange'}
       >
         {record?.gender}
       </Badge>

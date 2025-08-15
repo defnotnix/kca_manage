@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 //next
 
 //mantine
@@ -17,10 +17,10 @@ import {
   Space,
   Tabs,
   Text,
-} from "@mantine/core";
-import { ListHandler } from "@vframework/core";
-import { ModuleTableLayout } from "@vframework/ui";
-import { columns } from "./list.columns";
+} from '@mantine/core';
+import { ListHandler } from '@vframework/core';
+import { ModuleTableLayout } from '@vframework/ui';
+import { columns } from './list.columns';
 
 //mantine
 
@@ -31,7 +31,7 @@ import { columns } from "./list.columns";
 //components
 
 //api
-import { deleteRecord, getRecords } from "../../module.api";
+import { deleteRecord, getRecords } from '../../module.api';
 import {
   ArrowLeft,
   Atom,
@@ -42,13 +42,13 @@ import {
   PlugsConnected,
   Plus,
   Star,
-} from "@phosphor-icons/react";
-import { moduleConfig } from "../../module.config";
-import { StatCard } from "@/components/StatCard";
-import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { getStats } from "@/modules/dashboard/module.api";
-import { RBACCheck } from "@/components/RBACCheck";
+} from '@phosphor-icons/react';
+import { moduleConfig } from '../../module.config';
+import { StatCard } from '@/components/StatCard';
+import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { getStats } from '@/modules/dashboard/module.api';
+import { RBACCheck } from '@/components/RBACCheck';
 
 export function _List() {
   // * DEFINITIONS
@@ -59,10 +59,10 @@ export function _List() {
 
   // * STATE
 
-  const [tab, setTab] = useState("all");
+  const [tab, setTab] = useState('all');
 
   const queryPlayerData = useQuery({
-    queryKey: ["player", "playerData"],
+    queryKey: ['player', 'playerData'],
     queryFn: async () => {
       return {};
     },
@@ -70,7 +70,7 @@ export function _List() {
   });
 
   const queryStats = useQuery({
-    queryKey: ["dashboard", "stats"],
+    queryKey: ['dashboard', 'stats'],
     queryFn: async () => {
       const res = await getStats();
       console.log(res);
@@ -87,25 +87,21 @@ export function _List() {
       <ModuleTableLayout
         {...moduleConfig}
         forceFilter={(records: any) => {
-          if (tab === "all") {
+          if (tab === 'all') {
             return records;
-          } else if (tab === "active") {
+          } else if (tab === 'active') {
             return records.filter((item: any) => {
-              return (
-                new Date(item.expiry_date) >
-                new Date(Date.now() + 10 * 24 * 60 * 60 * 1000)
-              );
+              return new Date(item.expiry_date) > new Date(Date.now() + 10 * 24 * 60 * 60 * 1000);
             });
-          } else if (tab === "expiring") {
+          } else if (tab === 'expiring') {
             return records.filter((item: any) => {
               const expiryDate = new Date(item.expiry_date);
               const now = new Date();
               return (
-                expiryDate > now &&
-                expiryDate <= new Date(now.getTime() + 10 * 24 * 60 * 60 * 1000)
+                expiryDate > now && expiryDate <= new Date(now.getTime() + 10 * 24 * 60 * 60 * 1000)
               );
             });
-          } else if (tab === "expired") {
+          } else if (tab === 'expired') {
             return records.filter((item: any) => {
               return new Date(item.expiry_date) <= new Date();
             });
@@ -117,9 +113,9 @@ export function _List() {
         //styles
         rowStyle={({ gender }: any) => {
           switch (gender) {
-            case "male":
+            case 'male':
               return {
-                background: "var(--mantine-color-indigo-0)",
+                background: 'var(--mantine-color-indigo-0)',
               };
 
             default:
@@ -135,7 +131,7 @@ export function _List() {
               }}
               leftSection={<IdentificationBadge />}
             >
-              Player Profile
+              Player Invoice
             </Menu.Item>
           </>
         )}
@@ -148,7 +144,7 @@ export function _List() {
               value={queryStats?.data?.total_players}
               description="Total number of players"
               onClick={() => {
-                setTab("all");
+                setTab('all');
               }}
             />
             <StatCard
@@ -159,7 +155,7 @@ export function _List() {
               shortValue="23% of Total"
               description="Active Players"
               onClick={() => {
-                setTab("active");
+                setTab('active');
               }}
             />
             <StatCard
@@ -169,17 +165,20 @@ export function _List() {
               value={queryStats?.data?.soon_expiring_players}
               description="Players Expiring Soon "
               onClick={() => {
-                setTab("expiring");
+                setTab('expiring');
               }}
             />
             <StatCard
               key={4}
               title="Expired Players"
               icon={Star}
-              value={queryStats?.data?.expired_players_count}
+              value={String(
+                Number(queryStats?.data?.total_players || 0) -
+                  Number(queryStats?.data?.active_players_count || 0),
+              )}
               description="Pending Invoices"
               onClick={() => {
-                setTab("expired");
+                setTab('expired');
               }}
             />
           </SimpleGrid>

@@ -6,115 +6,115 @@ import {
   Package,
   User,
   GearSix,
-} from "@phosphor-icons/react";
-import { PropAdminNavItems } from "@vframework/ui";
+} from '@phosphor-icons/react';
+import { PropAdminNavItems } from '@vframework/ui';
 
 export const navItems: PropAdminNavItems[] = [
   {
-    label: "Dashboard",
+    label: 'Dashboard',
     icon: ChartDonut,
-    value: "/dashboard",
+    value: '/dashboard',
   },
   {
-    label: "Sessions",
+    label: 'Sessions',
     icon: Calendar,
-    value: "/sessions",
+    value: '/sessions',
     children: [
       {
-        label: "Manage Sessions",
-        value: "/sessions",
+        label: 'Manage Sessions',
+        value: '/sessions',
       },
       {
-        label: "Add Session Routine",
-        value: "/routines/new",
+        label: 'Add Session Routine',
+        value: '/routines/new',
       },
     ],
   },
   {
-    label: "Players",
+    label: 'Players',
     icon: User,
-    value: "/players",
+    value: '/players',
   },
 
-  {
-    label: "Player Addon's",
-    icon: Package,
-    value: "/playeraddon",
-    children: [
-      {
-        label: "Teams",
-        value: "/teams",
-      },
-      {
-        label: "Tournaments",
-        value: "/tournaments",
-      },
-    ],
-  },
+  // {
+  //   label: "Player Addon's",
+  //   icon: Package,
+  //   value: "/playeraddon",
+  //   children: [
+  //     {
+  //       label: "Teams",
+  //       value: "/teams",
+  //     },
+  //     {
+  //       label: "Tournaments",
+  //       value: "/tournaments",
+  //     },
+  //   ],
+  // },
 
   {
-    label: "Services",
+    label: 'Services',
     icon: Cricket,
-    value: "/services",
+    value: '/services',
     children: [
       {
-        label: "Packages",
-        value: "/packages",
+        label: 'Packages',
+        value: '/packages',
       },
       {
         label: "Add-On's",
-        value: "/addons",
+        value: '/addons',
       },
     ],
   },
+  // {
+  //   label: "Manage Bookings",
+  //   icon: Calendar,
+  //   value: "/bookings",
+  //   children: [
+  //     {
+  //       label: "Booking",
+  //       value: "/bookings",
+  //     },
+  //     {
+  //       label: "New Booking",
+  //       value: "/bookings/new",
+  //     },
+  //   ],
+  // },
   {
-    label: "Manage Bookings",
-    icon: Calendar,
-    value: "/bookings",
-    children: [
-      {
-        label: "Booking",
-        value: "/bookings",
-      },
-      {
-        label: "New Booking",
-        value: "/bookings/new",
-      },
-    ],
-  },
-  {
-    label: "Configure",
+    label: 'Configure',
     icon: GearSix,
-    value: "/config",
+    value: '/config',
     children: [
       {
-        label: "Timings",
-        value: "/timings",
+        label: 'Timings',
+        value: '/timings',
       },
       {
-        label: "Grounds",
-        value: "/grounds",
+        label: 'Grounds',
+        value: '/grounds',
       },
     ],
   },
   {
-    label: "Invoices",
+    label: 'Invoices',
     icon: Invoice,
-    value: "/invoices",
+    value: '/invoices',
     children: [
       {
-        label: "All Invoices",
-        value: "/invoices",
+        label: 'All Invoices',
+        value: '/invoices',
       },
       {
-        label: "Pending Invoices",
-        value: "/pending-invoices",
+        label: 'Pending Invoices',
+        value: '/pending-invoices',
       },
     ],
   },
   {
-    label: "Accounts",
+    label: 'Accounts',
     icon: User,
-    value: "/accounts",
+    value: '/accounts',
   },
 ];

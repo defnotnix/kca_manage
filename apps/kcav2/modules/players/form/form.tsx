@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 //mantine
 import {
   ActionIcon,
@@ -24,58 +24,59 @@ import {
   Select,
   SimpleGrid,
   Stack,
+  Switch,
   Text,
   Textarea,
   TextInput,
-} from "@mantine/core";
+} from '@mantine/core';
 //framework
-import { FormHandler } from "@vframework/core";
-import { FormElement, ImageUpload } from "@vframework/ui";
-import { DateInput, YearPickerInput } from "@mantine/dates";
+import { FormHandler } from '@vframework/core';
+import { FormElement, ImageUpload } from '@vframework/ui';
+import { DateInput, YearPickerInput } from '@mantine/dates';
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import classes from "./form.module.css";
+import classes from './form.module.css';
 
-import { getRecords as getPackages } from "@/modules/package/module.api";
+import { getRecords as getPackages } from '@/modules/package/module.api';
 
-import { Label } from "recharts";
+import { Label } from 'recharts';
 
 // Assuming you have these defined elsewhere
 
 const optionBoolean = [
   {
-    value: "1",
-    label: "Yes",
+    value: '1',
+    label: 'Yes',
   },
   {
-    value: "0",
-    label: "No",
+    value: '0',
+    label: 'No',
   },
 ];
 
 const GENDER_CHOICES = [
-  { value: "3", label: "Not Specified" },
-  { value: "1", label: "Male" },
-  { value: "2", label: "Female" },
+  { value: '3', label: 'Not Specified' },
+  { value: '1', label: 'Male' },
+  { value: '2', label: 'Female' },
 ];
 
 const EXPERIENCE_CHOICES = [
-  { value: "1", label: "Newcomer" },
-  { value: "2", label: "Amateur" },
-  { value: "3", label: "Professional" },
+  { value: '1', label: 'Newcomer' },
+  { value: '2', label: 'Amateur' },
+  { value: '3', label: 'Professional' },
 ];
 
 const TRAINING_TIME_CHOICES = [
-  { value: "1", label: "Morning" },
-  { value: "2", label: "Day" },
-  { value: "3", label: "Evening" },
+  { value: '1', label: 'Morning' },
+  { value: '2', label: 'Day' },
+  { value: '3', label: 'Evening' },
 ];
 
 const MEMBERSHIP_CHOICES = [
-  { value: "1", label: "Yes" },
-  { value: "2", label: "No" },
-  { value: "3", label: "Maybe" },
+  { value: '1', label: 'Yes' },
+  { value: '2', label: 'No' },
+  { value: '3', label: 'Maybe' },
 ];
 
 export function _Form() {
@@ -86,7 +87,7 @@ export function _Form() {
   // * CONTEXT
 
   const { current } = FormHandler.usePropContext();
-  const [activeCategory, setActiveCategory] = useState("x");
+  const [activeCategory, setActiveCategory] = useState('x');
 
   //  const current: number = 3;
 
@@ -97,21 +98,10 @@ export function _Form() {
   // * PRELOADING
 
   const queryPackages = useQuery({
-    queryKey: ["config", "packages"], // query key
+    queryKey: ['config', 'packages'], // query key
     queryFn: async () => {
       const res = await getPackages({
-        endpoint: "/services/packages/",
-      });
-      return res;
-    },
-    initialData: [],
-  });
-
-  const querySessions = useQuery({
-    queryKey: ["config", "sessions"], // query key
-    queryFn: async () => {
-      const res = await getPackages({
-        endpoint: "/services/sessions/",
+        endpoint: '/services/packages/',
       });
       return res;
     },
@@ -119,10 +109,10 @@ export function _Form() {
   });
 
   const queryAddonsCategory = useQuery({
-    queryKey: ["service", "addons-category"],
+    queryKey: ['service', 'addons-category'],
     queryFn: async (id: any) => {
       const res = await getPackages({
-        endpoint: "/services/addons/category/",
+        endpoint: '/services/addons/category/',
       });
       console.log(res);
       return res;
@@ -131,10 +121,10 @@ export function _Form() {
   });
 
   const queryAddons = useQuery({
-    queryKey: ["service", "addons"],
+    queryKey: ['service', 'addons'],
     queryFn: async (id: any) => {
       const res = await getPackages({
-        endpoint: "/services/addons/",
+        endpoint: '/services/addons/',
       });
       console.log(res);
       return res;
@@ -159,9 +149,9 @@ export function _Form() {
               />
 
               <ImageUpload
-                {...form.getInputProps("image")}
+                {...form.getInputProps('image')}
                 label="Student Profile"
-                onChange={(image: any) => form.setFieldValue("image", image)}
+                onChange={(image: any) => form.setFieldValue('image', image)}
                 value={form.getValues()?.image}
               />
 
@@ -171,14 +161,14 @@ export function _Form() {
                   description="Full legal name of the student or student organization. "
                   placeholder="Enter full name"
                   required
-                  {...form.getInputProps("name")}
+                  {...form.getInputProps('name')}
                 />
                 <Select
                   label="Gender"
                   description="Optional if not relevant or preferred not to disclose."
                   placeholder="Select gender"
                   data={GENDER_CHOICES}
-                  {...form.getInputProps("gender")}
+                  {...form.getInputProps('gender')}
                 />
 
                 <Select
@@ -194,23 +184,7 @@ export function _Form() {
                   description="Select Player Packages"
                   placeholder="Select Packages"
                   required
-                  {...form.getInputProps("package")}
-                />
-
-                <MultiSelect
-                  data={
-                    querySessions?.data?.map((e: any) => {
-                      return {
-                        value: String(e.id),
-                        label: e.name,
-                      };
-                    }) || []
-                  }
-                  label="Involved Sessions"
-                  description="Select Player Session"
-                  placeholder="Select Session"
-                  required
-                  {...form.getInputProps("session")}
+                  {...form.getInputProps('package')}
                 />
               </SimpleGrid>
 
@@ -224,20 +198,20 @@ export function _Form() {
                   label="Permanent Address"
                   description="Complete physical address including street, city, state, and postal code for the student or company."
                   placeholder="Enter permanent address"
-                  {...form.getInputProps("perm_address")}
+                  {...form.getInputProps('perm_address')}
                 />
 
                 <TextInput
                   label="Temporary Address"
                   description="Complete physical address including street, city, state, and postal code for the student or company."
                   placeholder="Enter temporary address"
-                  {...form.getInputProps("temp_address")}
+                  {...form.getInputProps('temp_address')}
                 />
                 <TextInput
                   label="Primary Contact"
                   description="Primary phone number"
                   placeholder="Enter primary contact number"
-                  {...form.getInputProps("contact")}
+                  {...form.getInputProps('contact')}
                 />
               </SimpleGrid>
             </Stack>
@@ -262,35 +236,35 @@ export function _Form() {
                   description="Full legal name of the student or student organization. "
                   placeholder="Enter full name"
                   required
-                  {...form.getInputProps("parent_name")}
+                  {...form.getInputProps('parent_name')}
                 />
 
                 <Select
                   label="Relation"
                   description="Optional if not relevant or preferred not to disclose."
                   placeholder="Select gender"
-                  data={["Father", "Mother"]}
-                  {...form.getInputProps("relation")}
+                  data={['Father', 'Mother']}
+                  {...form.getInputProps('relation')}
                 />
 
                 <TextInput
                   label="Primary Contact"
                   description="Primary phone number"
                   placeholder="Enter primary contact number"
-                  {...form.getInputProps("parent_contact")}
+                  {...form.getInputProps('parent_contact')}
                 />
                 <TextInput
                   label="Emergency Contact"
                   description="Secondary or alternative"
                   placeholder="Enter secondary contact number"
-                  {...form.getInputProps("emergency_contact")}
+                  {...form.getInputProps('emergency_contact')}
                 />
                 <TextInput
                   label="Email"
                   description="Official email address"
                   placeholder="Enter email address"
                   required
-                  {...form.getInputProps("email")}
+                  {...form.getInputProps('email')}
                 />
               </SimpleGrid>
             </Stack>
@@ -311,8 +285,8 @@ export function _Form() {
                   <Select
                     data={[
                       {
-                        value: "x",
-                        label: "All",
+                        value: 'x',
+                        label: 'All',
                       },
                       ...queryAddonsCategory.data?.map((item: any) => {
                         return {
@@ -335,7 +309,7 @@ export function _Form() {
               <SimpleGrid cols={{ base: 2, lg: 3 }} spacing="xs">
                 {queryAddons.data
                   ?.filter((e: any) => {
-                    if (activeCategory == "x") {
+                    if (activeCategory == 'x') {
                       return true;
                     } else {
                       return e.category == Number(activeCategory);
@@ -352,13 +326,13 @@ export function _Form() {
                         onClick={() => {
                           if (form.getValues()?.addons.includes(item.id)) {
                             form.setFieldValue(
-                              "addons",
+                              'addons',
                               form.getValues()?.addons.filter((e: any) => {
                                 return e !== item.id;
-                              })
+                              }),
                             );
                           } else {
-                            form.setFieldValue("addons", [
+                            form.setFieldValue('addons', [
                               ...(form.getValues()?.addons || []),
                               item.id,
                             ]);
@@ -379,8 +353,8 @@ export function _Form() {
               </SimpleGrid>
 
               <FormElement.SectionTitle
-                title="Enrollment Details"
-                description="Provide enrollment information, including key dates and batch details."
+                title="Enrollment Details "
+                description="Provide enrollment information, including key dates."
               />
 
               <SimpleGrid cols={2} spacing="xs">
@@ -389,53 +363,57 @@ export function _Form() {
                   description="The date the student enrolled."
                   placeholder="Enter enrollment date"
                   required
-                  {...form.getInputProps("date_of_enroll")}
-                />
-
-                <Select
-                  label="Membership"
-                  data={MEMBERSHIP_CHOICES}
-                  description="Select Intrested Membership Status"
-                  placeholder="Choose a membership"
-                  {...form.getInputProps("membership")}
-                />
-                <Select
-                  label="Training Schedule"
-                  data={TRAINING_TIME_CHOICES}
-                  description="Select the student's preferred training schedule."
-                  placeholder="Choose a schedule"
-                  {...form.getInputProps("time_for_training")}
-                />
-
-                <NumberInput
-                  label="Decided Rate/Month"
-                  description="The agreed monthly rate for the student."
-                  placeholder="Enter rate"
-                  {...form.getInputProps("decided_rate")}
-                />
-                <DateInput
-                  label="Decided Date"
-                  description="The date the rate added."
-                  placeholder="Select Date"
-                  required
-                  {...form.getInputProps("decided_date")}
-                />
-                <TextInput
-                  label="Decided By"
-                  description="Enter the person who gave this discount"
-                  placeholder="e.g. Ram Kumar"
-                  required
-                  {...form.getInputProps("decided_by")}
+                  {...form.getInputProps('date_of_enroll')}
                 />
               </SimpleGrid>
-              <Textarea
-                rows={5}
-                label="Reason"
-                description="Enter the reason for the discount"
-                placeholder="e.g. General Discount"
-                required
-                {...form.getInputProps("decided_reason")}
+
+              <FormElement.SectionTitle
+                title="Custom Pricing"
+                description="Provide enrollment information, including key dates and batch details."
+                actionButton={
+                  <Switch
+                    onChange={(e: any) => {
+                      form.setFieldValue('custom_pricing', e.target.checked);
+                    }}
+                  />
+                }
               />
+
+              {form.getValues()?.custom_pricing == true && (
+                <>
+                  <SimpleGrid cols={{ base: 1, lg: 3 }} spacing="xs">
+                    <NumberInput
+                      label="Decided Rate/Month"
+                      description="The agreed monthly rate for the student."
+                      placeholder="Enter rate"
+                      {...form.getInputProps('decided_rate')}
+                    />
+                    <DateInput
+                      label="Decided Date"
+                      description="The date the rate added."
+                      placeholder="Select Date"
+                      required
+                      {...form.getInputProps('decided_date')}
+                    />
+                    <TextInput
+                      label="Decided By"
+                      description="Enter the person who gave this discount"
+                      placeholder="e.g. Ram Kumar"
+                      required
+                      {...form.getInputProps('decided_by')}
+                    />
+                  </SimpleGrid>
+
+                  <Textarea
+                    rows={5}
+                    label="Reason"
+                    description="Enter the reason for the discount"
+                    placeholder="e.g. General Discount"
+                    required
+                    {...form.getInputProps('decided_reason')}
+                  />
+                </>
+              )}
             </Stack>
           </Paper>
         </>
@@ -451,19 +429,19 @@ export function _Form() {
               description="Favorite player, team, and assigned team details."
             />
 
-            <SimpleGrid cols={2} spacing={"xs"}>
+            <SimpleGrid cols={2} spacing={'xs'}>
               <TextInput
                 label="Favorite Player"
                 description="Enter your favorite player."
                 placeholder="Enter player name"
-                {...form.getInputProps("fav_player")}
+                {...form.getInputProps('fav_player')}
               />
 
               <TextInput
                 label="Favorite Team"
                 description="Enter your favorite team."
                 placeholder="Enter team name"
-                {...form.getInputProps("fav_team")}
+                {...form.getInputProps('fav_team')}
               />
             </SimpleGrid>
 
@@ -479,7 +457,7 @@ export function _Form() {
                 placeholder="Choose level"
                 data={EXPERIENCE_CHOICES}
                 required
-                {...form.getInputProps("level_experience")}
+                {...form.getInputProps('level_experience')}
               />
 
               <Select
@@ -488,14 +466,14 @@ export function _Form() {
                 placeholder="Select time"
                 data={TRAINING_TIME_CHOICES}
                 required
-                {...form.getInputProps("time_for_training")}
+                {...form.getInputProps('time_for_training')}
               />
 
               <TextInput
                 label="Previous Academy"
                 description="Enter the name of the previous academy (if any)."
                 placeholder="Enter previous academy"
-                {...form.getInputProps("previous_academy")}
+                {...form.getInputProps('previous_academy')}
               />
             </SimpleGrid>
           </Stack>

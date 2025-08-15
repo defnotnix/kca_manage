@@ -1,6 +1,5 @@
-"use client";
+'use client';
 
-import React from "react";
 //next
 
 //mantine
@@ -9,75 +8,44 @@ import {
   ActionIcon,
   Anchor,
   Avatar,
-  Badge,
-  Box,
   Breadcrumbs,
-  Button,
   Center,
-  Container,
-  Divider,
   Grid,
   Group,
-  Image,
-  Modal,
   Paper,
-  SimpleGrid,
-  Space,
-  Spoiler,
   Stack,
   Tabs,
   Text,
-} from "@mantine/core";
-import {
-  ArrowCircleUpLeft,
-  ArrowLeft,
-  Calendar,
-  CaretDown,
-  Cricket,
-  DotsThree,
-  Envelope,
-  Graph,
-  House,
-  Invoice,
-  Pen,
-  Phone,
-  Plus,
-  Trash,
-  Trophy,
-} from "@phosphor-icons/react";
+} from '@mantine/core';
+import { ArrowLeft, House, Invoice } from '@phosphor-icons/react';
 //mantine
-import { RadarChart } from "@mantine/charts";
 
-import { _FormAchievement } from "../../form/achievement/form";
-import { useDisclosure } from "@mantine/hooks";
-import { formPropsAchievement } from "../../form/achievement/form.config";
-import { FormHandler } from "@vframework/core";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { getSingleRecord } from "../../module.api";
+import { useDisclosure } from '@mantine/hooks';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { getSingleRecord } from '../../module.api';
 
-import { createRecord as createAchievement } from "../../form/achievement/form.api";
-import { ModuleAchievement } from "./achievement";
-import { ModuleAttendance } from "./attendance";
-import { ModuleTournament } from "./tournament";
-import { ModulePerformance } from "./performance";
-import { ModulePerformanceLog } from "./performanceHistory";
-import { ModuleStudentInvoice } from "./invoice";
-import { ProfileContext } from "./context";
-import { RBACCheck } from "@/components/RBACCheck";
+import { RBACCheck } from '@/components/RBACCheck';
+import { ModuleAchievement } from './achievement';
+import { ModuleAttendance } from './attendance';
+import { ProfileContext } from './context';
+import { ModuleStudentInvoice } from './invoice';
+import { ModulePerformance } from './performance';
+import { ModulePerformanceLog } from './performanceHistory';
+import { ModuleTournament } from './tournament';
 
 // bread
 
 const bread = [
   {
-    label: "KCA Admin",
+    label: 'KCA Admin',
   },
   {
-    label: "Players Management",
+    label: 'Players Management',
   },
-  { label: "Players" },
+  { label: 'Players' },
   {
-    label: "Profile",
+    label: 'Profile',
   },
 ];
 
@@ -86,8 +54,7 @@ export function _Profile() {
 
   const Params = useParams();
 
-  const [openFormModalAchievement, handlersFormModalAchievement] =
-    useDisclosure(false);
+  const [openFormModalAchievement, handlersFormModalAchievement] = useDisclosure(false);
 
   // * CONTEXT
 
@@ -96,7 +63,7 @@ export function _Profile() {
   // * FUNCTIONS
 
   const queryPlayerData = useQuery({
-    queryKey: ["player", "playerData"],
+    queryKey: ['player', 'playerData'],
     queryFn: async () => {
       const res = await getSingleRecord(Params.id);
       console.log(res);
@@ -122,15 +89,11 @@ export function _Profile() {
                 </Text>
               }
             >
-              <House
-                weight="duotone"
-                size={12}
-                color="var(--mantine-color-brand-5)"
-              />
+              <House weight="duotone" size={12} color="var(--mantine-color-brand-5)" />
               {bread.map((breadinfo: any, index: number) => (
                 <Anchor
                   size="xs"
-                  c={index == bread.length - 1 ? "dark.9" : "gray.5"}
+                  c={index == bread.length - 1 ? 'dark.9' : 'gray.5'}
                   fw={600}
                   key={index}
                 >
@@ -143,13 +106,16 @@ export function _Profile() {
         <Grid.Col span={{ base: 12, lg: 4 }}>
           <Stack gap="xs">
             <Paper withBorder pb="xl">
-              <Stack gap={"xs"}>
+              <Stack gap={'xs'}>
                 <Paper radius={0} h={120} bg="brand.1" />
                 <Center>
                   <Paper withBorder p={4} radius={9999} mt={-64}>
                     <Avatar
                       size={100}
-                      src="https://www.dakshana.org/wp-content/uploads/2019/12/21413063273-Jyoti-Rani.jpg"
+                      name={queryPlayerData?.data?.name}
+                      color="initials"
+                      variant={queryPlayerData?.data?.image ? 'image' : 'initials'}
+                      src={queryPlayerData?.data?.image}
                     />
                   </Paper>
                 </Center>
@@ -160,11 +126,11 @@ export function _Profile() {
                   </Text>
 
                   <Text fw={600} ta="center" size="1.5rem">
-                    {queryPlayerData?.data?.name}{" "}
+                    {queryPlayerData?.data?.name}{' '}
                   </Text>
 
                   <Text ta="center" size="xs">
-                    {queryPlayerData?.data?.gender} | Enrolled on{" "}
+                    {queryPlayerData?.data?.gender} | Enrolled on{' '}
                     {queryPlayerData?.data?.date_of_enrollment}
                   </Text>
                 </Stack>
@@ -172,7 +138,7 @@ export function _Profile() {
             </Paper>
 
             <Paper withBorder>
-              <Accordion multiple defaultValue={["details"]}>
+              <Accordion multiple defaultValue={['details']}>
                 <Accordion.Item value="details">
                   <Accordion.Control>
                     <Text size="sm" fw={600}>
@@ -191,17 +157,13 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Permanent Address
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.perm_address}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.perm_address}</Text>
                       </Group>
                       <Group>
                         <Text w={150} opacity={0.5} size="xs">
                           Temporary Address
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.temp_address}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.temp_address}</Text>
                       </Group>
                       <Group>
                         <Text w={150} opacity={0.5} size="xs">
@@ -230,34 +192,26 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Parent's Name
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.parent_name}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.parent_name}</Text>
                       </Group>
                       <Group>
                         <Text w={150} opacity={0.5} size="xs">
                           Relation
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.guardian_contact}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.guardian_contact}</Text>
                       </Group>
                       <Group>
                         <Text w={150} opacity={0.5} size="xs">
                           Primary Contact
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.parent_contact}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.parent_contact}</Text>
                       </Group>
 
                       <Group>
                         <Text w={150} opacity={0.5} size="xs">
                           Emergency Contact
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.emergency_contact}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.emergency_contact}</Text>
                       </Group>
                     </Stack>
                   </Accordion.Panel>
@@ -274,25 +228,19 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Decided Rate/Month
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.decided_rate}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.decided_rate}</Text>
                       </Group>
                       <Group>
                         <Text w={150} opacity={0.5} size="xs">
                           Decided Date
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.decided_date}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.decided_date}</Text>
                       </Group>
                       <Group>
                         <Text w={150} opacity={0.5} size="xs">
                           Decided By
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.decided_by}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.decided_by}</Text>
                       </Group>
                       <Group>
                         <Text w={150} opacity={0.5} size="xs">
@@ -315,9 +263,7 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Favorite Player
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.fav_player || "N/A"}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.fav_player || 'N/A'}</Text>
                       </Group>
 
                       {/* Favorite Team */}
@@ -325,9 +271,7 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Favorite Team
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.fav_team || "N/A"}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.fav_team || 'N/A'}</Text>
                       </Group>
 
                       {/* Package */}
@@ -335,9 +279,7 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Package
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.package?.name || "N/A"}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.package?.name || 'N/A'}</Text>
                       </Group>
 
                       {/* Sessions */}
@@ -347,9 +289,7 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Equipment Required
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.equipment_required || "N/A"}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.equipment_required || 'N/A'}</Text>
                       </Group>
 
                       {/* Jersey Size */}
@@ -357,9 +297,7 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Jersey Size
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.jersey || "N/A"}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.jersey || 'N/A'}</Text>
                       </Group>
 
                       {/* Experience Level */}
@@ -367,9 +305,7 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Experience Level
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.level_exp || "N/A"}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.level_exp || 'N/A'}</Text>
                       </Group>
 
                       {/* Training Time */}
@@ -377,9 +313,7 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Preferred Training Time
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.time_for_training || "N/A"}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.time_for_training || 'N/A'}</Text>
                       </Group>
 
                       {/* Membership Type */}
@@ -387,9 +321,7 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Membership Type
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.membership || "N/A"}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.membership || 'N/A'}</Text>
                       </Group>
 
                       {/* Previous Academy */}
@@ -397,9 +329,7 @@ export function _Profile() {
                         <Text w={150} opacity={0.5} size="xs">
                           Previous Academy
                         </Text>
-                        <Text size="sm">
-                          {queryPlayerData?.data?.previous_academy || "N/A"}
-                        </Text>
+                        <Text size="sm">{queryPlayerData?.data?.previous_academy || 'N/A'}</Text>
                       </Group>
                     </Stack>
                   </Accordion.Panel>
@@ -411,7 +341,7 @@ export function _Profile() {
         <Grid.Col span={{ base: 12, lg: 8 }}>
           <Paper withBorder>
             <Tabs
-              defaultValue="achieve"
+              defaultValue="invoice"
               keepMounted={false}
               styles={{
                 tab: {
@@ -420,7 +350,7 @@ export function _Profile() {
               }}
             >
               <Tabs.List>
-                <Tabs.Tab value="achieve" leftSection={<Trophy size={12} />}>
+                {/* <Tabs.Tab value="achieve" leftSection={<Trophy size={12} />}>
                   <Text size="xs">Awards & Achievements</Text>
                 </Tabs.Tab>
                 <Tabs.Tab
@@ -443,15 +373,13 @@ export function _Profile() {
                   leftSection={<Graph size={12} />}
                 >
                   <Text size="xs"> Performance History </Text>
-                </Tabs.Tab>
+                </Tabs.Tab> */}
                 <Tabs.Tab value="invoice" leftSection={<Invoice size={12} />}>
                   <Text size="xs"> Invoice </Text>
                 </Tabs.Tab>
               </Tabs.List>
 
-              <ProfileContext.Provider
-                value={{ playerData: queryPlayerData.data }}
-              >
+              <ProfileContext.Provider value={{ playerData: queryPlayerData.data }}>
                 <>
                   <Tabs.Panel value="achieve">
                     <ModuleAchievement.List />

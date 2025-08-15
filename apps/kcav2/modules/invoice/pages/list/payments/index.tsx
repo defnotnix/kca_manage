@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 //next
 
 //mantine
@@ -17,16 +17,16 @@ import {
   Stack,
   Table,
   Text,
-} from "@mantine/core";
-import { Plus, Trash, Warning } from "@phosphor-icons/react";
-import { FormHandler } from "@vframework/core";
-import { formProps } from "./form/form.config";
+} from '@mantine/core';
+import { Plus, Trash, Warning } from '@phosphor-icons/react';
+import { FormHandler } from '@vframework/core';
+import { formProps } from './form/form.config';
 //mantine
-import { _Form as Form } from "./form/form";
+import { _Form as Form } from './form/form';
 
-import { getRecords, createRecord, deleteRecord } from "./module.api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { modals } from "@mantine/modals";
+import { getRecords, createRecord, deleteRecord } from './module.api';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { modals } from '@mantine/modals';
 
 //icons
 
@@ -54,10 +54,10 @@ export function InvoicePayments({ active, queryKey }: any) {
   // * COMPONENTS
 
   const queryData = useQuery({
-    queryKey: ["invoice", "payments"],
+    queryKey: ['invoice', 'payments'],
     queryFn: async () => {
       const res = await getRecords({
-        endpoint: "/billing/payment/",
+        endpoint: '/billing/invoice/payment/',
         params: {
           invoice_id: active?.id,
         },
@@ -82,12 +82,10 @@ export function InvoicePayments({ active, queryKey }: any) {
                 sections={[
                   {
                     value:
-                      (Number(
-                        dataActive?.total_amount - dataActive?.remaining_payment
-                      ) /
+                      (Number(dataActive?.total_amount - dataActive?.remaining_payment) /
                         Number(dataActive?.total_amount)) *
                       100,
-                    color: "teal",
+                    color: 'teal',
                   },
                 ]}
               />
@@ -95,16 +93,15 @@ export function InvoicePayments({ active, queryKey }: any) {
               <div>
                 <Text size="sm">
                   {Math.round(
-                    ((dataActive?.total_amount -
-                      dataActive?.remaining_payment) /
+                    ((dataActive?.total_amount - dataActive?.remaining_payment) /
                       Number(dataActive?.total_amount)) *
-                      100
+                      100,
                   )}
                   % of the Invoice is Paid.
                 </Text>
                 <Text opacity={0.5} size="xs">
-                  Rs. {dataActive?.total_amount - dataActive?.remaining_payment}{" "}
-                  / {dataActive?.total_amount}
+                  Rs. {dataActive?.total_amount - dataActive?.remaining_payment} /{' '}
+                  {dataActive?.total_amount}
                 </Text>
               </div>
             </Group>
@@ -113,7 +110,7 @@ export function InvoicePayments({ active, queryKey }: any) {
 
         <Paper>
           <FormHandler
-            formType={"new"}
+            formType={'new'}
             {...formProps}
             initial={{
               ...formProps.initial,
@@ -132,8 +129,7 @@ export function InvoicePayments({ active, queryKey }: any) {
                 queryData?.refetch();
                 setActive({
                   ...dataActive,
-                  remaining_payment:
-                    dataActive?.remaining_payment - Number(res?.data?.amount),
+                  remaining_payment: dataActive?.remaining_payment - Number(res?.data?.amount),
                 });
               }
             }}
@@ -162,7 +158,7 @@ export function InvoicePayments({ active, queryKey }: any) {
                 <Table.Tr
                   key={index}
                   style={{
-                    opacity: item?.status == "Commited" ? 1 : 0.6,
+                    opacity: item?.status == 'Commited' ? 1 : 0.6,
                   }}
                 >
                   <Table.Td>
@@ -175,16 +171,13 @@ export function InvoicePayments({ active, queryKey }: any) {
                     <Text size="xs">Rs. {item?.amount}</Text>
                   </Table.Td>
                   <Table.Td>
-                    <Badge
-                      color={item?.status == "Commited" ? "brand" : "red"}
-                      size="xs"
-                    >
-                      {item?.status == "Commited" ? "Commited" : "Cancelled"}
+                    <Badge color={item?.status == 'Commited' ? 'brand' : 'red'} size="xs">
+                      {item?.status == 'Commited' ? 'Commited' : 'Cancelled'}
                     </Badge>
                   </Table.Td>
                   <Table.Td>
                     <ActionIcon
-                      disabled={item?.status == "Rollback"}
+                      disabled={item?.status == 'Rollback'}
                       onClickCapture={() => {
                         modals.openConfirmModal({
                           title: (
@@ -219,13 +212,13 @@ export function InvoicePayments({ active, queryKey }: any) {
                               <Space h="6px" />
                             </>
                           ),
-                          labels: { confirm: "Confirm", cancel: "Cancel" },
+                          labels: { confirm: 'Confirm', cancel: 'Cancel' },
                           confirmProps: {
-                            color: "red",
-                            size: "xs",
+                            color: 'red',
+                            size: 'xs',
                           },
                           cancelProps: {
-                            size: "xs",
+                            size: 'xs',
                           },
                           onCancel: () => {},
                           onConfirm: () => {
@@ -235,18 +228,17 @@ export function InvoicePayments({ active, queryKey }: any) {
                                 setActive({
                                   ...dataActive,
                                   remaining_payment:
-                                    Number(dataActive?.remaining_payment) +
-                                    Number(item?.amount),
+                                    Number(dataActive?.remaining_payment) + Number(item?.amount),
                                 });
                               }
                             });
                           },
                           styles: {
                             header: {
-                              background: "var(--mantine-color-red-1)",
+                              background: 'var(--mantine-color-red-1)',
                             },
                           },
-                          size: "sm",
+                          size: 'sm',
                         });
                       }}
                       variant="light"
