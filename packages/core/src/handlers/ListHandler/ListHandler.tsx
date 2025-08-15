@@ -1,32 +1,32 @@
-"use client";
+'use client';
 
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from 'react';
 //next
 
 //mantine
-import {} from "@mantine/core";
+import {} from '@mantine/core';
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
 //mantine
-import { useDebouncedState } from "@mantine/hooks";
+import { useDebouncedState } from '@mantine/hooks';
 //icons
 
 //styles
 
 //components
-import { autoSearch } from "@vframework/core";
+import { autoSearch } from '@vframework/core';
 //type
-import { PropListHandler } from "./ListHandler.type";
+import { PropListHandler } from './ListHandler.type';
 
 //context
-import { Context } from "./ListHandler.context";
+import { Context } from './ListHandler.context';
 
 // * Reducer
 
 const initialState = {
   page: 1,
-  pageSize: 20,
+  pageSize: 500,
   totalPages: 0,
   //search
   selectedRecords: [],
@@ -38,57 +38,55 @@ const initialState = {
 
 function reducer(state: typeof initialState, action: any): any {
   switch (action.type) {
-    case "SET_TOTAL_RECORDS":
+    case 'SET_TOTAL_RECORDS':
       return {
         ...state,
         totalPages: action.payload,
       };
-    case "SET_PAGE":
+    case 'SET_PAGE':
       return {
         ...state,
         page: action.payload,
       };
-    case "SET_PAGE_SIZE":
+    case 'SET_PAGE_SIZE':
       return {
         ...state,
         pageSize: action.payload,
       };
-    case "SET_PAGE_DATA":
+    case 'SET_PAGE_DATA':
       return {
         ...state,
         pageSize: action.payload.pageSize,
         page: action.payload.page,
       };
-    case "SET_SEARCH":
+    case 'SET_SEARCH':
       return {
         ...state,
         search: action.payload,
       };
 
-    case "SET_SELECTED_RECORDS":
+    case 'SET_SELECTED_RECORDS':
       return {
         ...state,
         selectedRecords: action.payload,
       };
 
-    case "SET_TAB_ACTIVE":
+    case 'SET_TAB_ACTIVE':
       return {
         ...state,
         tabActive: action.payload,
       };
-    case "ADD_FILTER":
+    case 'ADD_FILTER':
       return {
         ...state,
         filters: [...state.filters, action.payload],
       };
-    case "REMOVE_FILTER":
+    case 'REMOVE_FILTER':
       return {
         ...state,
-        filters: state.filters.filter(
-          (item: any) => item.accessor !== action.payload
-        ),
+        filters: state.filters.filter((item: any) => item.accessor !== action.payload),
       };
-    case "CLEAR_FILTERS":
+    case 'CLEAR_FILTERS':
       return {
         ...state,
         filters: [],
@@ -99,8 +97,8 @@ function reducer(state: typeof initialState, action: any): any {
 }
 
 export function ListHandler({
-  endpoint = "",
-  moduleKey = ["vframework", "default"],
+  endpoint = '',
+  moduleKey = ['vframework', 'default'],
   //api
   getRecords,
   getParams,
@@ -120,17 +118,14 @@ export function ListHandler({
   const [state, dispatch] = useReducer(reducer, initialState);
   const { page, pageSize, selectedRecords, filters, totalPages } = state;
 
-  const [searchVal, setSearchVal] = useDebouncedState(
-    "",
-    enableServerPagination ? 1000 : 300
-  );
+  const [searchVal, setSearchVal] = useDebouncedState('', enableServerPagination ? 1000 : 300);
 
   // * FUNCTIONS
 
   const { data, isLoading, isLoadingError, refetch, isFetching } = useQuery({
     queryKey: moduleKey,
     queryFn: async () => {
-      console.log("Initiating Get");
+      console.log('Initiating Get');
       const res: any = await getRecords({
         endpoint: endpoint,
         searchValue: searchVal,
@@ -141,21 +136,17 @@ export function ListHandler({
         },
       });
       console.log(res);
-      const _data = enableServerSearch
-        ? res.results
-        : dataKey
-          ? res?.[dataKey]
-          : res;
+      const _data = enableServerSearch ? res.results : dataKey ? res?.[dataKey] : res;
 
       if (enableServerPagination) {
         dispatch({
-          type: "SET_TOTAL_RECORDS",
+          type: 'SET_TOTAL_RECORDS',
           payload: res?.pagination?.total_pages || 1,
         });
       }
 
       if (!Array.isArray(_data)) {
-        console.log("Warning: _data is not an array", _data);
+        console.log('Warning: _data is not an array', _data);
         return [];
       }
 
@@ -182,10 +173,7 @@ export function ListHandler({
           return records.slice(page - 1 * pageSize, page * pageSize);
         }
       } else {
-        return autoSearch(records, searchVal).slice(
-          (page - 1) * pageSize,
-          page * pageSize
-        );
+        return autoSearch(records, searchVal).slice((page - 1) * pageSize, page * pageSize);
       }
     } catch (err) {
       console.log(err);

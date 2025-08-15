@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 //next
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from 'next/navigation';
 
 //mantine
 import {
@@ -26,10 +26,10 @@ import {
   Text,
   TextInput,
   Tooltip,
-} from "@mantine/core";
+} from '@mantine/core';
 //mantine
-import { modals } from "@mantine/modals";
-import { useDisclosure, useTimeout } from "@mantine/hooks";
+import { modals } from '@mantine/modals';
+import { useDisclosure, useTimeout } from '@mantine/hooks';
 
 //icons
 import {
@@ -50,19 +50,19 @@ import {
   SlidersHorizontal,
   Trash,
   Warning,
-} from "@phosphor-icons/react";
+} from '@phosphor-icons/react';
 
 //datatable
-import { DataTable, DataTableSortStatus } from "mantine-datatable";
+import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 //context
-import { FormHandler, useListHandlerContext } from "@vframework/core";
+import { FormHandler, useListHandlerContext } from '@vframework/core';
 //func
-import sortBy from "lodash/sortBy";
+import sortBy from 'lodash/sortBy';
 //type
-import { PropModuleTableLayout } from "./ModuleTableLayout.type";
-import { useMutation } from "@tanstack/react-query";
-import { triggerNotification } from "@vframework/ui";
-import { ModuleModalFormLayout } from "../ModuleModalFormLayout";
+import { PropModuleTableLayout } from './ModuleTableLayout.type';
+import { useMutation } from '@tanstack/react-query';
+import { triggerNotification } from '@vframework/ui';
+import { ModuleModalFormLayout } from '../ModuleModalFormLayout';
 
 export function ModuleTableLayout({
   /**
@@ -73,8 +73,8 @@ export function ModuleTableLayout({
   /**
    * Module information
    */
-  moduleName = "Enter Module Name",
-  moduleDescription = "This is a module description that says something about the module.",
+  moduleName = 'Enter Module Name',
+  moduleDescription = 'This is a module description that says something about the module.',
   moduleTerm,
   moduleTermPlural,
 
@@ -93,7 +93,7 @@ export function ModuleTableLayout({
   /**
    * Table data configuration
    */
-  idAccessor = "id",
+  idAccessor = 'id',
   columns = [],
   extraActions,
 
@@ -119,7 +119,7 @@ export function ModuleTableLayout({
   /**
    * Pagination settings
    */
-  pageSizes = [20, 35, 50],
+  pageSizes = [500, 1000],
 
   /**
    * Custom URL configurations
@@ -131,13 +131,13 @@ export function ModuleTableLayout({
    * Modal form configurations
    */
   hasModalForms = false,
-  modalProps = { width: "md" },
+  modalProps = { width: 'md' },
   modalFormProps = {
     formProps: {
       initial: {},
-      formType: "new",
+      formType: 'new',
       steps: [],
-      stepType: "default",
+      stepType: 'default',
       stepClickable: false,
       initialStep: 0,
       validation: [],
@@ -173,6 +173,7 @@ export function ModuleTableLayout({
   withBackButton,
   customCreateText,
   forceFilter,
+  disableEdit = false,
 }: PropModuleTableLayout) {
   // Create moduleConfig object to maintain compatibility
 
@@ -181,8 +182,8 @@ export function ModuleTableLayout({
   const moduleConfig = {
     moduleName,
     moduleDescriptions: { default: moduleDescription },
-    prename: "",
-    endpoint: "",
+    prename: '',
+    endpoint: '',
     moduleTerm,
     moduleTermPlural,
   };
@@ -205,15 +206,7 @@ export function ModuleTableLayout({
     setSearchVal,
   } = useListHandlerContext();
 
-  const {
-    search,
-    filters,
-    tabActive,
-    selectedRecords,
-    page,
-    pageSize,
-    totalPages,
-  } = state;
+  const { search, filters, tabActive, selectedRecords, page, pageSize, totalPages } = state;
 
   // * STATE
   const [curPageValue, setCurPageValue] = useState<any>({});
@@ -228,15 +221,15 @@ export function ModuleTableLayout({
 
   // > SORTING
   const [sortStatus, setSortStatus] = useState<DataTableSortStatus<any>>({
-    columnAccessor: "name",
-    direction: "asc",
+    columnAccessor: 'name',
+    direction: 'asc',
   });
 
   // * FUNCTIONS
   useEffect(() => {
     if (!hasServerSearch) {
       const _data = sortBy(data, sortStatus.columnAccessor);
-      setRecords(sortStatus.direction === "desc" ? _data.reverse() : _data);
+      setRecords(sortStatus.direction === 'desc' ? _data.reverse() : _data);
     } else {
       setRecords(data);
     }
@@ -244,7 +237,7 @@ export function ModuleTableLayout({
 
   useEffect(() => {
     if (page == curPageValue?.page && pageSize == curPageValue?.pageSize) {
-      console.log("Same Page");
+      console.log('Same Page');
     } else {
       setTimeout(() => {
         refetch();
@@ -293,8 +286,7 @@ export function ModuleTableLayout({
       children: (
         <>
           <Text size="xs" my="md">
-            This might result in unexpected deletion of other dependent records
-            under it.
+            This might result in unexpected deletion of other dependent records under it.
             <br />
             <br />
             <span
@@ -308,13 +300,13 @@ export function ModuleTableLayout({
           <Space h="6px" />
         </>
       ),
-      labels: { confirm: "Confirm", cancel: "Cancel" },
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
       confirmProps: {
-        color: "red",
-        size: "xs",
+        color: 'red',
+        size: 'xs',
       },
       cancelProps: {
-        size: "xs",
+        size: 'xs',
       },
       onCancel: () => {},
       onConfirm: () => {
@@ -322,10 +314,10 @@ export function ModuleTableLayout({
       },
       styles: {
         header: {
-          background: "var(--mantine-color-red-1)",
+          background: 'var(--mantine-color-red-1)',
         },
       },
-      size: "sm",
+      size: 'sm',
     });
   };
 
@@ -350,7 +342,7 @@ export function ModuleTableLayout({
           if (hasModalForms) {
             handleEditOpen();
           } else {
-            Router.push(Pathname + (customEditUrl || "/edit/") + row.id);
+            Router.push(Pathname + (customEditUrl || '/edit/') + row.id);
           }
         }}
       >
@@ -362,10 +354,10 @@ export function ModuleTableLayout({
   // Define tableActions
   const tableActions = [
     {
-      accessor: "actions",
-      title: "Actions",
+      accessor: 'actions',
+      title: 'Actions',
       width: 100,
-      textAlign: "right",
+      textAlign: 'right',
       render: (row: any) => (
         <Menu>
           <Menu.Target>
@@ -374,9 +366,11 @@ export function ModuleTableLayout({
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <RenderEdit row={row}>
-              <Menu.Item leftSection={<Pen />}>Edit</Menu.Item>
-            </RenderEdit>
+            {!disableEdit && (
+              <RenderEdit row={row}>
+                <Menu.Item leftSection={<Pen />}>Edit</Menu.Item>
+              </RenderEdit>
+            )}
 
             {extraActions && (
               <>
@@ -408,7 +402,7 @@ export function ModuleTableLayout({
   return (
     <>
       <FormHandler
-        formType={activeEdit ? "edit" : "new"}
+        formType={activeEdit ? 'edit' : 'new'}
         {...modalFormProps.formProps}
         apiSubmit={
           activeEdit
@@ -441,15 +435,11 @@ export function ModuleTableLayout({
               </Text>
             }
           >
-            <House
-              weight="duotone"
-              size={12}
-              color="var(--mantine-color-brand-5)"
-            />
+            <House weight="duotone" size={12} color="var(--mantine-color-brand-5)" />
             {bread.map((breadinfo: any, index: number) => (
               <Anchor
                 size="xs"
-                c={index == bread.length - 1 ? "dark.9" : "gray.5"}
+                c={index == bread.length - 1 ? 'dark.9' : 'gray.5'}
                 fw={600}
                 key={index}
               >
@@ -513,28 +503,20 @@ export function ModuleTableLayout({
                 rightSection={<MagnifyingGlass />}
                 size="xs"
                 placeholder="Search"
-                w={{ base: "100%", md: "400" }}
+                w={{ base: '100%', md: '400' }}
                 onChange={(e) => {
                   setSearchVal(e.target.value);
                 }}
               />
 
               {withFilter && (
-                <Button
-                  leftSection={<SlidersHorizontal size={12} />}
-                  variant="light"
-                  size="xs"
-                >
+                <Button leftSection={<SlidersHorizontal size={12} />} variant="light" size="xs">
                   Filters
                 </Button>
               )}
 
               {withColumnSelect && (
-                <Button
-                  leftSection={<GearSix size={12} />}
-                  variant="light"
-                  size="xs"
-                >
+                <Button leftSection={<GearSix size={12} />} variant="light" size="xs">
                   Customize
                 </Button>
               )}
@@ -543,7 +525,7 @@ export function ModuleTableLayout({
                 withArrow
                 styles={{
                   item: {
-                    fontSize: "var(--mantine-font-size-xs)",
+                    fontSize: 'var(--mantine-font-size-xs)',
                   },
                 }}
               >
@@ -596,14 +578,12 @@ export function ModuleTableLayout({
                           onModalNewOpen({});
                         }
                       } else {
-                        Router.push(
-                          customNewUrl ? customNewUrl : Pathname + "/new"
-                        );
+                        Router.push(customNewUrl ? customNewUrl : Pathname + '/new');
                       }
                     }
                   }}
                 >
-                  {customCreateText || "Add " + moduleTerm || "Item"}
+                  {customCreateText || 'Add ' + moduleTerm || 'Item'}
                 </Button>
                 {/* <Button
                   disabled={!withAddExtra}
@@ -623,7 +603,7 @@ export function ModuleTableLayout({
               rightSection={<MagnifyingGlass />}
               size="xs"
               placeholder="Search"
-              w={{ base: "100%", md: "auto" }}
+              w={{ base: '100%', md: 'auto' }}
               onChange={(e) => {
                 setSearchVal(e.target.value);
               }}
@@ -634,7 +614,7 @@ export function ModuleTableLayout({
                 withArrow
                 styles={{
                   item: {
-                    fontSize: "var(--mantine-font-size-xs)",
+                    fontSize: 'var(--mantine-font-size-xs)',
                   },
                 }}
               >
@@ -686,20 +666,18 @@ export function ModuleTableLayout({
                         onModalNewOpen({});
                       }
                     } else {
-                      Router.push(
-                        customNewUrl ? customNewUrl : Pathname + "/new"
-                      );
+                      Router.push(customNewUrl ? customNewUrl : Pathname + '/new');
                     }
                   }
                 }}
               >
-                {customCreateText || "Add " + moduleTerm || "Item"}
+                {customCreateText || 'Add ' + moduleTerm || 'Item'}
               </Button>
             </SimpleGrid>
           </Stack>
         </Paper>
 
-        {!contentPreTable && <Divider mb={!enableTabs ? "md" : 0} />}
+        {!contentPreTable && <Divider mb={!enableTabs ? 'md' : 0} />}
 
         {enableTabs && (
           <>
@@ -714,10 +692,10 @@ export function ModuleTableLayout({
                   <Button
                     key={index}
                     size="xs"
-                    variant={index === tabActive ? "filled" : "light"}
+                    variant={index === tabActive ? 'filled' : 'light'}
                     onClick={() => {
                       dispatch({
-                        type: "SET_TAB_ACTIVE",
+                        type: 'SET_TAB_ACTIVE',
                         payload: index,
                       });
                     }}
@@ -745,19 +723,15 @@ export function ModuleTableLayout({
         {contentPreTable}
 
         {CustomRender ? (
-          <CustomRender
-            data={records}
-            renderEdit={RenderEdit}
-            handleDelete={handleDelete}
-          />
+          <CustomRender data={records} renderEdit={RenderEdit} handleDelete={handleDelete} />
         ) : (
-          <Paper radius="md" withBorder h={"calc(100vh - 205px)"} mx="md">
+          <Paper radius="md" withBorder h={'calc(100vh - 205px)'} mx="md">
             <DataTable
               //Loading
               fetching={isFetching}
               styles={{
                 header: {
-                  background: "var(--mantine-color-gray-1)",
+                  background: 'var(--mantine-color-gray-1)',
                 },
               }}
               //fonts
@@ -773,8 +747,8 @@ export function ModuleTableLayout({
               records={forceFilter ? forceFilter(records) : records}
               columns={[
                 {
-                  accessor: "#",
-                  title: "#",
+                  accessor: '#',
+                  title: '#',
                   width: 50,
                   render: (row, index) => <>{index + 1}</>,
                 },
@@ -789,13 +763,11 @@ export function ModuleTableLayout({
               sortStatus={sortStatus}
               onSortStatusChange={setSortStatus}
               //Pagination
-              totalRecords={
-                hasServerSearch ? totalPages * pageSize : records.length
-              }
+              totalRecords={hasServerSearch ? totalPages * pageSize : records.length}
               page={page}
               onPageChange={(p) => {
                 dispatch({
-                  type: "SET_PAGE",
+                  type: 'SET_PAGE',
                   payload: p,
                 });
               }}
@@ -804,7 +776,7 @@ export function ModuleTableLayout({
               recordsPerPageOptions={pageSizes}
               onRecordsPerPageChange={(e) => {
                 dispatch({
-                  type: "SET_PAGE_DATA",
+                  type: 'SET_PAGE_DATA',
                   payload: {
                     pageSize: e,
                     page: 1,
@@ -815,7 +787,7 @@ export function ModuleTableLayout({
               selectedRecords={selectedRecords}
               onSelectedRecordsChange={(e) => {
                 dispatch({
-                  type: "SET_SELECTED_RECORDS",
+                  type: 'SET_SELECTED_RECORDS',
                   payload: e,
                 });
               }}
@@ -827,7 +799,7 @@ export function ModuleTableLayout({
         {/* Modal for creating new items */}
         {hasModalForms && (
           <Modal
-            size={modalFormProps?.width || "md"}
+            size={modalFormProps?.width || 'md'}
             opened={openFormModal && !activeEdit}
             onClose={() => {
               handlersFormModal.close();
@@ -844,11 +816,11 @@ export function ModuleTableLayout({
               moduleConfig={{
                 ...moduleConfig,
                 bread: [],
-                moduleKey: ["form", "x"],
+                moduleKey: ['form', 'x'],
                 moduleDescription,
-                moduleTerm: "x",
-                moduleTermPlural: "x",
-                moduleName: "x",
+                moduleTerm: 'x',
+                moduleTermPlural: 'x',
+                moduleName: 'x',
               }}
             >
               {modalForm}
@@ -859,7 +831,7 @@ export function ModuleTableLayout({
         {/* Modal for editing items */}
         {hasModalForms && (
           <Modal
-            size={modalFormProps?.width || "md"}
+            size={modalFormProps?.width || 'md'}
             opened={openFormModal && !!activeEdit}
             onClose={() => {
               setActiveEdit(null);
@@ -878,16 +850,14 @@ export function ModuleTableLayout({
               moduleConfig={{
                 ...moduleConfig,
                 bread: [],
-                moduleKey: ["form", "x"],
+                moduleKey: ['form', 'x'],
                 moduleDescription,
-                moduleTerm: "x",
-                moduleTermPlural: "x",
-                moduleName: "x",
+                moduleTerm: 'x',
+                moduleTermPlural: 'x',
+                moduleName: 'x',
               }}
             >
-              {modalEdit
-                ? React.cloneElement(modalEdit, { preData: activeEdit })
-                : modalForm}
+              {modalEdit ? React.cloneElement(modalEdit, { preData: activeEdit }) : modalForm}
             </ModuleModalFormLayout>
           </Modal>
         )}
