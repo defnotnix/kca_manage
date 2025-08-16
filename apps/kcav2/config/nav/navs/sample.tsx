@@ -15,21 +15,21 @@ export const navItems: PropAdminNavItems[] = [
     icon: ChartDonut,
     value: '/dashboard',
   },
-  {
-    label: 'Sessions',
-    icon: Calendar,
-    value: '/sessions',
-    children: [
-      {
-        label: 'Manage Sessions',
-        value: '/sessions',
-      },
-      {
-        label: 'Add Session Routine',
-        value: '/routines/new',
-      },
-    ],
-  },
+  // {
+  //   label: 'Sessions',
+  //   icon: Calendar,
+  //   value: '/sessions',
+  //   children: [
+  //     {
+  //       label: 'Manage Sessions',
+  //       value: '/sessions',
+  //     },
+  //     {
+  //       label: 'Add Session Routine',
+  //       value: '/routines/new',
+  //     },
+  //   ],
+  // },
   {
     label: 'Players',
     icon: User,
