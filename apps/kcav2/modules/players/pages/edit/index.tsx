@@ -62,6 +62,9 @@ export function _Edit() {
           TRAINING_TIME_MAP[res?.time_for_training as string] ??
           String(res?.time_for_training ?? ''),
         membership: MEMBERSHIP_MAP[res?.membership as string] ?? String(res?.membership ?? ''),
+        addons: res?.addons.map((e: any) => {
+          return e.id;
+        }),
       };
     },
   });
@@ -88,7 +91,23 @@ export function _Edit() {
   // ✅ Only render after data exists
   return (
     <RBACCheck showStaff>
-      <FormHandler {...formProps} initial={data} formType="edit" apiSubmit={updateRecord}>
+      <FormHandler
+        {...formProps}
+        initial={data}
+        formType="edit"
+        apiSubmit={updateRecord}
+        transformDataOnSubmit={(formdata: any) => {
+          const { image, ...res } = formdata;
+
+          console.log(formdata);
+
+          return {
+            ...res,
+            ...(formdata.image instanceof File ? { image: formdata.image } : {}),
+            // * FIXINGS
+          };
+        }}
+      >
         <RenderForm />
       </FormHandler>
     </RBACCheck>
