@@ -82,21 +82,21 @@ export const navItems: PropAdminNavItems[] = [
   //     },
   //   ],
   // },
-  {
-    label: 'Configure',
-    icon: GearSix,
-    value: '/config',
-    children: [
-      {
-        label: 'Timings',
-        value: '/timings',
-      },
-      {
-        label: 'Grounds',
-        value: '/grounds',
-      },
-    ],
-  },
+  // {
+  //   label: 'Configure',
+  //   icon: GearSix,
+  //   value: '/config',
+  //   children: [
+  //     {
+  //       label: 'Timings',
+  //       value: '/timings',
+  //     },
+  //     {
+  //       label: 'Grounds',
+  //       value: '/grounds',
+  //     },
+  //   ],
+  // },
   {
     label: 'Invoices',
     icon: Invoice,
