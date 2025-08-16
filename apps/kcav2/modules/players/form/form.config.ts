@@ -1,7 +1,6 @@
-"use client";
+'use client';
 
-
-import _ from "moment";
+import _ from 'moment';
 
 export const formProps: any = {
   initial: {
@@ -40,13 +39,8 @@ export const formProps: any = {
   // },
 
   // > STEPS
-  steps: [
-    "Personal Details",
-    "Guardian Details",
-    "Enroll Details",
-    "Extra Details",
-  ],
-  stepType: "general",
+  steps: ['Personal Details', 'Guardian Details', 'Enroll Details', 'Extra Details'],
+  stepType: 'general',
   stepClickable: false,
   initialStep: 0,
 
@@ -63,9 +57,9 @@ export const formProps: any = {
       ...res,
       ...(formdata.image instanceof File ? { image: formdata.image } : {}),
       // * FIXINGS
-      date_of_enroll: _(formdata?.doe).format("YYYY-MM-DD"),
-      expiry_date: _(formdata?.dob).format("YYYY-MM-DD"),
-      decided_date: _(formdata?.decided_date).format("YYYY-MM-DD"),
+      date_of_enroll: _(formdata?.doe).format('YYYY-MM-DD'),
+      expiry_date: _(formdata?.dob).format('YYYY-MM-DD'),
+      decided_date: _(formdata?.decided_date).format('YYYY-MM-DD'),
     };
   },
   submitFormData: true,
