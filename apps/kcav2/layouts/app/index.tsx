@@ -1,26 +1,26 @@
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren, useEffect } from 'react';
 //vfw
-import { QueryWrapper, AppWrapper } from "@vframework/core";
+import { QueryWrapper, AppWrapper } from '@vframework/core';
 //themes
-import { configThemeMantine } from "@/config/theme";
+import { configThemeMantine } from '@/config/theme';
 //styles
-import classes from "./app.module.css";
+import classes from './app.module.css';
 
-import "@mantine/core/styles.css";
-import "@mantine/dates/styles.css";
-import "@mantine/spotlight/styles.css";
-import "@mantine/notifications/styles.css";
-import "@mantine/charts/styles.css";
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+import '@mantine/spotlight/styles.css';
+import '@mantine/notifications/styles.css';
+import '@mantine/charts/styles.css';
 
-import "@/public/styles/global.css";
+import '@/public/styles/global.css';
 
 //oauth
 
 export function LayoutApp({ children }: PropsWithChildren) {
   return (
     <QueryWrapper
-      apiProvider={"https://api.kathmanducricketacademy.com.np"}
-      //apiProvider="http://10.0.0.4:8000/"
+      //apiProvider={"https://api.kathmanducricketacademy.com.np"}
+      apiProvider="http://10.0.0.4:8000/"
       queryProps={{
         defaultOptions: {
           queries: {
@@ -32,7 +32,7 @@ export function LayoutApp({ children }: PropsWithChildren) {
     >
       <AppWrapper
         theme={configThemeMantine}
-        defaultColorScheme={"light"}
+        defaultColorScheme={'light'}
         classNames={classes}
         extraHeadTags={
           <>

@@ -103,6 +103,7 @@ export function _Form() {
       const res = await getPackages({
         endpoint: '/services/packages/',
       });
+      console.log(res);
       return res;
     },
     initialData: [],
@@ -185,6 +186,13 @@ export function _Form() {
                   placeholder="Select Packages"
                   required
                   {...form.getInputProps('package')}
+                  onChange={(e) => {
+                    const price = queryPackages?.data?.find(
+                      (item: any) => item.id == e,
+                    )?.service_fee;
+                    form.setFieldValue('decided_rate', price);
+                    form.setFieldValue('package', e);
+                  }}
                 />
               </SimpleGrid>
 
@@ -368,52 +376,41 @@ export function _Form() {
               </SimpleGrid>
 
               <FormElement.SectionTitle
-                title="Custom Pricing"
-                description="Provide enrollment information, including key dates and batch details."
-                actionButton={
-                  <Switch
-                    onChange={(e: any) => {
-                      form.setFieldValue('custom_pricing', e.target.checked);
-                    }}
-                  />
-                }
+                title="Pricing"
+                description="Pricing & Custom Pricing for this player."
               />
 
-              {form.getValues()?.custom_pricing == true && (
-                <>
-                  <SimpleGrid cols={{ base: 1, lg: 3 }} spacing="xs">
-                    <NumberInput
-                      label="Decided Rate/Month"
-                      description="The agreed monthly rate for the student."
-                      placeholder="Enter rate"
-                      {...form.getInputProps('decided_rate')}
-                    />
-                    <DateInput
-                      label="Decided Date"
-                      description="The date the rate added."
-                      placeholder="Select Date"
-                      required
-                      {...form.getInputProps('decided_date')}
-                    />
-                    <TextInput
-                      label="Decided By"
-                      description="Enter the person who gave this discount"
-                      placeholder="e.g. Ram Kumar"
-                      required
-                      {...form.getInputProps('decided_by')}
-                    />
-                  </SimpleGrid>
+              <SimpleGrid cols={{ base: 1, lg: 3 }} spacing="xs">
+                <NumberInput
+                  label="Decided Rate/Month"
+                  description="The agreed monthly rate for the student."
+                  placeholder="Enter rate"
+                  {...form.getInputProps('decided_rate')}
+                />
+                <DateInput
+                  label="Decided Date"
+                  description="The date the rate added."
+                  placeholder="Select Date"
+                  required
+                  {...form.getInputProps('decided_date')}
+                />
+                <TextInput
+                  label="Decided By"
+                  description="Enter the person who gave this discount"
+                  placeholder="e.g. Ram Kumar"
+                  required
+                  {...form.getInputProps('decided_by')}
+                />
+              </SimpleGrid>
 
-                  <Textarea
-                    rows={5}
-                    label="Reason"
-                    description="Enter the reason for the discount"
-                    placeholder="e.g. General Discount"
-                    required
-                    {...form.getInputProps('decided_reason')}
-                  />
-                </>
-              )}
+              <Textarea
+                rows={5}
+                label="Reason"
+                description="Enter the reason for the discount"
+                placeholder="e.g. General Discount"
+                required
+                {...form.getInputProps('decided_reason')}
+              />
             </Stack>
           </Paper>
         </>
