@@ -53,7 +53,7 @@ export function _Edit() {
       // ✅ defensive transforms
       return {
         ...res,
-        package: String(res?.package?.id? ''),
+        package: String(res?.package?.id ?? ''),
         gender: GENDER_MAP[res?.gender as string] ?? String(res?.gender ?? '3'),
         session: Array.isArray(res?.session) ? res.session.map((e: any) => String(e)) : [],
         level_experience:
