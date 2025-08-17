@@ -20,7 +20,7 @@ export function LayoutApp({ children }: PropsWithChildren) {
   return (
     <QueryWrapper
       apiProvider={'https://api.kathmanducricketacademy.com.np'}
-      //apiProvider="http://10.0.0.4:8000/"
+      //apiProvider="http://10.0.0.6:8000/"
       queryProps={{
         defaultOptions: {
           queries: {

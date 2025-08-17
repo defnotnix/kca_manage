@@ -422,6 +422,7 @@ export function _Form({}) {
 
         <NumberInput
           min={0}
+          max={total}
           label="Advance Payment"
           description="Enter the advance amount paid for this invoice"
           placeholder="Enter amount"

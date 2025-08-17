@@ -1,20 +1,30 @@
 'use client';
 
+import { Menu, Modal, Text } from '@mantine/core';
+import { FilePdf, Money } from '@phosphor-icons/react';
+import { ListHandler } from '@vframework/core';
 import { ModuleTableLayout } from '@vframework/ui';
 import { useParams, useRouter } from 'next/navigation';
-import { ListHandler } from '@vframework/core';
-import { createRecord, deleteRecord, updateRecord, getRecords } from '../../module.api';
-import { columns } from './list.columns';
-import { ActionIcon, Space } from '@mantine/core';
-import { Invoice } from '@phosphor-icons/react';
+import { createRecord, deleteRecord, getRecords, updateRecord } from '../../module.api';
 import { moduleConfig } from '../../module.config';
+import { columns } from './list.columns';
 
+import { InvoicePayments } from '@/modules/invoice/pages/list/payments';
+import { useDisclosure } from '@mantine/hooks';
+import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { _Form as Form } from '../../form/form';
 import { formProps } from '../../form/form.config';
 
 export function _List() {
   const router = useRouter();
   const Params = useParams();
+
+  const [openPayments, handlerPayments] = useDisclosure(false);
+
+  const [active, setActive] = useState(null);
+
+  const query = useQueryClient();
 
   return (
     <>
@@ -45,6 +55,27 @@ export function _List() {
             { label: 'Active', count: 2233 },
             { label: 'Inactive' },
           ]}
+          extraActions={({ row }: { row: any }) => (
+            <>
+              <Menu.Item
+                onClick={() => {
+                  router.push(`/invoices/${row.id}`);
+                }}
+                leftSection={<FilePdf />}
+              >
+                Show Document
+              </Menu.Item>
+              <Menu.Item
+                onClick={() => {
+                  handlerPayments.open();
+                  setActive(row);
+                }}
+                leftSection={<Money />}
+              >
+                Payments
+              </Menu.Item>
+            </>
+          )}
           // * TABLE PROPS
           //tableprops={{ height: "calc(100vh - 200px)" }}
           // * ROW COLORS
@@ -59,6 +90,24 @@ export function _List() {
           modalForm={<Form />}
         />
       </ListHandler>
+
+      <Modal
+        size={'lg'}
+        opened={openPayments}
+        onClose={() => {
+          setActive(null);
+          //@ts-ignore
+          query.invalidateQueries(moduleConfig?.moduleKey);
+          handlerPayments.close();
+        }}
+        title={
+          <Text tt="uppercase" size="xs" fw={700}>
+            Manage Session Players
+          </Text>
+        }
+      >
+        <InvoicePayments active={active} />
+      </Modal>
     </>
   );
 }

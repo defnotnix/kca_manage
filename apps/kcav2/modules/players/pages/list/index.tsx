@@ -1,23 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 //next
 
 //mantine
-import {
-  ActionIcon,
-  Anchor,
-  Breadcrumbs,
-  Button,
-  Divider,
-  Group,
-  Menu,
-  Paper,
-  SimpleGrid,
-  Space,
-  Tabs,
-  Text,
-} from '@mantine/core';
+import { Menu, SimpleGrid, Tabs } from '@mantine/core';
 import { ListHandler } from '@vframework/core';
 import { ModuleTableLayout } from '@vframework/ui';
 import { columns } from './list.columns';
@@ -31,24 +18,14 @@ import { columns } from './list.columns';
 //components
 
 //api
-import { deleteRecord, getRecords } from '../../module.api';
-import {
-  ArrowLeft,
-  Atom,
-  CaretRight,
-  DotsThreeVertical,
-  House,
-  IdentificationBadge,
-  PlugsConnected,
-  Plus,
-  Star,
-} from '@phosphor-icons/react';
-import { moduleConfig } from '../../module.config';
-import { StatCard } from '@/components/StatCard';
-import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { getStats } from '@/modules/dashboard/module.api';
 import { RBACCheck } from '@/components/RBACCheck';
+import { StatCard } from '@/components/StatCard';
+import { getStats } from '@/modules/dashboard/module.api';
+import { IdentificationBadge, Star } from '@phosphor-icons/react';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { deleteRecord, getRecords } from '../../module.api';
+import { moduleConfig } from '../../module.config';
 
 export function _List() {
   // * DEFINITIONS
